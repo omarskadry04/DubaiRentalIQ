@@ -1,0 +1,279 @@
+table FactListingMonth
+	lineageTag: 2e8c3c96-3be2-44b5-945b-1eb4a34a0a97
+
+	column listing_id
+		dataType: string
+		lineageTag: c085b6db-8eea-4a87-a0d2-0aeab1e22973
+		summarizeBy: none
+		sourceColumn: listing_id
+
+	column month_date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: 4b4d3bd4-8d31-451c-8fb3-d6d7a23382c4
+		summarizeBy: none
+		sourceColumn: month_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column active
+		dataType: boolean
+		lineageTag: 8e1ab5bb-4f95-4829-8c02-eabb22ba0f81
+		summarizeBy: none
+		sourceColumn: active
+
+	column listing_type
+		dataType: string
+		lineageTag: 376f8289-3f8b-4cf6-a6ee-8e98e0047e7b
+		summarizeBy: none
+		sourceColumn: listing_type
+
+	column room_type
+		dataType: string
+		lineageTag: 36da20f7-d53e-423a-9c9a-0208e2097827
+		summarizeBy: none
+		sourceColumn: room_type
+
+	column latitude
+		dataType: double
+		lineageTag: af926e63-3eae-4093-afed-0c765098bf13
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+	column longitude
+		dataType: double
+		lineageTag: ccc37d4a-f28d-4cb6-994b-83dddb8c7442
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+	column bedrooms
+		dataType: double
+		lineageTag: c0611b08-4c3b-402d-ada6-2b67388f2fb7
+		summarizeBy: none
+		sourceColumn: bedrooms
+
+	column neighborhood
+		dataType: string
+		lineageTag: d448042a-6fb1-4173-a384-c4c8f1efb712
+		summarizeBy: none
+		sourceColumn: neighborhood
+
+	column available_days
+		dataType: int64
+		lineageTag: c5fa19b5-4e88-403c-ac3f-bee2416c68af
+		summarizeBy: none
+		sourceColumn: available_days
+
+	column unavailable_days
+		dataType: int64
+		lineageTag: 67d421d0-41f1-4630-8bcb-e910075a2ded
+		summarizeBy: none
+		sourceColumn: unavailable_days
+
+	column occupancy
+		dataType: double
+		lineageTag: 9e163e33-670d-4cde-aa5d-1387e299a75a
+		summarizeBy: none
+		sourceColumn: occupancy
+
+	column native_avg_daily_rate
+		dataType: double
+		lineageTag: 0508ff63-546f-423c-a54f-beac8ecb631a
+		summarizeBy: none
+		sourceColumn: native_avg_daily_rate
+
+	column native_revenue
+		dataType: double
+		lineageTag: 15c30305-31c5-4f8c-9cfb-300cc15ab597
+		summarizeBy: none
+		sourceColumn: native_revenue
+
+	column native_revpar
+		dataType: double
+		lineageTag: 927de84a-39d0-48ac-a134-c982858915a3
+		summarizeBy: none
+		sourceColumn: native_revpar
+
+	column currency
+		dataType: string
+		lineageTag: 1c6789d3-636c-4689-871d-4f88d52b4d6e
+		summarizeBy: none
+		sourceColumn: currency
+
+	column native_booked_rate_avg
+		dataType: double
+		lineageTag: 9dd61578-b87d-4624-a773-38cc34c4c6a4
+		summarizeBy: none
+		sourceColumn: native_booked_rate_avg
+
+	column same_listing_prev_month
+		dataType: boolean
+		lineageTag: 57ffcef1-07a2-4659-92af-37cdccd98b0d
+		summarizeBy: none
+		sourceColumn: same_listing_prev_month
+
+	column peer_count
+		dataType: int64
+		lineageTag: 671243d8-3f7e-46ed-b86d-0ad112a8808f
+		summarizeBy: none
+		sourceColumn: peer_count
+
+	column radius_km
+		dataType: double
+		lineageTag: cbefc23b-a9d5-452a-a116-d2455d4f6305
+		summarizeBy: none
+		sourceColumn: radius_km
+
+	column peer_median_aed
+		dataType: double
+		lineageTag: fef14c57-4bed-4b6f-96bc-d1e85f173a73
+		summarizeBy: none
+		sourceColumn: peer_median_aed
+
+	column peer_p25_aed
+		dataType: double
+		lineageTag: b8755dde-7793-4ffd-b4c5-631431c03404
+		summarizeBy: none
+		sourceColumn: peer_p25_aed
+
+	column peer_p75_aed
+		dataType: double
+		lineageTag: d9f99601-0caa-4e10-baee-3dec8c1c4303
+		summarizeBy: none
+		sourceColumn: peer_p75_aed
+
+	column peer_median_estimated_occupancy
+		dataType: double
+		lineageTag: 05e8bedb-d872-45f0-a8c4-98588d48dd38
+		summarizeBy: none
+		sourceColumn: peer_median_estimated_occupancy
+
+	column premium_pct
+		dataType: double
+		lineageTag: 0feacb3f-2537-4cee-9e55-54b332abc62f
+		summarizeBy: none
+		sourceColumn: premium_pct
+
+	column estimated_occupancy_gap_pp
+		dataType: double
+		lineageTag: eb9137c6-f480-423b-93c8-1b4995ee1ae9
+		summarizeBy: none
+		sourceColumn: estimated_occupancy_gap_pp
+
+	column comparison_status
+		dataType: string
+		lineageTag: ba362c54-05d3-40f9-b7e4-67bc7c88fa90
+		summarizeBy: none
+		sourceColumn: comparison_status
+
+	column review_signal
+		dataType: string
+		lineageTag: ddbe9841-b5e6-4f69-bd23-e5827054885f
+		summarizeBy: none
+		sourceColumn: review_signal
+
+	column confidence_label
+		dataType: string
+		lineageTag: 88539d11-23ef-4c75-a0e3-9d8e25278c29
+		summarizeBy: none
+		sourceColumn: confidence_label
+
+	column priority_tier
+		dataType: int64
+		lineageTag: eaadd508-7060-4e1e-8194-4a9ffca3480b
+		summarizeBy: none
+		sourceColumn: priority_tier
+
+	column action
+		dataType: string
+		lineageTag: 5e8b1eaa-dc1f-4d9d-9686-d3a1c3a6c71c
+		summarizeBy: none
+		sourceColumn: action
+
+	column direction
+		dataType: string
+		lineageTag: 1fb0691f-a63c-4187-89a5-7a6d332e31e0
+		summarizeBy: none
+		sourceColumn: direction
+
+	column deviation_rank
+		dataType: int64
+		lineageTag: 69fcfa71-bf98-41ef-a023-6b13fccd9e39
+		summarizeBy: none
+		sourceColumn: deviation_rank
+
+	column review_order
+		dataType: int64
+		lineageTag: 1ed46e45-db5a-453c-8eeb-df23e4e087d1
+		summarizeBy: none
+		sourceColumn: review_order
+
+	column mom_change_pct
+		dataType: double
+		lineageTag: 3e5dff93-ffdd-48d0-926f-da6ed057c202
+		summarizeBy: none
+		sourceColumn: mom_change_pct
+
+	column stable_cohort
+		dataType: boolean
+		lineageTag: 7c7775a1-54b9-431f-be85-ef810bde389c
+		summarizeBy: none
+		sourceColumn: stable_cohort
+
+	column bedroom_label
+		dataType: string
+		lineageTag: cb7b332e-dbdd-44bc-b60f-fada9be0cc44
+		summarizeBy: none
+		sourceColumn: bedroom_label
+
+	column area_label
+		dataType: string
+		lineageTag: 2f41fa5b-77ee-4bdc-a850-aa0f68671a93
+		summarizeBy: none
+		sourceColumn: area_label
+
+	column peer_iqr_ratio
+		dataType: double
+		lineageTag: 8a77881a-36b8-4957-a0c6-52a380d18e9f
+		summarizeBy: none
+		sourceColumn: peer_iqr_ratio
+
+	column deviation_direction
+		dataType: string
+		lineageTag: aef3ba6a-6a00-41c6-8b1f-405a77a24acf
+		summarizeBy: none
+		sourceColumn: deviation_direction
+
+	column mom_band
+		dataType: string
+		lineageTag: 02802d8c-f1d9-45de-aa4e-6ea3a64855b3
+		summarizeBy: none
+		sourceColumn: mom_band
+
+	column 'Geo Coordinate Pair' =
+			
+			IF(
+			    ISBLANK(FactListingMonth[latitude])
+			        || ISBLANK(FactListingMonth[longitude]),
+			    BLANK(),
+			    FORMAT(FactListingMonth[latitude], "0.0000000000", "en-US")
+			        & " | "
+			        & FORMAT(FactListingMonth[longitude], "0.0000000000", "en-US")
+			)
+		lineageTag: c382d49c-40c3-463e-9739-bc701e37a3d0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactListingMonth = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/FactListingMonth.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"listing_id", type text}, {"month_date", type date}, {"active", type logical}, {"listing_type", type text}, {"room_type", type text}, {"latitude", type number}, {"longitude", type number}, {"bedrooms", type number}, {"neighborhood", type text}, {"available_days", Int64.Type}, {"unavailable_days", Int64.Type}, {"occupancy", type number}, {"native_avg_daily_rate", type number}, {"native_revenue", type number}, {"native_revpar", type number}, {"currency", type text}, {"native_booked_rate_avg", type number}, {"same_listing_prev_month", type logical}, {"peer_count", Int64.Type}, {"radius_km", type number}, {"peer_median_aed", type number}, {"peer_p25_aed", type number}, {"peer_p75_aed", type number}, {"peer_median_estimated_occupancy", type number}, {"premium_pct", type number}, {"estimated_occupancy_gap_pp", type number}, {"comparison_status", type text}, {"review_signal", type text}, {"confidence_label", type text}, {"priority_tier", Int64.Type}, {"action", type text}, {"direction", type text}, {"deviation_rank", Int64.Type}, {"review_order", Int64.Type}, {"mom_change_pct", type number}, {"stable_cohort", type logical}, {"bedroom_label", type text}, {"area_label", type text}, {"peer_iqr_ratio", type number}, {"deviation_direction", type text}, {"mom_band", type text}}, "en-US")
+				in Typed
+

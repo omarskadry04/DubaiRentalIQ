@@ -1,0 +1,30 @@
+{
+  "name": "Dubai Rental IQ - Obsidian Luxury",
+  "dataColors": [
+    "#A8855D",
+    "#8EAD96",
+    "#C5A57D",
+    "#B87973"
+  ],
+  "background": "#191B1A",
+  "foreground": "#F4EFE7",
+  "tableAccent": "#A8855D",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#F4EFE7"
+    },
+    "title": {
+      "fontFace": "Georgia",
+      "color": "#F4EFE7"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "color": "#ABA9A3"
+    },
+    "header": {
+      "fontFace": "Segoe UI",
+      "color": "#F4EFE7"
+    }
+  }
+}

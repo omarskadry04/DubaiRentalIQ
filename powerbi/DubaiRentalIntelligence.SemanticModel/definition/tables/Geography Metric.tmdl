@@ -1,0 +1,133 @@
+table 'Geography Metric'
+	lineageTag: 97f28f13-d04a-512b-8c59-bb53d7e9df5f
+
+	measure 'Geo Snapshot Valid' = INT(HASONEVALUE(DimMonth[year_month]))
+		formatString: 0
+		displayFolder: Geography
+		lineageTag: e8faf184-cbed-5565-bf99-dfa6475ce6d9
+
+	measure 'Geo Metric Label' = SELECTEDVALUE('Geography Metric'[Metric], "Nightly rate")
+		displayFolder: Geography
+		lineageTag: 4b40f5c9-36c4-5fad-a471-ea5be35f2528
+
+	measure 'Geo Active Listings' = IF([Geo Snapshot Valid]=1, COALESCE(CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]), KEEPFILTERS(FactListingMonth[active]=TRUE())),0))
+		formatString: #,0
+		displayFolder: Geography
+		lineageTag: 3132af9b-9b80-5aa6-a985-0166dd6ac926
+
+	measure 'Geo Mapped Listings' = IF([Geo Snapshot Valid]=1, CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]), KEEPFILTERS(FactListingMonth[active]=TRUE()), KEEPFILTERS(FILTER(FactListingMonth,NOT ISBLANK(FactListingMonth[latitude]) && NOT ISBLANK(FactListingMonth[longitude]) && FactListingMonth[latitude]>=24.5 && FactListingMonth[latitude]<=25.6 && FactListingMonth[longitude]>=54.5 && FactListingMonth[longitude]<=56))))
+		formatString: #,0
+		displayFolder: Geography
+		lineageTag: 6b701ecf-f7e5-5f38-8b61-d0367509a9c9
+
+	measure 'Geo Known Area Listings' = IF([Geo Snapshot Valid]=1, COALESCE(CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]), KEEPFILTERS(FactListingMonth[active]=TRUE()), KEEPFILTERS(FILTER(FactListingMonth,NOT ISBLANK(FactListingMonth[area_label]) && LEN(TRIM(FactListingMonth[area_label]))>0 && FactListingMonth[area_label]<>"Unknown area"))),0))
+		formatString: #,0
+		displayFolder: Geography
+		lineageTag: 59c1561d-fdb4-58ee-a9d2-1ff909428c83
+
+	measure 'Geo Mapped Share' = DIVIDE([Geo Mapped Listings],[Geo Active Listings])
+		formatString: 0.0%
+		displayFolder: Geography
+		lineageTag: a6339082-b818-5f03-876d-1769af3d2ad3
+
+	measure 'Geo Known Area Share' = DIVIDE([Geo Known Area Listings],[Geo Active Listings])
+		formatString: 0.00%
+		displayFolder: Geography
+		lineageTag: bf524d55-c58f-5d1f-9868-9d218115b41d
+
+	measure 'Geo Focus Month' = IF([Geo Snapshot Valid]=1,"FOCUS MONTH  |  " & FORMAT(SELECTEDVALUE(DimMonth[month_date]),"MMMM yyyy","en-US"),"Select one reporting month on Overview.")
+		displayFolder: Geography
+		lineageTag: aadc033d-7535-52f8-8ee0-71f543786488
+
+	measure 'Geo Coverage Note' = IF([Geo Snapshot Valid]<>1,"Select one reporting month on Overview to view a geographic snapshot.",IF([Geo Active Listings]=0,"No active observations match this Market Lens.",FORMAT([Geo Known Area Listings],"#,0") & " known-area / " & FORMAT([Geo Active Listings],"#,0") & " active | " & FORMAT([Geo Active Listings]-[Geo Known Area Listings],"#,0") & " Unknown area | source-valid coordinates, not verified addresses"))
+		displayFolder: Geography
+		lineageTag: ad0ec6b5-df71-5429-8ef0-c24e574017f6
+
+	measure 'Geo Selected Value' = SWITCH([Geo Metric Label],"Est. occupancy",[Geo Median Est Occupancy],"Est. revenue",[Geo Median Est Revenue],[Geo Median Nightly Rate])
+		displayFolder: Geography
+		lineageTag: 5acf56a6-71d3-5818-94ba-783baa8e4480
+
+		formatStringDefinition = IF([Geo Metric Label]="Est. occupancy","0.0%",UNICHAR(34)&"AED "&UNICHAR(34)&"#,0")
+
+	measure 'Geo Contributors' = SWITCH([Geo Metric Label],"Est. occupancy",[Geo Occupancy Contributors],"Est. revenue",[Geo Revenue Contributors],[Geo Rate Contributors])
+		formatString: #,0
+		displayFolder: Geography
+		lineageTag: 9464327d-4313-5e70-8944-191959e93779
+
+	measure 'Geo Ranking Eligible' = IF([Geo Snapshot Valid]=1 && SELECTEDVALUE(DimArea[area_label],"Unknown area")<>"Unknown area" && [Geo Contributors]>=10 && NOT ISBLANK([Geo Selected Value]),1)
+		formatString: 0
+		displayFolder: Geography
+		lineageTag: 939e9fde-ed51-5a9c-ac87-d4c90ade3714
+
+	measure 'Geo Top 10 Visible' =
+			VAR Area = SELECTEDVALUE(DimArea[area_label])
+			VAR Candidates = FILTER(ADDCOLUMNS(ALLSELECTED(DimArea[area_label]), "@N",CALCULATE([Geo Contributors]),"@V",CALCULATE([Geo Selected Value])),DimArea[area_label]<>"Unknown area" && [@N]>=10 && NOT ISBLANK([@V]))
+			VAR TopAreas = TOPN(10,Candidates,[@V],DESC,DimArea[area_label],ASC)
+			RETURN IF([Geo Snapshot Valid]=1 && CONTAINS(TopAreas,DimArea[area_label],Area),1)
+		formatString: 0
+		displayFolder: Geography
+		lineageTag: ffeedda1-0b42-5b34-bde2-a750c5ec923a
+
+	measure 'Geo Evidence Visible' = IF([Geo Snapshot Valid]=1 && [Geo Active Listings]>0,1)
+		formatString: 0
+		displayFolder: Geography
+		lineageTag: 22e56272-04f5-59b5-8b52-bd8756fecf3d
+
+	measure 'Geo Ranking Note' =
+			VAR N = COUNTROWS(FILTER(ADDCOLUMNS(ALLSELECTED(DimArea[area_label]),"@N",CALCULATE([Geo Contributors])),DimArea[area_label]<>"Unknown area" && [@N]>=10))
+			RETURN IF([Geo Snapshot Valid]<>1,"Select one focus month.",IF(N=0,"No named community has 10 valid contributors.","Up to 10 communities | " & FORMAT(N,"0") & " qualify | minimum 10 contributors"))
+		displayFolder: Geography
+		lineageTag: 4b4d741c-5b0a-5578-bb0e-11383801955b
+
+	measure 'Geo Metric Definition' = SWITCH([Geo Metric Label],"Est. occupancy","Median provider-estimated occupancy; valid zeros included (%)","Est. revenue","Median provider-estimated monthly revenue per listing (AED)","Median reported nightly rate (AED)")
+		displayFolder: Geography
+		lineageTag: e5e98622-35c2-53bd-a5ac-486baa6e87d9
+
+	measure 'Geo Median Nightly Rate' = IF([Geo Snapshot Valid]=1,CALCULATE(MEDIAN(FactListingMonth[native_avg_daily_rate]),KEEPFILTERS(FactListingMonth[active]=TRUE()),KEEPFILTERS(FILTER(FactListingMonth,NOT ISBLANK(FactListingMonth[native_avg_daily_rate]) && FactListingMonth[native_avg_daily_rate]>=0))))
+		formatString: "AED "#,0.00
+		displayFolder: Geography
+		lineageTag: 0ca00b11-51ba-51b8-87eb-43185a32e9f2
+
+	measure 'Geo Rate Contributors' = IF([Geo Snapshot Valid]=1,CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]),KEEPFILTERS(FactListingMonth[active]=TRUE()),KEEPFILTERS(FILTER(FactListingMonth,NOT ISBLANK(FactListingMonth[native_avg_daily_rate]) && FactListingMonth[native_avg_daily_rate]>=0))))
+		formatString: #,0
+		displayFolder: Geography
+		lineageTag: 60cdba28-625a-559d-be63-3dbcc22bcca7
+
+	measure 'Geo Median Est Occupancy' = IF([Geo Snapshot Valid]=1,CALCULATE(MEDIAN(FactListingMonth[occupancy]),KEEPFILTERS(FactListingMonth[active]=TRUE()),KEEPFILTERS(FILTER(FactListingMonth,NOT ISBLANK(FactListingMonth[occupancy]) && FactListingMonth[occupancy]>=0 && FactListingMonth[occupancy]<=1))))
+		formatString: 0.0%
+		displayFolder: Geography
+		lineageTag: d870dbb5-401d-5c40-8f8f-4ee77ad848a6
+
+	measure 'Geo Occupancy Contributors' = IF([Geo Snapshot Valid]=1,CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]),KEEPFILTERS(FactListingMonth[active]=TRUE()),KEEPFILTERS(FILTER(FactListingMonth,NOT ISBLANK(FactListingMonth[occupancy]) && FactListingMonth[occupancy]>=0 && FactListingMonth[occupancy]<=1))))
+		formatString: #,0
+		displayFolder: Geography
+		lineageTag: 461895b4-79a4-5362-abf8-718ab72ec210
+
+	measure 'Geo Median Est Revenue' = IF([Geo Snapshot Valid]=1,CALCULATE(MEDIAN(FactListingMonth[native_revenue]),KEEPFILTERS(FactListingMonth[active]=TRUE()),KEEPFILTERS(FILTER(FactListingMonth,NOT ISBLANK(FactListingMonth[native_revenue]) && FactListingMonth[native_revenue]>=0))))
+		formatString: "AED "#,0.00
+		displayFolder: Geography
+		lineageTag: f5bcc663-5bea-53d0-a7e5-b3a03613fdcf
+
+	measure 'Geo Revenue Contributors' = IF([Geo Snapshot Valid]=1,CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]),KEEPFILTERS(FactListingMonth[active]=TRUE()),KEEPFILTERS(FILTER(FactListingMonth,NOT ISBLANK(FactListingMonth[native_revenue]) && FactListingMonth[native_revenue]>=0))))
+		formatString: #,0
+		displayFolder: Geography
+		lineageTag: d364bc56-207e-597f-8edc-36f5fafb9cca
+
+	column Metric
+		dataType: string
+		lineageTag: 127538ee-4bf9-5b2e-8045-3bcace1f494e
+		summarizeBy: none
+		sourceColumn: [Metric]
+		sortByColumn: SortOrder
+
+	column SortOrder
+		dataType: int64
+		isHidden
+		lineageTag: 37652819-5c5c-5386-a7ad-4376a76e9494
+		summarizeBy: none
+		sourceColumn: [SortOrder]
+
+	partition 'Geography Metric' = calculated
+		mode: import
+		source = DATATABLE("Metric",STRING,"SortOrder",INTEGER,{{"Nightly rate",1},{"Est. occupancy",2},{"Est. revenue",3}})
+

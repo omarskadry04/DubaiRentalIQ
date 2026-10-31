@@ -1,0 +1,104 @@
+table 'Deep Dive Metric'
+	lineageTag: 2f95c851-135d-44a2-ba9f-14f7ead5c8ba
+
+	measure 'Deep Dive Property' =
+			VAR SubjectID = IF(ISFILTERED('Deep Dive Subject'[listing_id]) && COUNTROWS(FILTERS('Deep Dive Subject'[listing_id]))=1,SELECTEDVALUE('Deep Dive Subject'[listing_id]))
+			RETURN IF(NOT ISBLANK(SubjectID) && COUNTROWS(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID))>0,SubjectID)
+		lineageTag: c67e48d5-bd54-43e8-9242-c0b307b1e382
+
+	measure 'Deep Dive Destination' = IF(NOT ISBLANK([Studio Explicit Property]) && [Deep Dive Property]=[Studio Explicit Property],"Property Performance Deep Dive")
+		lineageTag: e08d8d9d-ca99-47cd-bb5b-113b59c1efe0
+
+	measure 'Deep Dive Identity' = IF(ISBLANK([Deep Dive Property]),"No property selected. Open a listing in Pricing Studio to explore its historical performance.","Listing " & [Deep Dive Property])
+		lineageTag: a22f16cd-2401-4b0e-a544-d5d09965e4fd
+
+	measure 'Deep Dive Transfer Match' = IF(NOT ISBLANK([Studio Explicit Property]) && SELECTEDVALUE('Deep Dive Subject'[listing_id])=[Studio Explicit Property],1)
+		formatString: ;;;
+		lineageTag: 848e95a0-5438-4b38-a397-f48c455d3047
+
+	measure 'Deep Dive Test Rate' =
+			VAR SubjectID = [Deep Dive Property]
+			VAR AxisMonth = SELECTEDVALUE('Deep Dive Calendar'[Month])
+			RETURN IF(NOT ISBLANK(SubjectID),MAXX(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID && FactListingMonth[month_date]=AxisMonth),FactListingMonth[native_avg_daily_rate]))
+		lineageTag: 62809b32-7ec6-4e0f-bd5f-712406da8b00
+
+	measure 'Deep Dive First Month' = VAR SubjectID = [Deep Dive Property] RETURN IF(NOT ISBLANK(SubjectID),MINX(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID),FactListingMonth[month_date]))
+		formatString: MMM yyyy
+		lineageTag: 48fbe79a-6986-4fc3-b4a9-5aa2e2b84468
+
+	measure 'Deep Dive Latest Month' = VAR SubjectID = [Deep Dive Property] RETURN IF(NOT ISBLANK(SubjectID),MAXX(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID),FactListingMonth[month_date]))
+		formatString: MMM yyyy
+		lineageTag: 990d4a99-ee3d-4915-b124-1f41a20d7a03
+
+	measure 'Deep Dive Observed Months' = VAR SubjectID = [Deep Dive Property] RETURN IF(NOT ISBLANK(SubjectID),COUNTROWS(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID)))
+		formatString: 0
+		lineageTag: 737e7b80-9915-4ce7-9be2-1aecded8f675
+
+	measure 'Deep Dive Coverage Label' = IF(NOT ISBLANK([Deep Dive Property]),[Deep Dive Observed Months] & " / " & COUNTROWS(ALL('Deep Dive Calendar')))
+		lineageTag: 5346e822-4237-43e8-b039-76ccc51b895b
+
+	measure 'Deep Dive Latest Activity' = VAR SubjectID = [Deep Dive Property] VAR LastMonth = [Deep Dive Latest Month] VAR Records = FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID && FactListingMonth[month_date]=LastMonth) RETURN IF(NOT ISBLANK(SubjectID),IF(COUNTROWS(FILTER(Records,ISBLANK(FactListingMonth[active])))>0,"Activity unknown",IF(COUNTROWS(FILTER(Records,FactListingMonth[active]=TRUE()))>0,"Active","Inactive")))
+		lineageTag: 55ea7d51-7a55-4c91-b46a-a4d08502d4fd
+
+	measure 'Deep Dive Context' = IF(NOT ISBLANK([Deep Dive Property]),"First observed: " & FORMAT([Deep Dive First Month],"MMM yyyy") & "   |   Latest: " & FORMAT([Deep Dive Latest Month],"MMM yyyy") & "   |   " & [Deep Dive Latest Activity],"Open Pricing Studio, select the active ID confirmation row, then View Property Performance.")
+		lineageTag: 3579ea68-8372-428d-9987-ad6ae5b69124
+
+	measure 'Deep Dive Latest Rate' = VAR SubjectID = [Deep Dive Property] VAR LastMonth = [Deep Dive Latest Month] RETURN IF(NOT ISBLANK(SubjectID),MAXX(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID && FactListingMonth[month_date]=LastMonth),FactListingMonth[native_avg_daily_rate]))
+		formatString: "AED "#,0.00
+		lineageTag: b6ff16aa-677c-4368-987f-76b9ac032e6e
+
+	measure 'Deep Dive Monthly Rate' = VAR SubjectID = [Deep Dive Property] VAR AxisMonth = SELECTEDVALUE('Deep Dive Calendar'[Month]) RETURN IF(NOT ISBLANK(SubjectID) && NOT ISBLANK(AxisMonth),MAXX(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID && FactListingMonth[month_date]=AxisMonth),FactListingMonth[native_avg_daily_rate]))
+		formatString: "AED "#,0.00
+		lineageTag: ec87b86d-d453-411c-9802-0e4323539c44
+
+	measure 'Deep Dive Latest Occupancy' = VAR SubjectID = [Deep Dive Property] VAR LastMonth = [Deep Dive Latest Month] RETURN IF(NOT ISBLANK(SubjectID),MAXX(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID && FactListingMonth[month_date]=LastMonth),FactListingMonth[occupancy]))
+		formatString: 0.0%
+		lineageTag: 17377fb4-00c6-4cd5-98e5-58bea7780930
+
+	measure 'Deep Dive Monthly Occupancy' = VAR SubjectID = [Deep Dive Property] VAR AxisMonth = SELECTEDVALUE('Deep Dive Calendar'[Month]) RETURN IF(NOT ISBLANK(SubjectID) && NOT ISBLANK(AxisMonth),MAXX(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID && FactListingMonth[month_date]=AxisMonth),FactListingMonth[occupancy]))
+		formatString: 0.0%
+		lineageTag: c4a91dbf-ee86-43c6-9fba-64ca69e439c7
+
+	measure 'Deep Dive Latest Revenue' = VAR SubjectID = [Deep Dive Property] VAR LastMonth = [Deep Dive Latest Month] RETURN IF(NOT ISBLANK(SubjectID),MAXX(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID && FactListingMonth[month_date]=LastMonth),FactListingMonth[native_revenue]))
+		formatString: "AED "#,0.00
+		lineageTag: fe371cfc-39ab-48aa-98a6-35f6ffef68c8
+
+	measure 'Deep Dive Monthly Revenue' = VAR SubjectID = [Deep Dive Property] VAR AxisMonth = SELECTEDVALUE('Deep Dive Calendar'[Month]) RETURN IF(NOT ISBLANK(SubjectID) && NOT ISBLANK(AxisMonth),MAXX(FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID && FactListingMonth[month_date]=AxisMonth),FactListingMonth[native_revenue]))
+		formatString: "AED "#,0.00
+		lineageTag: 7f56fdc9-995b-414e-8527-8d504fbd25c2
+
+	measure 'Deep Dive Observation Status' = VAR SubjectID = [Deep Dive Property] VAR AxisMonth = SELECTEDVALUE('Deep Dive Calendar'[Month]) VAR Records=FILTER(ALL(FactListingMonth),FactListingMonth[listing_id]=SubjectID && FactListingMonth[month_date]=AxisMonth) RETURN IF(NOT ISBLANK(SubjectID) && NOT ISBLANK(AxisMonth),SWITCH(TRUE(),COUNTROWS(Records)=0,"No observation",COUNTROWS(FILTER(Records,ISBLANK(FactListingMonth[active])))>0,"Activity unknown",COUNTROWS(FILTER(Records,FactListingMonth[active]=TRUE()))>0,"Active","Inactive"))
+		lineageTag: c59a3c74-5578-43a5-8cba-0fc4e5e66396
+
+	measure 'Deep Dive Coverage Symbol' = SWITCH([Deep Dive Observation Status],"Active","A","Inactive","I","No observation","—","Activity unknown","?",BLANK())
+		lineageTag: 47d121b5-b7cc-4909-b1df-dad3754b594a
+
+	measure 'Deep Dive Coverage Color' = SWITCH([Deep Dive Observation Status],"Active","#B58A5A","Inactive","#A8A49A","#41433E")
+		lineageTag: 00a7cad0-bb1a-40cb-8d7f-f973df3a543e
+
+	measure 'Deep Dive Metric Label' = SELECTEDVALUE('Deep Dive Metric'[Metric],"Est. occupancy")
+		lineageTag: 90f29ee2-f553-4c68-8ae6-5cba2e5b88bb
+
+	measure 'Deep Dive Monthly Value' = SWITCH([Deep Dive Metric Label],"Nightly rate",[Deep Dive Monthly Rate],"Est. occupancy",[Deep Dive Monthly Occupancy],"Est. revenue",[Deep Dive Monthly Revenue])
+		lineageTag: 2783bfc3-93f0-4d7b-ab24-02fc51d531fd
+
+		formatStringDefinition = IF([Deep Dive Metric Label]="Est. occupancy","0.0%",UNICHAR(34) & "AED " & UNICHAR(34) & "#,0")
+
+	measure 'Deep Dive Chart Title' = SWITCH([Deep Dive Metric Label],"Nightly rate","Reported nightly rate (AED)","Est. occupancy","Provider-estimated occupancy (%)","Estimated monthly revenue (AED)")
+		lineageTag: afc9c5de-66c0-46d8-8a5f-998fd1fc53b1
+
+	measure 'Deep Dive Run Value' = VAR AxisIndex = SELECTEDVALUE('Deep Dive Calendar'[Index]) VAR LastGap = MAXX(FILTER(ALL('Deep Dive Calendar'), 'Deep Dive Calendar'[Index]<AxisIndex && ISBLANK(CALCULATE([Deep Dive Monthly Value]))),'Deep Dive Calendar'[Index]) RETURN IF(NOT ISBLANK([Deep Dive Monthly Value]) && SELECTEDVALUE('Deep Dive Run'[Run])=COALESCE(LastGap,0)+1,[Deep Dive Monthly Value])
+		lineageTag: 8c25a58c-531d-4c61-a30d-0f71e1aa5f21
+
+		formatStringDefinition = IF([Deep Dive Metric Label]="Est. occupancy","0.0%",UNICHAR(34) & "AED " & UNICHAR(34) & "#,0")
+
+	column Metric
+		dataType: string
+		lineageTag: 756c7070-b6f9-4308-83d1-132b69d6f644
+		summarizeBy: none
+		sourceColumn: [Metric]
+
+	partition 'Deep Dive Metric' = calculated
+		mode: import
+		source = DATATABLE("Metric",STRING,{{"Nightly rate"},{"Est. occupancy"},{"Est. revenue"}})
+

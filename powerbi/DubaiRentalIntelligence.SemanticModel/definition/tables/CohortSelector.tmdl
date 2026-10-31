@@ -1,0 +1,19 @@
+table CohortSelector
+	lineageTag: de5c27e9-f74b-4654-ae2f-aad00fad73c5
+
+	column Cohort
+		dataType: string
+		lineageTag: 8af5b13c-b287-481b-8c55-7424c76a4257
+		summarizeBy: none
+		sourceColumn: Cohort
+
+	partition CohortSelector = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/CohortSelector.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"Cohort", type text}}, "en-US")
+				in Typed
+

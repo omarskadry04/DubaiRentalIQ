@@ -1,0 +1,26 @@
+table DimBedrooms
+	lineageTag: 19ff68b2-b482-4bcc-adb5-4f717c8dd1b5
+
+	column bedroom_label
+		dataType: string
+		lineageTag: 7a74f08e-a59f-48af-91dd-dd15701c0121
+		summarizeBy: none
+		sourceColumn: bedroom_label
+		sortByColumn: bedroom_sort
+
+	column bedroom_sort
+		dataType: int64
+		lineageTag: 3d2ed174-400a-411b-9d6f-5a35802f7f98
+		summarizeBy: none
+		sourceColumn: bedroom_sort
+
+	partition DimBedrooms = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/DimBedrooms.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"bedroom_label", type text}, {"bedroom_sort", Int64.Type}}, "en-US")
+				in Typed
+

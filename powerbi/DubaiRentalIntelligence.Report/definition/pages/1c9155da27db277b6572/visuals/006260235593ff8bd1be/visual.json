@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "006260235593ff8bd1be",
+  "position": {
+    "x": 1175.5847326510623,
+    "y": 353.48937559438474,
+    "z": 72000,
+    "height": 29.069849966643481,
+    "width": 72.09322791727584,
+    "tabOrder": 87000
+  },
+  "visual": {
+    "visualType": "actionButton",
+    "objects": {
+      "icon": [
+        {
+          "properties": {
+            "shapeType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'information'"
+                }
+              }
+            },
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C5A57D'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "visualLink": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "type": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Bookmark'"
+                }
+              }
+            },
+            "tooltip": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Pricing-review signals identify observations whose reported nightly rates differ from their comparable peer benchmarks. They are indicators for investigation, not proof of overpricing or underpricing.  Benchmark coverage represents the share of eligible active listing-month observations with a valid peer benchmark.  Stronger-evidence cases have better supporting comparability; other cases require further review of amenities, property quality, capacity, and market context. Some properties have no valid benchmark.'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "howCreated": "InsertVisualButton"
+}

@@ -1,0 +1,21 @@
+table 'Investigation Direction'
+	lineageTag: 80e4bade-c713-59b0-bf57-6e6345171162
+
+	column Label
+		dataType: string
+		lineageTag: 2867b18a-8775-4445-8cc3-317aeaac54b1
+		summarizeBy: none
+		sourceColumn: [Label]
+		sortByColumn: Code
+
+	column Code
+		dataType: int64
+		isHidden
+		lineageTag: bdd19715-636b-4624-90d0-18db8ceb71b5
+		summarizeBy: none
+		sourceColumn: [Code]
+
+	partition 'Investigation Direction' = calculated
+		mode: import
+		source = DATATABLE("Label", STRING, "Code", INTEGER, {{"Both directions", 0}, {"Above peer median", 1}, {"Below peer median", 2}})
+

@@ -1,0 +1,279 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 112,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1156.0397614291742,
+            "y": 278.59104874875794
+          },
+          "nodeIndex": "Analytics",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1440.0397614291742,
+            "y": 376.59104874875794
+          },
+          "nodeIndex": "CohortSelector",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 114.71817976683315
+          },
+          "nodeIndex": "CoverageMonth",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 623.81769547534532,
+            "y": 703.182097497516
+          },
+          "nodeIndex": "DimAccommodation",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 913.78507328665592,
+            "y": 630.98926602553843
+          },
+          "nodeIndex": "DimArea",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 922.03976142917429,
+            "y": 202.44636180934958
+          },
+          "nodeIndex": "DimBedrooms",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 632.09444313223321,
+            "y": -50
+          },
+          "nodeIndex": "DimListing",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 334.240451344004,
+            "y": 183.87978514042049
+          },
+          "nodeIndex": "DimMonth",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 623.87021538597469,
+            "y": 307.27826477570608
+          },
+          "nodeIndex": "FactListingMonth",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1724.0397614291742,
+            "y": 376.59104874875794
+          },
+          "nodeIndex": "MetricSelector",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2008.0397614291742,
+            "y": 278.59104874875794
+          },
+          "nodeIndex": "PeerExamples",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2292.0397614291742,
+            "y": 376.59104874875794
+          },
+          "nodeIndex": "ReviewThreshold",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2526.0397614291742,
+            "y": 364.591048748758
+          },
+          "nodeIndex": "Studio Price Categories",
+          "nodeLineageTag": "f349ef4c-fce3-4c61-aa75-e4ae3055827c",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2760.0397614291742,
+            "y": 364.591048748758
+          },
+          "nodeIndex": "Investigation Direction",
+          "nodeLineageTag": "80e4bade-c713-59b0-bf57-6e6345171162",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3044.0397614291742,
+            "y": 364.591048748758
+          },
+          "nodeIndex": "Investigation Priority",
+          "nodeLineageTag": "3f130d4b-6059-5799-bd61-fbb1750797fc",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3278.0397614291742,
+            "y": 278.591048748758
+          },
+          "nodeIndex": "Trends Metric",
+          "nodeLineageTag": "901c7f94-81db-5749-8202-6eb005fbea33",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3512.0397614291742,
+            "y": 278.591048748758
+          },
+          "nodeIndex": "Geography Metric",
+          "nodeLineageTag": "97f28f13-d04a-512b-8c59-bb53d7e9df5f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3746.0397614291742,
+            "y": 292.591048748758
+          },
+          "nodeIndex": "Deep Dive Metric",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3980.0397614291742,
+            "y": 328.591048748758
+          },
+          "nodeIndex": "Deep Dive Calendar",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4264.0397614291742,
+            "y": 328.591048748758
+          },
+          "nodeIndex": "Deep Dive Subject",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4498.0397614291742,
+            "y": 328.591048748758
+          },
+          "nodeIndex": "Deep Dive Run",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

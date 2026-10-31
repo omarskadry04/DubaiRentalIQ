@@ -1,0 +1,38 @@
+table 'Deep Dive Calendar'
+	lineageTag: 17692ce2-8585-49b5-b7f0-a08f9e19c6a7
+
+	column Month
+		dataType: dateTime
+		formatString: MMM yyyy
+		lineageTag: 6fab26cb-a898-4f48-aeef-1c02375eac80
+		summarizeBy: none
+		sourceColumn: [Month]
+
+	column Year
+		dataType: int64
+		lineageTag: db85b600-fcb0-4552-bc6e-ed2807a54cbb
+		summarizeBy: none
+		sourceColumn: [Year]
+
+	column MonthName
+		dataType: string
+		lineageTag: ceced329-23fe-40d6-bfaf-0cfab0e94d40
+		sourceColumn: [MonthName]
+		sortByColumn: MonthNumber
+
+	column MonthNumber
+		dataType: int64
+		lineageTag: 49ade62f-8004-4b7e-baa0-654041da22a4
+		summarizeBy: none
+		sourceColumn: [MonthNumber]
+
+	column Index
+		dataType: int64
+		lineageTag: e21d4e80-0601-4223-b055-e6a26f1d62aa
+		summarizeBy: none
+		sourceColumn: [Index]
+
+	partition 'Deep Dive Calendar' = calculated
+		mode: import
+		source = SELECTCOLUMNS(ALL(DimMonth[month_date]), "Month", DimMonth[month_date], "Year", YEAR(DimMonth[month_date]), "MonthName", FORMAT(DimMonth[month_date],"MMM"), "MonthNumber",MONTH(DimMonth[month_date]), "Index", DATEDIFF(MINX(ALL(DimMonth),DimMonth[month_date]),DimMonth[month_date],MONTH)+1)
+

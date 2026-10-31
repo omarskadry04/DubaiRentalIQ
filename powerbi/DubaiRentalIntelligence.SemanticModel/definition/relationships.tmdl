@@ -1,0 +1,24 @@
+relationship DimListing_Fact
+	fromColumn: FactListingMonth.listing_id
+	toColumn: DimListing.listing_id
+
+relationship DimMonth_Fact
+	fromColumn: FactListingMonth.month_date
+	toColumn: DimMonth.month_date
+
+relationship DimAccommodation_Fact
+	fromColumn: FactListingMonth.room_type
+	toColumn: DimAccommodation.room_type
+
+relationship DimBedrooms_Fact
+	fromColumn: FactListingMonth.bedroom_label
+	toColumn: DimBedrooms.bedroom_label
+
+relationship DimArea_Fact
+	fromColumn: FactListingMonth.area_label
+	toColumn: DimArea.area_label
+
+relationship Month_Coverage
+	fromColumn: CoverageMonth.month_date
+	toColumn: DimMonth.month_date
+

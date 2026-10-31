@@ -1,0 +1,329 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "8c2c687cc1baff98e231",
+  "position": {
+    "x": 226,
+    "y": 355,
+    "z": 33000,
+    "height": 153,
+    "width": 500,
+    "tabOrder": 47000
+  },
+  "visual": {
+    "visualType": "esriVisual",
+    "query": {
+      "queryState": {
+        "Latitude": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactListingMonth"
+                    }
+                  },
+                  "Property": "latitude"
+                }
+              },
+              "queryRef": "FactListingMonth.latitude",
+              "nativeQueryRef": "latitude",
+              "displayName": "latitude"
+            }
+          ]
+        },
+        "Location": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactListingMonth"
+                    }
+                  },
+                  "Property": "Geo Coordinate Pair"
+                }
+              },
+              "queryRef": "FactListingMonth.Geo Coordinate Pair",
+              "nativeQueryRef": "Geo Coordinate Pair"
+            }
+          ]
+        },
+        "Longitude": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactListingMonth"
+                    }
+                  },
+                  "Property": "longitude"
+                }
+              },
+              "queryRef": "FactListingMonth.longitude",
+              "nativeQueryRef": "longitude",
+              "displayName": "longitude"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Geography Metric"
+                    }
+                  },
+                  "Property": "Geo Mapped Listings"
+                }
+              },
+              "queryRef": "Geography Metric.Geo Mapped Listings",
+              "nativeQueryRef": "Active listings at location",
+              "displayName": "Active listings at location"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Geography Metric"
+                    }
+                  },
+                  "Property": "Geo Mapped Listings"
+                }
+              },
+              "queryRef": "Geography Metric.Geo Mapped Listings",
+              "nativeQueryRef": "Active listings at location",
+              "displayName": "Active listings at location"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "mapTools": [
+        {
+          "properties": {
+            "basemaps": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "share": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "mapObject": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"portalUrl\":\"https://www.arcgis.com\",\"version\":\"2.4\",\"isAuthorNamedUser\":false,\"map\":{\"webmap\":{\"is3d\":false,\"itemData\":{\"operationalLayers\":[{\"id\":\"MyLayer\",\"visibility\":true,\"opacity\":1,\"minScale\":0,\"maxScale\":0,\"refreshInterval\":0,\"title\":\"Coordinates\",\"objectIdField\":\"objectId\",\"type\":\"DataLayer\",\"layerType\":\"ArcGISFeatureLayer\",\"popupEnabled\":true,\"disablePopup\":false,\"visible\":true,\"geometryType\":\"point\",\"source\":[{\"attributes\":{},\"geometry\":{\"x\":0,\"y\":0,\"type\":\"point\",\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100}}}],\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100},\"esriMaps\":{\"isTimeEnabled\":\"false\",\"clusterInfo\":null,\"lastShareInfo\":null},\"timeInfo\":null,\"showLabels\":true,\"featureCollection\":{\"layers\":[{\"popupInfo\":{\"popupElements\":[{\"type\":\"fields\",\"fieldInfos\":[{\"fieldName\":\"expression/FactListingMonth_latitude\",\"isEditable\":true,\"label\":\"latitude\",\"visible\":true},{\"fieldName\":\"FactListingMonth_Geo_20Coordinate_20Pair\",\"isEditable\":true,\"label\":\"Geo Coordinate Pair\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"expression/FactListingMonth_longitude\",\"isEditable\":true,\"label\":\"longitude\",\"visible\":true},{\"fieldName\":\"expression/Geography_20Metric_Geo_20Mapped_20Listings\",\"isEditable\":true,\"label\":\"Active listings at location\",\"visible\":true},{\"fieldName\":\"ROW_ID\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":true,\"label\":\"ROW_ID\",\"tooltip\":\"\",\"visible\":true}]}],\"expressionInfos\":[{\"name\":\"FactListingMonth_latitude\",\"title\":\"latitude\",\"expression\":\"// PowerBI number format: #,0.00\\n\\nif (IsEmpty($feature[\\\"FactListingMonth_latitude\\\"]))\\n{\\n  return $feature[\\\"FactListingMonth_latitude\\\"] \\n}\\nText($feature[\\\"FactListingMonth_latitude\\\"], \\\"#,###.00\\\")\"},{\"name\":\"FactListingMonth_longitude\",\"title\":\"longitude\",\"expression\":\"// PowerBI number format: #,0.00\\n\\nif (IsEmpty($feature[\\\"FactListingMonth_longitude\\\"]))\\n{\\n  return $feature[\\\"FactListingMonth_longitude\\\"] \\n}\\nText($feature[\\\"FactListingMonth_longitude\\\"], \\\"#,###.00\\\")\"},{\"name\":\"Geography_20Metric_Geo_20Mapped_20Listings\",\"title\":\"Active listings at location\",\"expression\":\"// PowerBI number format: #,0\\n\\nif (IsEmpty($feature[\\\"Geography_20Metric_Geo_20Mapped_20Listings\\\"]))\\n{\\n  return $feature[\\\"Geography_20Metric_Geo_20Mapped_20Listings\\\"] \\n}\\nIIF(Text($feature[\\\"Geography_20Metric_Geo_20Mapped_20Listings\\\"], \\\"#,###\\\") == \\\"0\\\" || Text($feature[\\\"Geography_20Metric_Geo_20Mapped_20Listings\\\"], \\\"#,###\\\") == \\\"-0\\\", \\\"\\\", Text($feature[\\\"Geography_20Metric_Geo_20Mapped_20Listings\\\"], \\\"#,###\\\"))\"}],\"fieldInfos\":[{\"fieldName\":\"FactListingMonth_latitude\",\"format\":{\"digitSeparator\":true,\"places\":2},\"isEditable\":true,\"label\":\"latitude\",\"tooltip\":\"\",\"visible\":false},{\"fieldName\":\"expression/FactListingMonth_latitude\",\"isEditable\":true,\"label\":\"latitude\",\"visible\":true},{\"fieldName\":\"FactListingMonth_Geo_20Coordinate_20Pair\",\"isEditable\":true,\"label\":\"Geo Coordinate Pair\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"FactListingMonth_longitude\",\"format\":{\"digitSeparator\":true,\"places\":2},\"isEditable\":true,\"label\":\"longitude\",\"tooltip\":\"\",\"visible\":false},{\"fieldName\":\"expression/FactListingMonth_longitude\",\"isEditable\":true,\"label\":\"longitude\",\"visible\":true},{\"fieldName\":\"Geography_20Metric_Geo_20Mapped_20Listings\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":true,\"label\":\"Active listings at location\",\"tooltip\":\"\",\"visible\":false},{\"fieldName\":\"expression/Geography_20Metric_Geo_20Mapped_20Listings\",\"isEditable\":true,\"label\":\"Active listings at location\",\"visible\":true},{\"fieldName\":\"ROW_ID\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":true,\"label\":\"ROW_ID\",\"tooltip\":\"\",\"visible\":true}],\"title\":\"\",\"actions\":[]},\"layerDefinition\":{\"objectIdField\":\"objectId\",\"fields\":[{\"alias\":\"objectId\",\"editable\":false,\"name\":\"objectId\",\"nullable\":false,\"type\":\"esriFieldTypeOID\"},{\"alias\":\"latitude\",\"editable\":true,\"name\":\"FactListingMonth_latitude\",\"nullable\":true,\"type\":\"esriFieldTypeDouble\"},{\"alias\":\"Geo Coordinate Pair\",\"editable\":true,\"length\":-1,\"name\":\"FactListingMonth_Geo_20Coordinate_20Pair\",\"nullable\":true,\"type\":\"esriFieldTypeString\"},{\"alias\":\"longitude\",\"editable\":true,\"name\":\"FactListingMonth_longitude\",\"nullable\":true,\"type\":\"esriFieldTypeDouble\"},{\"alias\":\"Active listings at location\",\"editable\":true,\"name\":\"Geography_20Metric_Geo_20Mapped_20Listings\",\"nullable\":true,\"type\":\"esriFieldTypeInteger\"},{\"alias\":\"ROW_ID\",\"editable\":true,\"name\":\"ROW_ID\",\"nullable\":true,\"type\":\"esriFieldTypeInteger\"}],\"geometryType\":\"point\",\"drawingInfo\":{\"renderer\":{\"authoringInfo\":{\"classificationMethod\":\"esriClassifyNaturalBreaks\",\"type\":\"classedSize\"},\"type\":\"classBreaks\",\"visualVariables\":[],\"classBreakInfos\":[{\"classMaxValue\":1,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":3,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}},{\"classMaxValue\":2,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":9.75,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}},{\"classMaxValue\":4,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":16.5,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}},{\"classMaxValue\":7,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":23.25,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}},{\"classMaxValue\":11,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":30,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}}],\"defaultLabel\":\"Other\",\"defaultSymbol\":{\"type\":\"esriSMS\",\"color\":[128,128,128,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":3,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,64],\"width\":0.75,\"style\":\"esriSLSSolid\"}},\"field\":\"Geography_20Metric_Geo_20Mapped_20Listings\",\"minValue\":1},\"transparency\":0},\"featureReduction\":null,\"locationProvider\":{\"type\":\"coordinates\",\"lookupFields\":[{\"lookupField\":\"xFieldName\",\"outField\":\"FactListingMonth_longitude\"},{\"lookupField\":\"yFieldName\",\"outField\":\"FactListingMonth_latitude\"}],\"sourceSR\":4326,\"targetSR\":3857},\"minScale\":0,\"maxScale\":0,\"definitionExpression\":null,\"templates\":[{\"name\":\"New Feature\",\"description\":\"\",\"prototype\":{\"attributes\":{\"FactListingMonth_latitude\":null,\"FactListingMonth_Geo_20Coordinate_20Pair\":null,\"FactListingMonth_longitude\":null,\"Geography_20Metric_Geo_20Mapped_20Listings\":null,\"ROW_ID\":null}}}],\"elevationInfo\":null,\"name\":\"Coordinates\",\"type\":\"DataLayer\",\"queryParameters\":{\"tableId\":\"\"}},\"featureSet\":{\"features\":[{\"attributes\":{},\"geometry\":{\"x\":0,\"y\":0,\"type\":\"point\",\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100}}}]}}]}}],\"tables\":[],\"baseMap\":{\"baseMapLayers\":[{\"id\":\"VectorTile_2846\",\"opacity\":1,\"title\":\"Dark Gray Base\",\"visibility\":true,\"layerType\":\"VectorTileLayer\",\"styleUrl\":\"https://cdn.arcgis.com/sharing/rest/content/items/5e9b3685f4c24d8781073dd928ebda50/resources/styles/root.json\"},{\"id\":\"VectorTile_1645\",\"opacity\":1,\"title\":\"Dark Gray Reference\",\"visibility\":true,\"layerType\":\"VectorTileLayer\",\"styleUrl\":\"https://cdn.arcgis.com/sharing/rest/content/items/747cb7a5329c478cbe6981076cc879c5/resources/styles/root.json\",\"isReference\":true}],\"title\":\"Dark Gray Canvas\",\"origItemId\":\"a343955125bf4002987c400ad6d0346c\"},\"version\":\"2.26\",\"authoringApp\":\"ArcGIS for Power BI\",\"authoringAppVersion\":\"2026.2.992\",\"bookmarks\":[],\"initialState\":{\"viewpoint\":{\"targetGeometry\":{\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100},\"xmin\":5996942.2692363765,\"ymin\":2838164.91563003,\"xmax\":6302690.3823770005,\"ymax\":2931723.8382510613}}}}},\"webmapExtensions\":{\"format\":2}},\"embedCheckPassed\":false}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "geometryCache": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"key\":\"cachedgeocode@@world\",\"compressionMethod\":\"pako\",\"data\":\"H4sIAAAAAAAAA8srzckBAE/8yyUEAAAA\"}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "theme": [
+        {
+          "properties": {
+            "enable": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0B1730'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segoe UI Semibold'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

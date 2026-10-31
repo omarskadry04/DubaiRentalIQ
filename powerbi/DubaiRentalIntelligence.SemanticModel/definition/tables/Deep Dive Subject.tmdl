@@ -1,0 +1,13 @@
+table 'Deep Dive Subject'
+	lineageTag: e209ff9a-e810-4fba-ad54-5552d251bf78
+
+	column listing_id
+		dataType: string
+		lineageTag: 30543e94-e4eb-4bb8-810f-74234348ed1f
+		summarizeBy: none
+		sourceColumn: [listing_id]
+
+	partition 'Deep Dive Subject' = calculated
+		mode: import
+		source = SELECTCOLUMNS(ALL(DimListing[listing_id]), "listing_id", DimListing[listing_id])
+

@@ -1,0 +1,57 @@
+# Private provider inputs and generated outputs (never redistribute)
+/data/raw/**
+/data/processed/**
+/powerbi/data/**
+/reports/**
+/powerbi/qa/**
+/powerbi/checkpoints/**
+*.csv
+*.parquet
+*.arrow
+*.feather
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.zip
+*.7z
+*.rar
+# Power BI runtime and proprietary/native imports
+**/.pbi/
+*.pbix
+*.abf
+*.cache
+/powerbi/.native_libs/
+/powerbi/.schema_cache/
+# Local environments, credentials and generated session artifacts
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+credentials*
+secrets*
+*.log
+*.tmp
+*.bak
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.test_*/
+.jupyter_*/
+backups/
+backup/
+temp/
+tmp/
+private/
+**/*PerformanceAnalyzer*.json
+**/*performance_export*.json
+**/*performance_recording*.json
+**/session_recordings/
+*.local.*
+# Track the blank DataFolder definition; never commit a locally configured value.
+# Required PBIP/PBIR/TMDL/JSON definitions and approved docs PNGs are not ignored.

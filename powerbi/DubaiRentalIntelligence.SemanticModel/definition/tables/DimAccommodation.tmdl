@@ -1,0 +1,25 @@
+table DimAccommodation
+	lineageTag: 2984c663-4263-405d-98a7-56d0fda77e4c
+
+	column room_type
+		dataType: string
+		lineageTag: e4a118d4-15c3-4d7d-824c-f96f167d48f9
+		summarizeBy: none
+		sourceColumn: room_type
+
+	column accommodation_label
+		dataType: string
+		lineageTag: 3b14641d-5274-4cf3-be73-780591b3dce1
+		summarizeBy: none
+		sourceColumn: accommodation_label
+
+	partition DimAccommodation = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/DimAccommodation.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"room_type", type text}, {"accommodation_label", type text}}, "en-US")
+				in Typed
+

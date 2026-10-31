@@ -1,0 +1,19 @@
+table DimArea
+	lineageTag: 94dc9cd6-26f8-4fe5-a636-0703e790fe1f
+
+	column area_label
+		dataType: string
+		lineageTag: d189b824-1bab-45a4-8fba-e9f50d9d8981
+		summarizeBy: none
+		sourceColumn: area_label
+
+	partition DimArea = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/DimArea.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"area_label", type text}}, "en-US")
+				in Typed
+

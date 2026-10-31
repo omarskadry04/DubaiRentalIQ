@@ -1,0 +1,21 @@
+table 'Investigation Priority'
+	lineageTag: 3f130d4b-6059-5799-bd61-fbb1750797fc
+
+	column Label
+		dataType: string
+		lineageTag: 41035211-68f6-4674-bfec-984a300bbadb
+		summarizeBy: none
+		sourceColumn: [Label]
+		sortByColumn: Code
+
+	column Code
+		dataType: int64
+		isHidden
+		lineageTag: dc3d19f2-d045-4177-9954-cc8f80170d2f
+		summarizeBy: none
+		sourceColumn: [Code]
+
+	partition 'Investigation Priority' = calculated
+		mode: import
+		source = DATATABLE("Label", STRING, "Code", INTEGER, {{"All review cases", 0}, {"Stronger evidence", 1}, {"Comparability review", 2}})
+

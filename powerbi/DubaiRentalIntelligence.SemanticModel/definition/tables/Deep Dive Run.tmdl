@@ -1,0 +1,13 @@
+table 'Deep Dive Run'
+	lineageTag: 4842636d-9482-46a1-859f-c646ff3b3f6f
+
+	column Run
+		dataType: int64
+		lineageTag: eaf8dce7-52e1-4037-b6ec-bd58df8ac293
+		summarizeBy: none
+		sourceColumn: [Run]
+
+	partition 'Deep Dive Run' = calculated
+		mode: import
+		source = SELECTCOLUMNS(GENERATESERIES(1,COUNTROWS('Deep Dive Calendar')), "Run", [Value])
+

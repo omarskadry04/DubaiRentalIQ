@@ -1,0 +1,1416 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Executive default - February 2026",
+  "name": "22a05db8a0406ea14c76",
+  "options": {
+    "targetVisualNames": [],
+    "suppressDisplay": true
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "1c9155da27db277b6572",
+    "sections": {
+      "1c9155da27db277b6572": {
+        "visualContainers": {
+          "016fed10ce13540a1bb3": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "f0aa23c104ab6b7d7ac5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "placeholder"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "7f070c8dadad19baedb1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Stronger Evidence Candidates"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "39bbd2e6202764ee8dea",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Comparability Review Cases"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "hundredPercentStackedBarChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "placeholder"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "030699502d74353a10ca": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "0323a3c2200cbd605473": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "06ba3cc090c5079afd8f": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "0de1a29d527a45f42b6a": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "0e878a2e396748d9e608": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "144ccae132a2aef7db4b": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "34a22eb2344fee232c0d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Executive Period"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "151aa32a73eddbc903f5": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "18df1b8bfbed031cc85a": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "1977966569d056d63158": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "21dd874d8e9910bcce92": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "2636132114474cae3290": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "369e75549c88167867d7",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "MetricSelector"
+                        }
+                      },
+                      "Property": "Metric"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "MetricSelector",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "Metric"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'Reported rate (AED)'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "MetricSelector"
+                        }
+                      },
+                      "Property": "Metric"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "28559ca242fcffa73614": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "2b4ea91ce66fa03ea623": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "33256b8d3d22c04da30c": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "345ea659045c026173d1": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "a26e5181ca12903d6679",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Coverage Headline"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "3d23a9fba981e4e38291": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "e62f8a9fd53bfea8997b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimArea"
+                        }
+                      },
+                      "Property": "area_label"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimArea"
+                        }
+                      },
+                      "Property": "area_label"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "43c1a80356d4690d146c": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1cdfd5c041f2baa7d371",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Brief Rate Context"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "4d386add2840b8684d91": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "52695c18692e8855a3ae": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "59eb51380e091dac20f9": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "5a8c18ece166a3008fdf": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "6088dc04fc39ea963d12": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "6d919fd6c6d24764a60f": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "7128fad37cc23c9a5dbb": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b0b05905cd79185009f7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "KPI Rate Value"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "715737c70fe48f8f1584": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "72f5619282eec7163b8b": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "7683943b130b4e1e10f1": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "7866c41a2bd524b433f5": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "79a8f672dc18f6315e9e": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "7e49ed3051ff28f33f9b": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "82e763adf99ee365efc6": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "851508a65e6dff894a22": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3c7ffcb1120132c2ba6b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Benchmark Context"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "8546a660193c7541d09f": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "88ae7c868f7fba296527": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "8a25e46c472a592589e2": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c1e768c4559fd31bf06c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Executive Footer"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "8b043adcbc3425942963": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "0fe1e1921a378fa3bff5",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimAccommodation"
+                        }
+                      },
+                      "Property": "accommodation_label"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimAccommodation"
+                        }
+                      },
+                      "Property": "accommodation_label"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "8ca13b8a35914188e42f": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3c13959b3fbc045ab300",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Review Directions"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "8fb39bb2cf1fa0fdd9ad": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "95022717d97173216e0e": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "99c238db694bf50e0544": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "9ab751296c941c0f9480": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "a58eeb564036c165d020": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "a5bc544d9051d834fc05": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c10b7c5eb3828e15613b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Review Evidence Detail"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "a61361e68294ae12ec70": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "a819c411ebb40a9c740a": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "a9fa6207d2cc1777004c": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "aae85e636c8686c41138": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c5e97fc4cdc553ce4aa6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimBedrooms"
+                        }
+                      },
+                      "Property": "bedroom_label"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimBedrooms"
+                        }
+                      },
+                      "Property": "bedroom_label"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ae46f20d22145d1c9357": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "44d301c9fabdeee4d56e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Brief Dispersion Finding"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "b246fab99602c6833507": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d9064accba01a5c220f5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Brief Evidence Next Step"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "b6ef73eb51b93b600504": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "b93f7da46bdc593ea41b": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "bb2497d16b30dfef92b5": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "bc04171a3c40194dee62",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "placeholder"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ab74fab7a49fc411289e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Benchmarked Listing Months"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "17ebe6c5c9a40c9e344b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Active Without Benchmark"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "hundredPercentStackedBarChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "placeholder"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "bbdeedfacf4479298c15": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "bf32820c5c235278f63c": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "782addc8da3675ff5cdc",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Brief Occupancy Context"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "c159320b7dad4fc6e08e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "471456cf321deab1f0ab",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "KPI Occupancy Value"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "c825c104d5614dbd02c5": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "c99928a4b8f3b71c82cb": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1dfacb863416f37a4034",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "KPI Active Context"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "d02ded8ff54b0420c036": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "d19a0d5a9cba483ce255": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "d2f2cc5c70f6ff3d4fcd": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "734c42beacd49977e101",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Brief Sample Mix"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "d57efb6e874b5d0a277e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "6122c6475c42425ce9d1",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimMonth"
+                        }
+                      },
+                      "Property": "year_month"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "DimMonth",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "year_month"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'2026-02'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimMonth"
+                        }
+                      },
+                      "Property": "year_month"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "dae0c3c17f1272a1fbde": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "660fd132788fb11d7f26",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Brief Revenue Context"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "db55c281a2140bb47e1c": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "dd63209efbb40cd6fe87": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "f1a200391e099f3cb0af",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "KPI Active Value"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "dd7d8935093ec9f57fda": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "de3ddb6a52d06888e70d": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "dfa71141f9dae0964321": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "e1c780472d3537e4d188": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "85acd8b79e67709df79c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "KPI Revenue Value"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "ea287e0c81116adb17e9": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "f1dd73c61ecea569f198": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "f4e5fd37652c69dd446c": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "f94a4145b3c7e03247f3": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "8113f9c2d1c976300a78",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Review Headline"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "fd7ad34b2eefca780fbb": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "7a467694e2128df344b0",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimMonth"
+                        }
+                      },
+                      "Property": "month_date"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "db56bcc5c3b438aa689f",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Active Listings"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "bdcc72151d5a8551ae8a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Global Observed Listing Months"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c95ff0345cd07e0c9ae7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Mean Reported Rate"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f75c45a2a520d24e2ca9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Selected Metric Value"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "549e09e20cdc9e8e5cd8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Analytics"
+                        }
+                      },
+                      "Property": "Selected Metric Smoother"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimMonth"
+                        }
+                      },
+                      "Property": "month_date"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimMonth"
+                        }
+                      },
+                      "Property": "month_date"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ff9bf396073e0a66ee68": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+table ReviewThreshold
+	lineageTag: 8f753011-0081-4e79-a283-68c3f6f40d51
+
+	column Threshold
+		dataType: int64
+		lineageTag: 3c53913b-a0bc-4d40-bcde-7cb9953f4440
+		summarizeBy: none
+		sourceColumn: Threshold
+
+	partition ReviewThreshold = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/ReviewThreshold.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"Threshold", Int64.Type}}, "en-US")
+				in Typed
+

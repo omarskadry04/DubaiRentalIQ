@@ -1,0 +1,38 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Analytics","CohortSelector","CoverageMonth","DimAccommodation","DimArea","DimBedrooms","DimListing","DimMonth","FactListingMonth","MetricSelector","PeerExamples","ReviewThreshold","DataFolder"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode","DaxQueryView_Desktop"]
+
+ref table Analytics
+ref table CohortSelector
+ref table CoverageMonth
+ref table DimAccommodation
+ref table DimArea
+ref table DimBedrooms
+ref table DimListing
+ref table DimMonth
+ref table FactListingMonth
+ref table MetricSelector
+ref table PeerExamples
+ref table ReviewThreshold
+ref table 'Studio Price Categories'
+ref table 'Investigation Priority'
+ref table 'Investigation Direction'
+ref table 'Trends Metric'
+ref table 'Geography Metric'
+ref table 'Deep Dive Metric'
+ref table 'Deep Dive Subject'
+ref table 'Deep Dive Calendar'
+ref table 'Deep Dive Run'
+
+ref cultureInfo en-US
+

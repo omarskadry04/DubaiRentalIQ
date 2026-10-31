@@ -1,0 +1,78 @@
+table PeerExamples
+	lineageTag: 16fe793a-66bf-4fa0-b316-951daa8fb351
+
+	column listing_id
+		dataType: string
+		lineageTag: 7326cbac-df29-4e7b-8b9e-013d492afc30
+		summarizeBy: none
+		sourceColumn: listing_id
+
+	column month_date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: dd621b63-a222-40f5-95c9-82207dbdfbef
+		summarizeBy: none
+		sourceColumn: month_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column peer_listing_id
+		dataType: string
+		lineageTag: 41fdd053-bc34-4c39-abab-8eb83dda6e38
+		summarizeBy: none
+		sourceColumn: peer_listing_id
+
+	column distance_km
+		dataType: double
+		lineageTag: aaaec44f-e462-4c6c-a8f0-93f1956b0127
+		summarizeBy: none
+		sourceColumn: distance_km
+
+	column peer_adr_aed
+		dataType: double
+		lineageTag: 9f37af79-454f-4893-870a-0369a30d5f80
+		summarizeBy: none
+		sourceColumn: peer_adr_aed
+
+	column peer_room_type
+		dataType: string
+		lineageTag: 9ad4a9ea-a048-4ac5-98a1-a36eea02d3dc
+		summarizeBy: none
+		sourceColumn: peer_room_type
+
+	column peer_bedrooms
+		dataType: int64
+		lineageTag: 5ece6a8f-4f39-4166-9404-d716405c2ecf
+		summarizeBy: none
+		sourceColumn: peer_bedrooms
+
+	column peer_estimated_occupancy
+		dataType: double
+		lineageTag: 48fa89a8-2cf8-43e4-8748-ee9301484946
+		summarizeBy: none
+		sourceColumn: peer_estimated_occupancy
+
+	column latitude
+		dataType: double
+		lineageTag: fdaeb001-2c23-40ba-942b-ebe892f5c924
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+	column longitude
+		dataType: double
+		lineageTag: ddd3f10c-cf68-41e3-86d0-c6deb6ae2c4c
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+	partition PeerExamples = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/PeerExamples.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"listing_id", type text}, {"month_date", type date}, {"peer_listing_id", type text}, {"distance_km", type number}, {"peer_adr_aed", type number}, {"peer_room_type", type text}, {"peer_bedrooms", Int64.Type}, {"peer_estimated_occupancy", type number}, {"latitude", type number}, {"longitude", type number}}, "en-US")
+				in Typed
+

@@ -1,0 +1,209 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "2f21bf8024f171def418",
+  "displayName": "Property Performance Deep Dive",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filter2e1c97b095e1a896a35a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Deep Dive Subject"
+              }
+            },
+            "Property": "listing_id"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "Deep Dive Subject",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "listing_id"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'1078884208536252174'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "Pod",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "Param_Filter2e1c97b095e1a896a35a",
+        "boundFilter": "Filter2e1c97b095e1a896a35a",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Deep Dive Subject"
+              }
+            },
+            "Property": "listing_id"
+          }
+        }
+      }
+    ],
+    "acceptsFilterContext": "None"
+  },
+  "visualInteractions": [
+    {
+      "source": "11d0d6f3c6f5a7dd0eff",
+      "target": "4c640d8e3e305a8e4998",
+      "type": "NoFilter"
+    },
+    {
+      "source": "11d0d6f3c6f5a7dd0eff",
+      "target": "d3e65b077257134ba242",
+      "type": "NoFilter"
+    },
+    {
+      "source": "11d0d6f3c6f5a7dd0eff",
+      "target": "88164baf5c9052989895",
+      "type": "NoFilter"
+    },
+    {
+      "source": "11d0d6f3c6f5a7dd0eff",
+      "target": "1f42b3782bef626791fb",
+      "type": "NoFilter"
+    },
+    {
+      "source": "11d0d6f3c6f5a7dd0eff",
+      "target": "bf827933ab26bb7722c1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "11d0d6f3c6f5a7dd0eff",
+      "target": "f3c097595b6829cfc2f1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "11d0d6f3c6f5a7dd0eff",
+      "target": "0b719e19857601346b0e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "11d0d6f3c6f5a7dd0eff",
+      "target": "e5360462887a6013ad54",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4c640d8e3e305a8e4998",
+      "target": "11d0d6f3c6f5a7dd0eff",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4c640d8e3e305a8e4998",
+      "target": "d3e65b077257134ba242",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4c640d8e3e305a8e4998",
+      "target": "88164baf5c9052989895",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4c640d8e3e305a8e4998",
+      "target": "1f42b3782bef626791fb",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4c640d8e3e305a8e4998",
+      "target": "bf827933ab26bb7722c1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4c640d8e3e305a8e4998",
+      "target": "f3c097595b6829cfc2f1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4c640d8e3e305a8e4998",
+      "target": "0b719e19857601346b0e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4c640d8e3e305a8e4998",
+      "target": "e5360462887a6013ad54",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d3e65b077257134ba242",
+      "target": "11d0d6f3c6f5a7dd0eff",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d3e65b077257134ba242",
+      "target": "4c640d8e3e305a8e4998",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d3e65b077257134ba242",
+      "target": "88164baf5c9052989895",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d3e65b077257134ba242",
+      "target": "1f42b3782bef626791fb",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d3e65b077257134ba242",
+      "target": "bf827933ab26bb7722c1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d3e65b077257134ba242",
+      "target": "f3c097595b6829cfc2f1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d3e65b077257134ba242",
+      "target": "0b719e19857601346b0e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d3e65b077257134ba242",
+      "target": "e5360462887a6013ad54",
+      "type": "NoFilter"
+    }
+  ]
+}

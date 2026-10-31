@@ -1,0 +1,117 @@
+table DimListing
+	lineageTag: 65063bd5-dbb3-4a43-ba4d-e8b4e33e1952
+
+	column listing_id
+		dataType: string
+		lineageTag: 19926736-ad03-4a2a-903d-2b9f439d4709
+		summarizeBy: none
+		sourceColumn: listing_id
+
+	column listing_type
+		dataType: string
+		lineageTag: 6d349fe2-1362-497e-8ebd-10e2e741801b
+		summarizeBy: none
+		sourceColumn: listing_type
+
+	column room_type
+		dataType: string
+		lineageTag: a5dbd00b-1a70-43f6-aea7-d36b850c5d71
+		summarizeBy: none
+		sourceColumn: room_type
+
+	column bedrooms
+		dataType: double
+		lineageTag: 6b3c1085-bff3-4c8e-99fe-fa4dcb7eb085
+		summarizeBy: none
+		sourceColumn: bedrooms
+
+	column latitude
+		dataType: double
+		lineageTag: 306cc685-f4ad-43fe-aefe-26ecb6b2b013
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+	column longitude
+		dataType: double
+		lineageTag: 9f2ab98a-d2bc-4e22-8a47-1c071769c109
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+	column neighborhood
+		dataType: string
+		lineageTag: 09427fb2-399f-48e6-a696-6d314374c8d8
+		summarizeBy: none
+		sourceColumn: neighborhood
+
+	column guests
+		dataType: double
+		lineageTag: df8ea9d7-53fd-4a8f-8197-1132881e4d87
+		summarizeBy: none
+		sourceColumn: guests
+
+	column beds
+		dataType: double
+		lineageTag: bd5037e8-ce0d-41da-8b70-38713d7a3cb2
+		summarizeBy: none
+		sourceColumn: beds
+
+	column baths
+		dataType: double
+		lineageTag: 9faf1b0e-bfd9-4782-aa31-64cfc9844a61
+		summarizeBy: none
+		sourceColumn: baths
+
+	column num_reviews
+		dataType: double
+		lineageTag: 24fa712e-59cd-4c9d-95e4-dbece46b78f7
+		summarizeBy: none
+		sourceColumn: num_reviews
+
+	column star_rating
+		dataType: double
+		lineageTag: b14b40ee-f159-40c1-92ac-c9685bfcb436
+		summarizeBy: none
+		sourceColumn: star_rating
+
+	column superhost
+		dataType: string
+		lineageTag: d49d9ed1-c047-4d89-beef-411776c34fbf
+		summarizeBy: none
+		sourceColumn: superhost
+
+	column property_type
+		dataType: string
+		lineageTag: 98028a83-91c1-4c23-b40e-f492bcbc0ede
+		summarizeBy: none
+		sourceColumn: property_type
+
+	column host_id
+		dataType: string
+		lineageTag: 7d1eacb9-bb68-46b8-89c8-7e6b7fac1326
+		summarizeBy: none
+		sourceColumn: host_id
+
+	column enriched_metadata_available
+		dataType: int64
+		lineageTag: ed03fa92-51c5-41c2-ac23-af5d135a94b5
+		summarizeBy: none
+		sourceColumn: enriched_metadata_available
+
+	column metadata_source
+		dataType: string
+		lineageTag: 9103aca1-0a84-42e6-a6da-40bba307c226
+		summarizeBy: none
+		sourceColumn: metadata_source
+
+	partition DimListing = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/DimListing.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"listing_id", type text}, {"listing_type", type text}, {"room_type", type text}, {"bedrooms", type number}, {"latitude", type number}, {"longitude", type number}, {"neighborhood", type text}, {"guests", type number}, {"beds", type number}, {"baths", type number}, {"num_reviews", type number}, {"star_rating", type number}, {"superhost", type text}, {"property_type", type text}, {"host_id", type text}, {"enriched_metadata_available", Int64.Type}, {"metadata_source", type text}}, "en-US")
+				in Typed
+

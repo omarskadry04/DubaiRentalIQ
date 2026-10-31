@@ -1,0 +1,96 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Restore Trends View",
+  "name": "0d422e83a38b129f31f2",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "e3368043c8c5a727780b",
+      "26c0b0f66f7af7d775a9",
+      "14070e2296e316979a92",
+      "546e1e02c871281f8bb3"
+    ],
+    "suppressDisplay": true
+  },
+  "explorationState": {
+    "version": "1.2",
+    "activeSection": "a8b39f8dc2bd5e1ca355",
+    "sections": {
+      "a8b39f8dc2bd5e1ca355": {
+        "visualContainers": {
+          "e3368043c8c5a727780b": {
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "t",
+                                "Entity": "Trends Metric",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "t"
+                                            }
+                                          },
+                                          "Property": "Metric"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'Nightly rate'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "26c0b0f66f7af7d775a9": {
+            "highlight": {
+              "selection": []
+            }
+          },
+          "14070e2296e316979a92": {
+            "highlight": {
+              "selection": []
+            }
+          },
+          "546e1e02c871281f8bb3": {
+            "highlight": {
+              "selection": []
+            }
+          }
+        }
+      }
+    }
+  }
+}

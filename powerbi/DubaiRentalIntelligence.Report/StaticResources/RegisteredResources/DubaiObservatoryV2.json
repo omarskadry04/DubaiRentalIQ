@@ -1,0 +1,26 @@
+{
+  "name": "Dubai Observatory V2",
+  "dataColors": [
+    "#087F78",
+    "#86A8C4",
+    "#D09A43",
+    "#BE5356"
+  ],
+  "background": "#F3F6F8",
+  "foreground": "#0B1730",
+  "tableAccent": "#087F78",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#0B1730"
+    },
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#0B1730"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "color": "#52647A"
+    }
+  }
+}

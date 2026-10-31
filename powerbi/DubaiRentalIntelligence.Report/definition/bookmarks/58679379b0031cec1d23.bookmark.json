@@ -1,0 +1,221 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Restore Deep Dive View",
+  "name": "58679379b0031cec1d23",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "c336fdfc99d0ece567c4",
+      "11d0d6f3c6f5a7dd0eff",
+      "4c640d8e3e305a8e4998",
+      "d3e65b077257134ba242"
+    ],
+    "suppressDisplay": true
+  },
+  "explorationState": {
+    "version": "1.2",
+    "activeSection": "2f21bf8024f171def418",
+    "sections": {
+      "2f21bf8024f171def418": {
+        "visualContainers": {
+          "c336fdfc99d0ece567c4": {
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "header": [
+                    {
+                      "properties": {
+                        "show": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "singleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        },
+                        "selectAllCheckboxEnabled": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "searchBox": [
+                    {
+                      "properties": {}
+                    }
+                  ],
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "Deep Dive Metric",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "Metric"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'Est. occupancy'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "items": [
+                    {
+                      "properties": {
+                        "fontColor": {
+                          "solid": {
+                            "color": {
+                              "expr": {
+                                "Literal": {
+                                  "Value": "'#F4EFE7'"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "background": {
+                          "solid": {
+                            "color": {
+                              "expr": {
+                                "Literal": {
+                                  "Value": "'#242725'"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "textSize": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "10D"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "11d0d6f3c6f5a7dd0eff": {
+            "singleVisual": {
+              "visualType": "lineChart",
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Deep Dive Calendar"
+                        }
+                      },
+                      "Property": "Month"
+                    }
+                  }
+                }
+              ]
+            },
+            "highlight": {
+              "selection": []
+            }
+          },
+          "4c640d8e3e305a8e4998": {
+            "singleVisual": {
+              "visualType": "pivotTable"
+            },
+            "highlight": {
+              "selection": []
+            }
+          },
+          "d3e65b077257134ba242": {
+            "singleVisual": {
+              "visualType": "tableEx",
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Deep Dive Calendar"
+                        }
+                      },
+                      "Property": "Month"
+                    }
+                  }
+                }
+              ]
+            },
+            "highlight": {
+              "selection": []
+            }
+          }
+        }
+      }
+    }
+  }
+}

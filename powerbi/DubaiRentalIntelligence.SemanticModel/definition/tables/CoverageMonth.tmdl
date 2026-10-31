@@ -1,0 +1,70 @@
+table CoverageMonth
+	lineageTag: 15f2352a-bb51-4afa-9626-029ff70da7f2
+
+	column month_date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: 3b6c22fb-b4ee-4c70-b310-c307658cc1f7
+		summarizeBy: none
+		sourceColumn: month_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column observed_listings
+		dataType: int64
+		lineageTag: 54bca1a6-bea9-4bdb-9e83-fb4136b7c564
+		summarizeBy: none
+		sourceColumn: observed_listings
+
+	column active_listings
+		dataType: int64
+		lineageTag: 18608a87-c223-4a28-b617-65237d8becfe
+		summarizeBy: none
+		sourceColumn: active_listings
+
+	column neighborhood_missing_pct
+		dataType: double
+		lineageTag: 437901db-dc1b-49cb-84fd-5b636d2fd3da
+		summarizeBy: none
+		sourceColumn: neighborhood_missing_pct
+
+	column bedrooms_missing_pct
+		dataType: double
+		lineageTag: 281b4be3-9b63-4cb4-8eb8-e5e33bef4011
+		summarizeBy: none
+		sourceColumn: bedrooms_missing_pct
+
+	column same_listing_prev_month
+		dataType: int64
+		lineageTag: 81a206dd-b23e-472d-af9f-0691ed725bb5
+		summarizeBy: none
+		sourceColumn: same_listing_prev_month
+
+	column median_active_adr_aed
+		dataType: double
+		lineageTag: aafd7c29-5d85-4fe3-a610-2b048ef6bc39
+		summarizeBy: none
+		sourceColumn: median_active_adr_aed
+
+	column median_active_estimated_occupancy
+		dataType: double
+		lineageTag: 869c9860-61e5-407c-a72a-007c83904cb5
+		summarizeBy: none
+		sourceColumn: median_active_estimated_occupancy
+
+	column coverage_change_pct
+		dataType: double
+		lineageTag: 7fe5f7a6-00c4-4429-80fa-dc0d376ebbe8
+		summarizeBy: none
+		sourceColumn: coverage_change_pct
+
+	partition CoverageMonth = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/CoverageMonth.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"month_date", type date}, {"observed_listings", Int64.Type}, {"active_listings", Int64.Type}, {"neighborhood_missing_pct", type number}, {"bedrooms_missing_pct", type number}, {"same_listing_prev_month", Int64.Type}, {"median_active_adr_aed", type number}, {"median_active_estimated_occupancy", type number}, {"coverage_change_pct", type number}}, "en-US")
+				in Typed
+

@@ -1,0 +1,82 @@
+table 'Trends Metric'
+	lineageTag: 901c7f94-81db-5749-8202-6eb005fbea33
+
+	measure 'Trends Metric Label' = SELECTEDVALUE('Trends Metric'[Metric], "Nightly rate")
+		displayFolder: Market Trends
+		lineageTag: f8da2853-0144-52e8-a0cd-36837111b795
+
+	measure 'Trends Monthly Value' =
+			VAR Choice = SELECTEDVALUE('Trends Metric'[Metric], "Nightly rate")
+			RETURN CALCULATE(SWITCH(Choice,
+			"Est. occupancy", [Median Estimated Occupancy],
+			"Est. revenue", CALCULATE(MEDIAN(FactListingMonth[native_revenue]), FactListingMonth[active] = TRUE()),
+			[Median Reported Rate]), REMOVEFILTERS(DimListing), REMOVEFILTERS(FactListingMonth[listing_id]))
+		displayFolder: Market Trends
+		lineageTag: de1a3270-b99c-5388-a8b9-4e302656a2f4
+
+		formatStringDefinition = IF([Trends Metric Label]="Est. occupancy", "0.0%", UNICHAR(34) & "AED " & UNICHAR(34) & "#,0")
+
+	measure 'Trends Contributing Listings' =
+			VAR Choice = SELECTEDVALUE('Trends Metric'[Metric], "Nightly rate")
+			RETURN CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]), REMOVEFILTERS(DimListing), REMOVEFILTERS(FactListingMonth[listing_id]), FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(FactListingMonth, SWITCH(Choice,"Est. occupancy", NOT ISBLANK(FactListingMonth[occupancy]), "Est. revenue", NOT ISBLANK(FactListingMonth[native_revenue]), NOT ISBLANK(FactListingMonth[native_avg_daily_rate])))))
+		formatString: #,0
+		displayFolder: Market Trends
+		lineageTag: 25468ad2-22c6-5659-8271-db6d3a2ea0f9
+
+	measure 'Trends Seasonal Value' =
+			VAR Months = ADDCOLUMNS(VALUES(DimMonth[month_date]), "@Value", [Trends Monthly Value])
+			RETURN MEDIANX(FILTER(Months, NOT ISBLANK([@Value])), [@Value])
+		displayFolder: Market Trends
+		lineageTag: e9834d4b-d768-522f-aeb2-a9566b0c49c0
+
+		formatStringDefinition = IF([Trends Metric Label]="Est. occupancy", "0.0%", UNICHAR(34) & "AED " & UNICHAR(34) & "#,0")
+
+	measure 'Trends Seasonal Months' = COUNTROWS(FILTER(VALUES(DimMonth[month_date]), NOT ISBLANK([Trends Monthly Value])))
+		formatString: 0
+		displayFolder: Market Trends
+		lineageTag: e19d82cb-84cb-57f5-9513-373957565d43
+
+	measure 'Trends Timeline' =
+			VAR StartMonth = CALCULATE(MIN(FactListingMonth[month_date]), REMOVEFILTERS())
+			VAR EndMonth = CALCULATE(MAX(FactListingMonth[month_date]), REMOVEFILTERS())
+			RETURN "FULL OBSERVED TIMELINE  |  " & FORMAT(StartMonth,"MMMM yyyy","en-US") & " - " & FORMAT(EndMonth,"MMMM yyyy","en-US")
+		displayFolder: Market Trends
+		lineageTag: 9e36ee90-940b-546a-9bfb-a2930f1f0f2d
+
+	measure 'Trends Chart Title' = SWITCH([Trends Metric Label],"Est. occupancy","Median estimated occupancy (%)","Est. revenue","Median estimated monthly revenue / listing (AED)","Median reported nightly rate (AED)")
+		displayFolder: Market Trends
+		lineageTag: 0ef7d5ba-3823-599f-8e85-6ad57be4ad43
+
+	measure 'Trends Methodology' = "Active observed records; nonblank selected metric. Zero estimates retained. AirROI estimates are not verified outcomes; sample is not a census."
+		displayFolder: Market Trends
+		lineageTag: 8bdc3d70-6dcc-5887-b928-84f391de1871
+
+	measure 'Trends Seasonal Methodology' = "Median of year-month medians: each valid year-month has equal weight. Descriptive calendar pattern, not a causal seasonal effect."
+		displayFolder: Market Trends
+		lineageTag: 6d9cd32e-e2e5-5ffa-8c07-eafdeef0a32e
+
+	measure 'Trends Empty Context' =
+			VAR AvailableMonths = CALCULATE(COUNTROWS(FILTER(VALUES(DimMonth[month_date]), NOT ISBLANK([Trends Monthly Value]))), REMOVEFILTERS(DimMonth))
+			RETURN IF(AvailableMonths=0,"No active observations for this Market Lens and metric.","Active observed sample | " & FORMAT(AvailableMonths,"0") & " contributing months | blanks remain missing")
+		displayFolder: Market Trends
+		lineageTag: ceb8e53a-edd8-5e48-a761-bbf0707639e4
+
+	column Metric
+		dataType: string
+		lineageTag: 849cf5f9-8076-526d-952c-3701a6cd04c9
+		summarizeBy: none
+		sourceColumn: [Metric]
+		sortByColumn: SortOrder
+
+	column SortOrder
+		dataType: int64
+		isHidden
+		lineageTag: fa3aa553-775e-524a-bc87-74f871e6776c
+		summarizeBy: none
+		sourceColumn: [SortOrder]
+
+	partition 'Trends Metric' = calculated
+		mode: import
+		source = DATATABLE("Metric", STRING, "SortOrder", INTEGER, {{"Nightly rate",1},{"Est. occupancy",2},{"Est. revenue",3}})
+

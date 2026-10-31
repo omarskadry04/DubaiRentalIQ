@@ -1,0 +1,1078 @@
+table Analytics
+	lineageTag: abf8548f-a5ce-46b5-bb87-7447d6d04172
+
+	measure 'Observed Listings' = COALESCE((DISTINCTCOUNT(FactListingMonth[listing_id])), 0)
+		formatString: #,0
+		displayFolder: Market
+		lineageTag: 19721832-045f-4c58-8815-22e49e4c7164
+
+	measure 'Active Listings' = COALESCE((CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]), FactListingMonth[active] = TRUE())), 0)
+		formatString: #,0
+		displayFolder: Market
+		lineageTag: 2bd5109d-b5bf-4636-b859-19d48fe0d1e0
+
+	measure 'Active Listing Months' = COALESCE((CALCULATE(COUNTROWS(FactListingMonth), FactListingMonth[active] = TRUE())), 0)
+		formatString: #,0
+		displayFolder: Market
+		lineageTag: 16c59370-d577-4e94-b9e3-bd79162b3085
+
+	measure 'Median Reported Rate' = CALCULATE(MEDIAN(FactListingMonth[native_avg_daily_rate]), FactListingMonth[active] = TRUE())
+		formatString: "AED "#,0
+		displayFolder: Market
+		lineageTag: e34837b3-c344-48cc-99a5-2b63d4e6a48e
+
+	measure 'Mean Reported Rate' = CALCULATE(AVERAGE(FactListingMonth[native_avg_daily_rate]), FactListingMonth[active] = TRUE())
+		formatString: "AED "#,0
+		displayFolder: Market
+		lineageTag: 2ed51a03-21ef-405e-bceb-edf9a853ac44
+
+	measure 'Zero Estimated Occupancy Listings' = COALESCE(CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]), FactListingMonth[active] = TRUE(), FactListingMonth[occupancy] = 0), 0)
+		formatString: #,0
+		displayFolder: Market
+		lineageTag: 424c0816-d37c-44e0-8c6e-c6e8cf1ed971
+
+	measure 'Median Estimated Occupancy' = CALCULATE(MEDIAN(FactListingMonth[occupancy]), FactListingMonth[active] = TRUE())
+		formatString: 0.0%
+		displayFolder: Market
+		lineageTag: 222280f3-26f2-4f0d-94e3-a4041b8d7845
+
+	measure 'Estimated Revenue' = CALCULATE(SUM(FactListingMonth[native_revenue]), FactListingMonth[active] = TRUE())
+		formatString: "AED "#,0
+		displayFolder: Market
+		lineageTag: 8905fae7-1c66-46ae-9ab2-b2beff3c97ac
+
+	measure 'Zero Occupancy Share' = DIVIDE(COALESCE(CALCULATE(COUNTROWS(FactListingMonth), FactListingMonth[active] = TRUE(), FactListingMonth[occupancy] = 0), 0), [Active Listing Months])
+		formatString: 0.0%
+		displayFolder: Market
+		lineageTag: 0760ad27-7391-4264-b515-d8bcfe05d602
+
+	measure 'Benchmarked Listing Months' = COALESCE((CALCULATE(COUNTROWS(FactListingMonth), FactListingMonth[comparison_status] = "Eligible")), 0)
+		formatString: #,0
+		displayFolder: Benchmark
+		lineageTag: 69a90ab9-2810-4585-87a5-a9beaf8f608f
+
+	measure 'Benchmark Coverage' = DIVIDE([Benchmarked Listing Months], [Active Listing Months])
+		formatString: 0.0%
+		displayFolder: Benchmark
+		lineageTag: 4585669a-fc00-48ce-aec4-e8c42b3b8d55
+
+	measure 'Review Candidates' = COALESCE((CALCULATE(COUNTROWS(FactListingMonth), FactListingMonth[review_signal] IN {"Review", "Large deviation"})), 0)
+		formatString: #,0
+		displayFolder: Benchmark
+		lineageTag: b8cb03a1-4457-451f-b25a-169aa1cd63af
+
+	measure 'Review Candidate Share' = DIVIDE([Review Candidates], [Benchmarked Listing Months])
+		formatString: 0.0%
+		displayFolder: Benchmark
+		lineageTag: b042b0ed-40bd-4a46-a6f3-3344b6eb80df
+
+	measure 'Above Peer Candidates' = COALESCE((CALCULATE([Review Candidates], FactListingMonth[premium_pct] > 0)), 0)
+		formatString: #,0
+		displayFolder: Benchmark
+		lineageTag: 2d2510c5-ebd5-4dad-8e3d-ec7206525c7a
+
+	measure 'Below Peer Candidates' = COALESCE((CALCULATE([Review Candidates], FactListingMonth[premium_pct] < 0)), 0)
+		formatString: #,0
+		displayFolder: Benchmark
+		lineageTag: 2e118b58-5d4d-45b8-b0c0-55f23e662fc1
+
+	measure 'Wider Radius Benchmarks' = COALESCE((CALCULATE([Benchmarked Listing Months], FactListingMonth[radius_km] = 5)), 0)
+		formatString: #,0
+		displayFolder: Benchmark
+		lineageTag: ac741d5b-c013-4543-9731-c11c67ad0fb0
+
+	measure 'High Dispersion Benchmarks' = COALESCE((CALCULATE([Benchmarked Listing Months], FactListingMonth[peer_iqr_ratio] > 0.4)), 0)
+		formatString: #,0
+		displayFolder: Benchmark
+		lineageTag: c0175a3c-e36a-477b-83b1-3edff21f57ac
+
+	measure 'Active Without Benchmark' = [Active Listing Months] - [Benchmarked Listing Months]
+		formatString: #,0
+		displayFolder: Benchmark
+		lineageTag: a25a9fc0-029e-45a8-9fe5-c51d2b3a2d10
+
+	measure 'Single Property Month' = IF(HASONEVALUE(DimListing[listing_id]) && HASONEVALUE(DimMonth[month_date]) && COUNTROWS(FactListingMonth) = 1, 1, 0)
+		formatString: 0
+		displayFolder: Context
+		lineageTag: c82d14b8-63b4-439c-aa0c-fa04664bc043
+
+	measure 'Selected Rate' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[native_avg_daily_rate]))
+		formatString: "AED "#,0
+		displayFolder: Selected property
+		lineageTag: 98220e6c-3648-4438-8531-3eeecf8b7c36
+
+	measure 'Selected Peer Median' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[peer_median_aed]))
+		formatString: "AED "#,0
+		displayFolder: Selected property
+		lineageTag: 784a36d7-45d8-4c38-a0d3-e585d857f5c5
+
+	measure 'Selected Peer P25' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[peer_p25_aed]))
+		formatString: "AED "#,0
+		displayFolder: Selected property
+		lineageTag: e5dc414e-a425-42b6-9cdf-6824fca2ad0f
+
+	measure 'Selected Peer P75' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[peer_p75_aed]))
+		formatString: "AED "#,0
+		displayFolder: Selected property
+		lineageTag: e2a18763-2d9d-4e3e-995e-dd4f41a2e821
+
+	measure 'Selected Peer Count' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[peer_count]))
+		formatString: #,0
+		displayFolder: Selected property
+		lineageTag: 1793b2d5-913c-490b-a81e-29c502f01805
+
+	measure 'Selected Radius' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[radius_km]))
+		formatString: 0" km"
+		displayFolder: Selected property
+		lineageTag: 15f23945-7bd4-413d-b37d-4b90465191da
+
+	measure 'Selected Estimated Occupancy' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[occupancy]))
+		formatString: 0.0%
+		displayFolder: Selected property
+		lineageTag: a694522c-0871-4867-aa88-9c37c36f6d9f
+
+	measure 'Selected Estimated Revenue' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[native_revenue]))
+		formatString: "AED "#,0
+		displayFolder: Selected property
+		lineageTag: 16be5b74-f030-441d-9056-35022911744b
+
+	measure 'Selected Latitude' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[latitude]))
+		formatString: 0.00000
+		displayFolder: Selected property
+		lineageTag: ff18711d-e730-47a0-81ab-cbac2a46b58e
+
+	measure 'Selected Longitude' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[longitude]))
+		formatString: 0.00000
+		displayFolder: Selected property
+		lineageTag: 5e348507-7432-4fc7-888d-221e5dc188e7
+
+	measure 'Selected Premium' = IF([Single Property Month] = 1, DIVIDE(SELECTEDVALUE(FactListingMonth[premium_pct]), 100))
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Selected property
+		lineageTag: 711429d6-19a9-4bdf-9b98-9543c4726197
+
+	measure 'Selected Peer Dispersion' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[peer_iqr_ratio]))
+		formatString: 0.0%
+		displayFolder: Selected property
+		lineageTag: 36853365-cff9-44f4-bc59-e5999cc5ec23
+
+	measure 'Selected Comparison Status' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[comparison_status]), "Select one listing and one month")
+		displayFolder: Selected property
+		lineageTag: 10c1cc51-b374-4808-ab26-6db193342a6a
+
+	measure 'Selected Property Identity' = SELECTEDVALUE(DimListing[listing_id], "Select one listing")
+		displayFolder: Context
+		lineageTag: e73ec7dd-5cd4-4c58-be3d-200edd756ddf
+
+	measure 'Selected Context' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[room_type]) & " | " & SELECTEDVALUE(FactListingMonth[bedroom_label]) & " bedrooms | " & SELECTEDVALUE(FactListingMonth[area_label]), "Choose a single property and reporting month")
+		displayFolder: Context
+		lineageTag: c60cd248-3b26-462a-9c21-84fc4b6dcd51
+
+	measure 'Selected Month Label' = IF(HASONEVALUE(DimMonth[month_date]), FORMAT(MAX(DimMonth[month_date]), "MMM yyyy"), "Multiple months Ã¢â‚¬Â¢ listing-month metrics")
+		displayFolder: Context
+		lineageTag: 34076a0a-9c13-4374-8b9b-c6c245902db3
+
+	measure 'Latest Data Month' = CALCULATE(MAX(DimMonth[month_date]), REMOVEFILTERS(DimMonth))
+		formatString: MMM yyyy
+		displayFolder: Context
+		lineageTag: 8c702252-6460-427f-a16b-b5d46ec989ad
+
+	measure 'Evidence Summary' = IF([Single Property Month] <> 1, "Select one listing and one month to examine comparison evidence.", IF(ISBLANK([Selected Peer Median]), "No valid benchmark. Investigate eligibility and peer availability before pricing review.", FORMAT([Selected Rate], "AED #,0") & " reported rate vs " & FORMAT([Selected Peer Median], "AED #,0") & " full peer median; " & FORMAT([Selected Premium], "+0.0%;-0.0%") & ". " & FORMAT([Selected Peer Count], "0") & " peers within " & FORMAT([Selected Radius], "0") & " km; IQR / median " & FORMAT([Selected Peer Dispersion], "0%") & ". Unobserved quality and amenities may explain differences."))
+		displayFolder: Context
+		lineageTag: 96df324c-2dfb-4fa2-b787-6170b4d76c04
+
+	measure 'Example Visible' = VAR Subject = SELECTEDVALUE(DimListing[listing_id]) VAR Month = SELECTEDVALUE(DimMonth[month_date]) RETURN IF([Single Property Month] = 1 && Month = [Latest Data Month] && SELECTEDVALUE(PeerExamples[listing_id]) = Subject, 1, 0)
+		formatString: 0
+		displayFolder: Examples
+		lineageTag: eae1768c-b10c-4a38-ac37-f6642ab66ea0
+
+	measure 'Example Availability' = IF([Single Property Month] <> 1, "Select one property and month", IF(MAX(DimMonth[month_date]) <> [Latest Data Month], "Examples available for latest month only", "Up to five nearest examples Ã¢â‚¬Â¢ full benchmark uses all eligible peers"))
+		displayFolder: Examples
+		lineageTag: 181d82eb-6e38-47e3-af72-335d867540df
+
+	measure 'Global Observed Listing Months' = COALESCE((SUM(CoverageMonth[observed_listings])), 0)
+		formatString: #,0
+		displayFolder: Coverage
+		lineageTag: b0f25d24-4482-4473-a46e-30e187433aad
+
+	measure 'Global Active Listing Months' = COALESCE((SUM(CoverageMonth[active_listings])), 0)
+		formatString: #,0
+		displayFolder: Coverage
+		lineageTag: 6f67b2e6-2ad1-429c-9b13-c32fc020f9da
+
+	measure 'Unknown Area Share' = DIVIDE(CALCULATE(COUNTROWS(FactListingMonth), FactListingMonth[area_label] = "Unknown area"), COUNTROWS(FactListingMonth))
+		formatString: 0.0%
+		displayFolder: Coverage
+		lineageTag: fd290b0f-e462-4b6f-a027-28f3d750d4ae
+
+	measure 'Property Months Observed' = COALESCE((DISTINCTCOUNT(FactListingMonth[month_date])), 0)
+		formatString: 0
+		displayFolder: Coverage
+		lineageTag: 0d96d3cf-0648-4cdc-9c3c-bad4b0671dca
+
+	measure 'Cohort Median Rate' = CALCULATE([Median Reported Rate], FactListingMonth[stable_cohort] = TRUE())
+		formatString: "AED "#,0
+		displayFolder: Trends
+		lineageTag: 5d0da61b-7d1e-40b6-8c56-10e93ef8f29a
+
+	measure 'Cohort Active Listings' = COALESCE((CALCULATE([Active Listings], FactListingMonth[stable_cohort] = TRUE())), 0)
+		formatString: #,0
+		displayFolder: Trends
+		lineageTag: dd8ba531-e59c-49af-804a-1a67b30ab6f7
+
+	measure 'Trend Median Rate' = IF(SELECTEDVALUE(CohortSelector[Cohort], "Full sample") = "Fixed 12-month cohort", [Cohort Median Rate], [Median Reported Rate])
+		formatString: "AED "#,0
+		displayFolder: Trends
+		lineageTag: e6bcdaf0-d45e-40d5-9362-4941b2703ddd
+
+	measure 'Median Consecutive MoM Change' = DIVIDE(MEDIAN(FactListingMonth[mom_change_pct]), 100)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Trends
+		lineageTag: 262cee72-4504-49ef-9f44-745227bc0668
+
+	measure 'Mean Consecutive MoM Change' = DIVIDE(AVERAGE(FactListingMonth[mom_change_pct]), 100)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Trends
+		lineageTag: e24d5f8e-3839-4d51-8449-860415bb3e24
+
+	measure 'Consecutive Active Pairs' = COALESCE((COUNT(FactListingMonth[mom_change_pct])), 0)
+		formatString: #,0
+		displayFolder: Trends
+		lineageTag: cdb06265-1878-45cd-b61e-b27723ee67d6
+
+	measure 'Prior Month Median Rate' = VAR CurrentMonth = SELECTEDVALUE(DimMonth[month_date]) RETURN IF(NOT ISBLANK(CurrentMonth), CALCULATE([Median Reported Rate], REMOVEFILTERS(DimMonth), DimMonth[month_date] = EDATE(CurrentMonth, -1)))
+		formatString: "AED "#,0
+		displayFolder: Trends
+		lineageTag: f2ed69e7-ff2b-40c9-80d3-50f4304b69da
+
+	measure 'Sample Median MoM Change' = DIVIDE([Median Reported Rate] - [Prior Month Median Rate], [Prior Month Median Rate])
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Trends
+		lineageTag: 93ab0965-5586-47c7-9151-6468efb292b9
+
+	measure 'Rolling Three Month Median Rate' = VAR EndMonth = MAX(DimMonth[month_date]) RETURN CALCULATE([Median Reported Rate], FILTER(ALL(DimMonth), DimMonth[month_date] <= EndMonth && DimMonth[month_date] >= EDATE(EndMonth, -2)))
+		formatString: "AED "#,0
+		displayFolder: Trends
+		lineageTag: 0e1712cf-ca82-4bee-a1ab-c3b92e2ca963
+
+	measure 'Selected Metric Value' = SWITCH(SELECTEDVALUE(MetricSelector[Metric], "Reported rate (AED)"), "Estimated occupancy", [Median Estimated Occupancy], "Estimated revenue (AED)", [Estimated Revenue], [Median Reported Rate])
+		displayFolder: Interaction
+		lineageTag: d5df9d51-8290-48f3-8fb1-b1dde3104a3d
+
+		formatStringDefinition = IF(SELECTEDVALUE(MetricSelector[Metric], "Reported rate (AED)") = "Estimated occupancy", "0.0%", UNICHAR(34) & "AED " & UNICHAR(34) & "#,0")
+
+	measure 'Selected Metric Label' = SELECTEDVALUE(MetricSelector[Metric], "Reported rate (AED)")
+		displayFolder: Interaction
+		lineageTag: b8769216-3f43-4d70-a20b-5ded414ec69c
+
+	measure 'Review Sensitivity Count' = COALESCE((VAR Threshold = SELECTEDVALUE(ReviewThreshold[Threshold], 20) RETURN CALCULATE(COUNTROWS(FactListingMonth), FILTER(FactListingMonth, FactListingMonth[comparison_status] = "Eligible" && ABS(ROUND(FactListingMonth[premium_pct], 9)) >= Threshold))), 0)
+		formatString: #,0
+		displayFolder: Interaction
+		lineageTag: be7dccf3-0fd8-47c3-9fee-64970fe1c325
+
+	measure 'Sensitivity Caption' = "Exploratory threshold: " & FORMAT(SELECTEDVALUE(ReviewThreshold[Threshold], 20), "0") & "% Ã¢â‚¬Â¢ official 20% / 35% classifications remain unchanged"
+		displayFolder: Interaction
+		lineageTag: 985ecdd9-b1b4-471c-87d1-20b82d356038
+
+	measure 'Stronger Evidence Candidates' = IF(HASONEVALUE(DimMonth[month_date]) && MAX(DimMonth[month_date]) = [Latest Data Month], COALESCE(CALCULATE(COUNTROWS(FactListingMonth), FactListingMonth[priority_tier] = 1), 0))
+		formatString: #,0
+		displayFolder: Action queue
+		lineageTag: a2123506-34d5-4979-bab7-6d68846c33bb
+
+	measure 'Comparability Review Cases' = IF(HASONEVALUE(DimMonth[month_date]) && MAX(DimMonth[month_date]) = [Latest Data Month], COALESCE(CALCULATE(COUNTROWS(FactListingMonth), FactListingMonth[priority_tier] = 2), 0))
+		formatString: #,0
+		displayFolder: Action queue
+		lineageTag: 7eab64a1-eb38-4682-9507-82818f51e4e4
+
+	measure 'Coverage Investigation Cases' = IF(HASONEVALUE(DimMonth[month_date]) && MAX(DimMonth[month_date]) = [Latest Data Month], COALESCE(CALCULATE(COUNTROWS(FactListingMonth), FactListingMonth[priority_tier] = 3), 0))
+		formatString: #,0
+		displayFolder: Action queue
+		lineageTag: ff18b04b-aa79-4604-b932-3facff1f8bf2
+
+	measure 'Monitor Cases' = IF(HASONEVALUE(DimMonth[month_date]) && MAX(DimMonth[month_date]) = [Latest Data Month], COALESCE(CALCULATE(COUNTROWS(FactListingMonth), FactListingMonth[priority_tier] = 4), 0))
+		formatString: #,0
+		displayFolder: Action queue
+		lineageTag: 662d6a03-e481-47f1-8c55-b05ab274f0cc
+
+	measure 'Latest Priority Order' = IF([Single Property Month] = 1, SELECTEDVALUE(FactListingMonth[review_order]))
+		formatString: #,0
+		displayFolder: Action queue
+		lineageTag: 6883b62e-0bca-413d-bf81-a925966e2584
+
+	measure 'Review Rank In Selection' = IF([Single Property Month] = 1 && NOT ISBLANK(SELECTEDVALUE(FactListingMonth[review_order])), RANKX(FILTER(ALLSELECTED(DimListing[listing_id]), NOT ISBLANK(CALCULATE(MIN(FactListingMonth[review_order])))), CALCULATE(MIN(FactListingMonth[review_order])), , ASC, DENSE))
+		formatString: #,0
+		displayFolder: Action queue
+		lineageTag: 819ce461-07e7-4302-b5bd-538854a5c3bd
+
+	measure 'Selected Action' = IF([Single Property Month] = 1 && MAX(DimMonth[month_date]) = [Latest Data Month], SELECTEDVALUE(FactListingMonth[action], "Inactive / outside latest active queue"), "Priority queue is latest-month only")
+		displayFolder: Action queue
+		lineageTag: 1d2474ed-68f8-4380-83ca-3e21f18e6c82
+
+	measure 'Action Explanation' = VAR Tier = SELECTEDVALUE(FactListingMonth[priority_tier]) RETURN IF([Single Property Month] <> 1, "Select a queue property to inspect evidence", SWITCH(Tier, 1, "Review deviation: at least 20 peers, 2 km radius, and peer IQR no more than 40% of median. Confirm quality and amenities before action.", 2, "Comparability review first: substantial deviation with wider radius, fewer peers, or greater price dispersion.", 3, "Investigate eligibility, missing metadata, and nearby peer availability. No valid benchmark supports a price comparison.", 4, "Monitor: reported rate is within the official 20% review threshold.", "No latest-month active priority record in this context."))
+		displayFolder: Action queue
+		lineageTag: 5d5a975d-9597-4674-9150-01d336870119
+
+	measure 'Market Evidence' = FORMAT([Active Listings], "#,0") & " active sampled listings; " & FORMAT([Benchmark Coverage], "0%") & " benchmark coverage. " & FORMAT([Review Candidates], "#,0") & " listing-month review candidates. Provider-estimated occupancy and revenue are not validated business outcomes."
+		displayFolder: Context
+		lineageTag: 1f127959-b354-4c8d-80b3-d2a88da9b13a
+
+	measure 'Executive Revenue Millions' = DIVIDE([Estimated Revenue], 1000000)
+		formatString: """AED ""0.00""m"""
+		displayFolder: Executive
+		lineageTag: e7058abe-c791-45b4-aa6b-eb7582e3c6ed
+
+	measure 'Executive Period' = IF(HASONEVALUE(DimMonth[month_date]), FORMAT(MAX(DimMonth[month_date]), "MMMM yyyy"), FORMAT(COUNTROWS(VALUES(DimMonth[month_date])), "0") & " selected months")
+		displayFolder: Executive
+		lineageTag: 9b17bee8-6900-4151-9cf1-1aa29231cb23
+
+	measure 'Executive Insight' = IF([Active Listing Months] = 0, "No active observations match these filters. Clear a selection to restore the market view.", FORMAT([Review Candidates], "#,0") & " review signals across " & FORMAT([Benchmarked Listing Months], "#,0") & " benchmarked listing-months. " & FORMAT([High Dispersion Benchmarks], "#,0") & " peer groups have IQR above 40% of median. Investigate comparability before considering a rate change.")
+		displayFolder: Executive
+		lineageTag: 9c72076f-7cce-4770-8756-3b5236614e35
+
+	measure 'Coverage Context' = FORMAT([Observed Listings], "#,0") & " observed properties in selection / " & FORMAT([Global Observed Listing Months], "#,0") & " dataset-wide listing-months. " & FORMAT([Unknown Area Share], "0%") & " of selected records lack a named area."
+		displayFolder: Executive
+		lineageTag: bf46c8aa-fd7a-4bd2-8889-556d11267720
+
+	measure 'Benchmark Context' = FORMAT([Benchmarked Listing Months], "#,0") & " benchmarked / " & FORMAT([Active Listing Months], "#,0") & " active listing-months"
+		displayFolder: Executive
+		lineageTag: 8539f378-dba8-4a49-8dfc-3fe4698cde7a
+
+	measure 'KPI Active Value' = FORMAT([Active Listings], "#,0")
+		displayFolder: Executive
+		lineageTag: 3b1aacf3-0d22-462e-9c5f-0d15184c7120
+
+	measure 'KPI Rate Value' = IF(ISBLANK([Median Reported Rate]), "No data", FORMAT([Median Reported Rate], "#,0") & " AED")
+		displayFolder: Executive
+		lineageTag: 5a51e0b5-caad-4037-8d63-7fb751a2b561
+
+	measure 'KPI Occupancy Value' = IF(ISBLANK([Median Estimated Occupancy]), "No data", FORMAT([Median Estimated Occupancy], "0.0%"))
+		displayFolder: Executive
+		lineageTag: 5cceeaad-59f3-4155-94bf-c16e95f7ead3
+
+	measure 'KPI Revenue Value' = IF(ISBLANK([Estimated Revenue]), "No data", FORMAT(DIVIDE([Estimated Revenue], 1000000), "0.00") & "m AED")
+		displayFolder: Executive
+		lineageTag: 02982037-2d24-40b6-9c61-df84c96feaac
+
+	measure 'KPI Active Context' = FORMAT([Observed Listings], "#,0") & " observed unique properties"
+		displayFolder: Executive
+		lineageTag: 9f99c2dc-4de1-4149-aaaf-9bc31d8e366e
+
+	measure 'KPI Rate Context' = IF(HASONEVALUE(DimMonth[month_date]) && NOT ISBLANK([Sample Median MoM Change]), FORMAT([Sample Median MoM Change], "+0.0%;-0.0%;0.0%") & " vs prior month / changing sample", "Pooled median across active listing-months")
+		displayFolder: Executive
+		lineageTag: d56e43c7-29be-40d0-aff4-2259864e9474
+
+	measure 'KPI Occupancy Context' = IF(ISBLANK([Zero Occupancy Share]), "No active observations", FORMAT([Zero Occupancy Share], "0.0%") & " of active records have zero occupancy")
+		displayFolder: Executive
+		lineageTag: 4ebcfe8c-65d2-40a8-b104-12f76b724fed
+
+	measure 'KPI Revenue Context' = FORMAT([Active Listing Months], "#,0") & " active listing-months / source sum"
+		displayFolder: Executive
+		lineageTag: f1e3c61d-b33c-4d5e-8ce8-9f3b6d095fea
+
+	measure 'Review Headline' = FORMAT([Review Candidates], "#,0")
+		displayFolder: Executive
+		lineageTag: c9d7203a-b902-499c-975d-525ecb322a93
+
+	measure 'Review Subtitle' = IF(ISBLANK([Review Candidate Share]), "No eligible comparison in this selection", FORMAT([Review Candidate Share], "0.0%") & " of benchmarked records trigger review")
+		displayFolder: Executive
+		lineageTag: be632270-f4e0-4eb2-82c1-84abe1f0d573
+
+	measure 'Coverage Headline' = IF(ISBLANK([Benchmark Coverage]), "No benchmark coverage", FORMAT([Benchmark Coverage], "0.0%") & " benchmark coverage")
+		displayFolder: Executive
+		lineageTag: 1f424797-49d7-4367-9b77-dbec3408ae65
+
+	measure 'Review Directions' = FORMAT([Above Peer Candidates], "#,0") & " above   /   " & FORMAT([Below Peer Candidates], "#,0") & " below peer median"
+		displayFolder: Executive
+		lineageTag: 7e4258ec-56ef-48e7-a323-1fe55408c7d8
+
+	measure 'Review Evidence Detail' = IF(ISBLANK([Stronger Evidence Candidates]), "Priority tiers are available for the latest month only. Select the latest month to inspect stronger-evidence cases.", FORMAT([Stronger Evidence Candidates], "#,0") & " stronger-evidence cases" & UNICHAR(10) & FORMAT([Comparability Review Cases], "#,0") & " need comparability review" & UNICHAR(10) & FORMAT([Coverage Investigation Cases], "#,0") & " active properties lack a valid benchmark")
+		displayFolder: Executive
+		lineageTag: 1ba03bb2-9e63-4217-8b90-b5d0155b03b1
+
+	measure 'Executive Decision Brief' = IF([Active Listing Months] = 0, "No active observations match this selection. Clear the filters to restore the market view.", FORMAT([High Dispersion Benchmarks], "#,0") & " of " & FORMAT([Benchmarked Listing Months], "#,0") & " peer groups show wide price dispersion (IQR > 40% of median). Review amenities, quality and capacity before considering price changes.")
+		displayFolder: Executive
+		lineageTag: 8b5605ff-2676-4946-afd2-0e955a1a5bf6
+
+	measure 'Dataset Coverage Brief' = FORMAT([Global Observed Listing Months], "#,0") & " dataset-wide observations" & UNICHAR(10) & "Coverage changes across months; this is a sample, not a census."
+		displayFolder: Executive
+		lineageTag: 407f1e1b-58f3-4ad9-bae5-262def182457
+
+	measure 'Executive Footer' = FORMAT([Global Observed Listing Months], "#,0") & " dataset-wide listing-months in selected period. AirROI sample, not a census. Estimated performance; review signals, not proven mispricing."
+		displayFolder: Executive
+		lineageTag: 1c217f60-35df-40a9-9067-8473beab1b76
+
+	measure 'Entire Home Share' = DIVIDE(CALCULATE([Active Listing Months], KEEPFILTERS(FactListingMonth[room_type] = "entire_home")), [Active Listing Months])
+		formatString: 0.0%
+		displayFolder: Executive
+		lineageTag: cbbd9b2a-dedc-4b71-82b1-4b19ca399442
+
+	measure 'Sample Mix Brief' = IF(ISBLANK([Entire Home Share]), "No active sample", FORMAT([Entire Home Share], "0.0%") & " entire homes" & UNICHAR(10) & "Share of selected active records")
+		displayFolder: Executive
+		lineageTag: 126f55ec-cdc1-4bed-96bd-c2cfc33b3812
+
+	measure 'Selected Metric Smoother' = VAR EndMonth = MAX(DimMonth[month_date]) VAR Months = FILTER(ALL(DimMonth), DimMonth[month_date] <= EndMonth && DimMonth[month_date] >= EDATE(EndMonth,-2)) RETURN IF(COUNTROWS(Months) = 3, AVERAGEX(Months, CALCULATE([Selected Metric Value])))
+		displayFolder: Trends
+		lineageTag: a8e2439b-7337-43e4-ae0b-725f293af7b4
+
+		formatStringDefinition = IF(SELECTEDVALUE(MetricSelector[Metric], "Reported rate (AED)") = "Estimated occupancy", "0.0%", UNICHAR(34) & "AED " & UNICHAR(34) & "#,0")
+
+	measure 'Brief Rate Context' = IF(HASONEVALUE(DimMonth[month_date]) && NOT ISBLANK([Sample Median MoM Change]), FORMAT([Sample Median MoM Change], "+0.0%;-0.0%;0.0%") & " vs prior month", "Pooled active listing-month median")
+		displayFolder: Executive display
+		lineageTag: 38f81984-17f4-49af-b853-861839342ff2
+
+	measure 'Brief Occupancy Context' = IF(ISBLANK([Zero Occupancy Share]), "No active observations", FORMAT([Zero Occupancy Share], "0.0%") & " with zero estimated occupancy")
+		displayFolder: Executive display
+		lineageTag: 1c88f5fb-8168-404c-9714-77f30d3fcf5f
+
+	measure 'Brief Revenue Context' = FORMAT([Active Listing Months], "#,0") & " active listing-months"
+		displayFolder: Executive display
+		lineageTag: 19298240-a333-49c7-8c07-8541a4e77380
+
+	measure 'Brief Sample Mix' = IF(ISBLANK([Entire Home Share]), "No active sample", FORMAT([Entire Home Share], "0.0%") & " entire homes" & UNICHAR(10) & "Selected active records")
+		displayFolder: Executive display
+		lineageTag: 5e1b35cc-8a4c-4bf7-874e-e918f278c12a
+
+	measure 'Brief Dispersion Finding' = SWITCH(TRUE(), [Active Listing Months] = 0, "No active observations match this selection.", [Benchmarked Listing Months] = 0, "No valid peer benchmarks for this selection.", FORMAT([High Dispersion Benchmarks], "#,0") & " / " & FORMAT([Benchmarked Listing Months], "#,0") & " peer groups have wide price dispersion")
+		displayFolder: Executive display
+		lineageTag: 9f0443bc-ecf1-406b-90ad-296225376f89
+
+	measure 'Brief Evidence Next Step' = SWITCH(TRUE(), [Active Listing Months] = 0, "Restore the default view or relax a filter.", [Benchmarked Listing Months] = 0, "Peer-price dispersion cannot be assessed." & UNICHAR(10) & "Next: check missing metadata and peer eligibility.", "IQR > 40% of median: comparability needs investigation." & UNICHAR(10) & "Next: compare amenities, quality and capacity before pricing action.")
+		displayFolder: Executive display
+		lineageTag: af2c1775-2c53-4db5-8205-c7573e7ecb81
+
+	measure 'Studio Candidate Available' = IF(COUNTROWS(FactListingMonth) > 0, 1, 0)
+		formatString: 0
+		displayFolder: Studio\Discovery
+		lineageTag: 6bd02b74-40be-4548-9b93-934e443d5db0
+
+	measure 'Studio Property Month Valid' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF(ISFILTERED(DimListing[listing_id]) && COUNTROWS(FILTERS(DimListing[listing_id])) = 1 && HASONEVALUE(DimMonth[month_date]) && CALCULATE([Single Property Month], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) = 1, 1, 0)), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF(ISFILTERED(DimListing[listing_id]) && COUNTROWS(FILTERS(DimListing[listing_id])) = 1 && HASONEVALUE(DimMonth[month_date]) && CALCULATE([Single Property Month], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) = 1, 1, 0)))
+		formatString: 0
+		displayFolder: Studio\Pricing
+		lineageTag: 5cfcf5df-53d0-598e-aab6-60eeb4d83983
+
+	measure 'Studio Selection Message' =
+			VAR Inbound = ISFILTERED(FactListingMonth[listing_id])
+			VAR PropertyID = [Studio Explicit Property]
+			VAR ComparisonMonth = IF(Inbound, [Investigation Snapshot Month], SELECTEDVALUE(DimMonth[month_date]))
+			RETURN SWITCH(TRUE(),
+			Inbound && ISBLANK(PropertyID), "Select one investigation property.",
+			NOT Inbound && NOT ISFILTERED(DimListing[listing_id]), "Select a property to begin your pricing investigation.",
+			ISBLANK(PropertyID), "Select one property to continue.",
+			ISBLANK(ComparisonMonth), "Listing " & PropertyID & " | Select one reporting month.",
+			IF(Inbound, "PROPERTY INVESTIGATION", "DIRECT PROPERTY RESEARCH") & " | Listing " & PropertyID & " | " & FORMAT(ComparisonMonth,"MMMM yyyy","en-US") & IF([Studio Property Month Valid] <> 1," | No observation.",""))
+		displayFolder: Studio\Pricing
+		lineageTag: 7d22cac1-2a46-55d6-bbe0-204190fbf291
+
+	measure 'Studio Property Rate' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] = 1, CALCULATE([Selected Rate], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] = 1, CALCULATE([Selected Rate], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))))
+		formatString: "AED "#,0.00
+		displayFolder: Studio\Pricing
+		lineageTag: 36bc9fef-7c9b-5596-9080-8e7279f65cb2
+
+	measure 'Studio Comparison Status' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] = 1, CALCULATE([Selected Comparison Status], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] = 1, CALCULATE([Selected Comparison Status], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))))
+		displayFolder: Studio\Pricing
+		lineageTag: d1653691-df7d-5a79-8e72-2c3c2e73b507
+
+	measure 'Studio Peer Median' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((VAR MedianRate = CALCULATE([Selected Peer Median], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) RETURN IF([Studio Property Month Valid] = 1 && [Studio Comparison Status] = "Eligible" && MedianRate > 0, MedianRate)), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(VAR MedianRate = CALCULATE([Selected Peer Median], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) RETURN IF([Studio Property Month Valid] = 1 && [Studio Comparison Status] = "Eligible" && MedianRate > 0, MedianRate)))
+		formatString: "AED "#,0.00
+		displayFolder: Studio\Pricing
+		lineageTag: 66218555-3a99-599f-8764-94965355c4e4
+
+	measure 'Studio Premium' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] = 1 && NOT ISBLANK([Studio Property Rate]) && NOT ISBLANK([Studio Peer Median]), CALCULATE([Selected Premium], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] = 1 && NOT ISBLANK([Studio Property Rate]) && NOT ISBLANK([Studio Peer Median]), CALCULATE([Selected Premium], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))))
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Studio\Pricing
+		lineageTag: c22c71e6-d429-5682-b339-2109ea633b23
+
+	measure 'Studio Peer Count' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] = 1, CALCULATE([Selected Peer Count], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] = 1, CALCULATE([Selected Peer Count], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))))
+		formatString: #,0
+		displayFolder: Studio\Pricing
+		lineageTag: 1fa2fcca-cb91-5be8-ae99-cbb454a07191
+
+	measure 'Studio Radius' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] = 1, CALCULATE([Selected Radius], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] = 1, CALCULATE([Selected Radius], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))))
+		formatString: 0" km"
+		displayFolder: Studio\Pricing
+		lineageTag: e1184fcd-4a33-5de6-b572-d85f74e11e8e
+
+	measure 'Studio Dispersion' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] = 1, CALCULATE([Selected Peer Dispersion], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] = 1, CALCULATE([Selected Peer Dispersion], REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))))
+		formatString: 0.0%
+		displayFolder: Studio\Pricing
+		lineageTag: 103f4e8f-9424-5338-be8b-6c864923dc5a
+
+	measure 'Studio Review Signal' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[review_signal]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[review_signal]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))))
+		displayFolder: Studio\Pricing
+		lineageTag: d5be200a-8904-57e9-839d-bb38d64ea546
+
+	measure 'Studio Confidence' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[confidence_label]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[confidence_label]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))))
+		displayFolder: Studio\Pricing
+		lineageTag: 15eb9fc4-07d9-5bc8-9f7a-1431fbcfc9d7
+
+	measure 'Studio Peer Count Caption' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] <> 1, "Full-group count", IF([Studio Comparison Status] = "Eligible", "Valid comparable listings", IF([Studio Comparison Status] = "Insufficient peers", "Available candidates; fewer than 10", "Ineligible observation; no benchmark")))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] <> 1, "Full-group count", IF([Studio Comparison Status] = "Eligible", "Valid comparable listings", IF([Studio Comparison Status] = "Insufficient peers", "Available candidates; fewer than 10", "Ineligible observation; no benchmark")))))
+		displayFolder: Studio\Pricing
+		lineageTag: 58242de3-0dc2-5840-8314-e1987adc656d
+
+	measure 'Studio Evidence Status' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] <> 1, "Awaiting one property and month", "Comparison: " & [Studio Comparison Status])), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] <> 1, "Awaiting one property and month", "Comparison: " & [Studio Comparison Status])))
+		displayFolder: Studio\Pricing
+		lineageTag: 792e6a6a-3ac9-5632-ae92-2442a5758ba2
+
+	measure 'Studio Evidence Support' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] <> 1, "Peer count / radius / IQR: unavailable", "Peers: " & IF(ISBLANK([Studio Peer Count]), "unavailable", FORMAT([Studio Peer Count], "#,0")) & "  |  Radius: " & IF(ISBLANK([Studio Radius]), "unavailable", FORMAT([Studio Radius], "0") & " km"))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] <> 1, "Peer count / radius / IQR: unavailable", "Peers: " & IF(ISBLANK([Studio Peer Count]), "unavailable", FORMAT([Studio Peer Count], "#,0")) & "  |  Radius: " & IF(ISBLANK([Studio Radius]), "unavailable", FORMAT([Studio Radius], "0") & " km"))))
+		displayFolder: Studio\Pricing
+		lineageTag: 480247dc-08c7-535e-a66b-efdd9ebb84e1
+
+	measure 'Studio Evidence Signal' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] <> 1, "Review signal: unavailable", "Review signal: " & [Studio Review Signal])), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] <> 1, "Review signal: unavailable", "Review signal: " & [Studio Review Signal])))
+		displayFolder: Studio\Pricing
+		lineageTag: a004edaa-a970-5338-b7ec-9770173a3612
+
+	measure 'Studio EvidenceConfidence' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] <> 1, "Coverage classification: unavailable", "Coverage: " & [Studio Confidence])), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] <> 1, "Coverage classification: unavailable", "Coverage: " & [Studio Confidence])))
+		displayFolder: Studio\Pricing
+		lineageTag: c431132f-6922-5bd5-9585-6b35ce46d3b6
+
+	measure 'Studio Evidence Dispersion' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] <> 1 || ISBLANK([Studio Dispersion]), "Peer IQR / median: unavailable", "Peer IQR / median: " & FORMAT([Studio Dispersion], "0.0%"))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] <> 1 || ISBLANK([Studio Dispersion]), "Peer IQR / median: unavailable", "Peer IQR / median: " & FORMAT([Studio Dispersion], "0.0%"))))
+		displayFolder: Studio\Pricing
+		lineageTag: 389c8879-b4b7-5ce5-8ab9-4b6bb33b4f3d
+
+	measure 'Studio Peer P25' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((VAR P25Rate =
+			CALCULATE(
+			[Selected Peer P25],
+			REMOVEFILTERS(DimArea),
+			REMOVEFILTERS(DimAccommodation),
+			REMOVEFILTERS(DimBedrooms)
+			)
+			RETURN
+			IF(
+			[Studio Property Month Valid] = 1
+			&& [Studio Comparison Status] = "Eligible"
+			&& NOT ISBLANK(P25Rate)
+			&& P25Rate > 0,
+			P25Rate
+			)), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(VAR P25Rate =
+			CALCULATE(
+			[Selected Peer P25],
+			REMOVEFILTERS(DimArea),
+			REMOVEFILTERS(DimAccommodation),
+			REMOVEFILTERS(DimBedrooms)
+			)
+			RETURN
+			IF(
+			[Studio Property Month Valid] = 1
+			&& [Studio Comparison Status] = "Eligible"
+			&& NOT ISBLANK(P25Rate)
+			&& P25Rate > 0,
+			P25Rate
+			)))
+		formatString: #,0.00\ "د.إ.‏";-#,0.00\ "د.إ.‏";#,0.00\ "د.إ.‏"
+		lineageTag: 45bec006-8e09-45e8-8474-9087eae9215f
+
+		annotation PBI_FormatHint = {"currencyCulture":"ar-AE"}
+
+	measure Measure
+		lineageTag: d4f879d8-6294-4e79-acaf-621159df95fe
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Studio Peer P75' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((VAR P75Rate =
+			CALCULATE(
+			[Selected Peer P75],
+			REMOVEFILTERS(DimArea),
+			REMOVEFILTERS(DimAccommodation),
+			REMOVEFILTERS(DimBedrooms)
+			)
+			RETURN
+			IF(
+			[Studio Property Month Valid] = 1
+			&& [Studio Comparison Status] = "Eligible"
+			&& NOT ISBLANK(P75Rate)
+			&& P75Rate > 0,
+			P75Rate
+			)), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(VAR P75Rate =
+			CALCULATE(
+			[Selected Peer P75],
+			REMOVEFILTERS(DimArea),
+			REMOVEFILTERS(DimAccommodation),
+			REMOVEFILTERS(DimBedrooms)
+			)
+			RETURN
+			IF(
+			[Studio Property Month Valid] = 1
+			&& [Studio Comparison Status] = "Eligible"
+			&& NOT ISBLANK(P75Rate)
+			&& P75Rate > 0,
+			P75Rate
+			)))
+		formatString: #,0.00\ "د.إ.‏";-#,0.00\ "د.إ.‏";#,0.00\ "د.إ.‏"
+		lineageTag: 13a9344b-e393-46ce-bdf8-789fa4f3a85f
+
+		annotation PBI_FormatHint = {"currencyCulture":"ar-AE"}
+
+	measure 'Studio Price Position Value' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((SWITCH(SELECTEDVALUE('Studio Price Categories'[Metric]), "Peer P25", [Studio Peer P25], "Peer Median", [Studio Peer Median], "Peer P75", [Studio Peer P75], "Property Rate", [Studio Property Rate])), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(SWITCH(SELECTEDVALUE('Studio Price Categories'[Metric]), "Peer P25", [Studio Peer P25], "Peer Median", [Studio Peer Median], "Peer P75", [Studio Peer P75], "Property Rate", [Studio Property Rate])))
+		formatString: "AED "#,0.00
+		displayFolder: Studio\Analytics
+		lineageTag: a51ac2a4-98bf-5f5d-a82e-f63b235ccc3b
+
+	measure 'Studio Price Position Color' = SWITCH(SELECTEDVALUE('Studio Price Categories'[Metric]), "Peer P25", "#817E77", "Peer Median", "#A8A49A", "Peer P75", "#C5B9A8", "Property Rate", "#B58A5A", "#A8A49A")
+		displayFolder: Studio\Analytics
+		lineageTag: abda9422-66b5-520b-b2d3-a38a466fd626
+
+	measure 'Studio Explicit Property' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF(ISFILTERED(DimListing[listing_id]) && COUNTROWS(FILTERS(DimListing[listing_id])) = 1, SELECTEDVALUE(DimListing[listing_id]))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF(ISFILTERED(DimListing[listing_id]) && COUNTROWS(FILTERS(DimListing[listing_id])) = 1, SELECTEDVALUE(DimListing[listing_id]))))
+		displayFolder: Studio\Analytics
+		lineageTag: d8ccd5fc-240e-5974-9db7-f5e68daeb97a
+
+	measure 'Studio History Rate' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF(NOT ISBLANK([Studio Explicit Property]) && HASONEVALUE(DimMonth[month_date]), CALCULATE(SELECTEDVALUE(FactListingMonth[native_avg_daily_rate]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]))),
+			(IF(NOT ISBLANK([Studio Explicit Property]) && HASONEVALUE(DimMonth[month_date]), CALCULATE(SELECTEDVALUE(FactListingMonth[native_avg_daily_rate]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)))))
+		formatString: "AED "#,0.00
+		displayFolder: Studio\Analytics
+		lineageTag: 2f97ecfc-a764-5554-8df9-70da10fa8058
+
+	measure 'Studio History Peer Median' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((VAR ComparisonState = CALCULATE(SELECTEDVALUE(FactListingMonth[comparison_status]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) VAR Rate = CALCULATE(SELECTEDVALUE(FactListingMonth[peer_median_aed]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) RETURN IF(NOT ISBLANK([Studio Explicit Property]) && HASONEVALUE(DimMonth[month_date]) && ComparisonState = "Eligible" && Rate > 0, Rate)), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]))),
+			(VAR ComparisonState = CALCULATE(SELECTEDVALUE(FactListingMonth[comparison_status]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) VAR Rate = CALCULATE(SELECTEDVALUE(FactListingMonth[peer_median_aed]), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) RETURN IF(NOT ISBLANK([Studio Explicit Property]) && HASONEVALUE(DimMonth[month_date]) && ComparisonState = "Eligible" && Rate > 0, Rate)))
+		formatString: "AED "#,0.00
+		displayFolder: Studio\Analytics
+		lineageTag: 2bc00104-b1ee-5d27-be5e-5c4359d8a702
+
+	measure 'Studio Example Visible' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((VAR Subject = [Studio Explicit Property] VAR Month = SELECTEDVALUE(DimMonth[month_date]) RETURN IF([Studio Property Month Valid] = 1 && [Studio Comparison Status] = "Eligible" && Month = [Latest Data Month] && CALCULATE(COUNTROWS(PeerExamples), TREATAS({Subject}, PeerExamples[listing_id]), TREATAS({Month}, PeerExamples[month_date])) > 0, 1, 0)), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(VAR Subject = [Studio Explicit Property] VAR Month = SELECTEDVALUE(DimMonth[month_date]) RETURN IF([Studio Property Month Valid] = 1 && [Studio Comparison Status] = "Eligible" && Month = [Latest Data Month] && CALCULATE(COUNTROWS(PeerExamples), TREATAS({Subject}, PeerExamples[listing_id]), TREATAS({Month}, PeerExamples[month_date])) > 0, 1, 0)))
+		formatString: 0
+		displayFolder: Studio\Analytics
+		lineageTag: ef7b2b06-39b2-545f-ad74-b67d953bbd4e
+
+	measure 'Studio Example Rate' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((VAR Subject = [Studio Explicit Property] VAR Month = SELECTEDVALUE(DimMonth[month_date]) RETURN IF([Studio Example Visible] = 1, CALCULATE(SELECTEDVALUE(PeerExamples[peer_adr_aed]), TREATAS({Subject}, PeerExamples[listing_id]), TREATAS({Month}, PeerExamples[month_date])))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(VAR Subject = [Studio Explicit Property] VAR Month = SELECTEDVALUE(DimMonth[month_date]) RETURN IF([Studio Example Visible] = 1, CALCULATE(SELECTEDVALUE(PeerExamples[peer_adr_aed]), TREATAS({Subject}, PeerExamples[listing_id]), TREATAS({Month}, PeerExamples[month_date])))))
+		formatString: "AED "#,0.00
+		displayFolder: Studio\Analytics
+		lineageTag: 0cc21bc2-d390-58fc-8d96-b525cc88e707
+
+	measure 'Studio Example Distance' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((VAR Subject = [Studio Explicit Property] VAR Month = SELECTEDVALUE(DimMonth[month_date]) RETURN IF([Studio Example Visible] = 1, CALCULATE(SELECTEDVALUE(PeerExamples[distance_km]), TREATAS({Subject}, PeerExamples[listing_id]), TREATAS({Month}, PeerExamples[month_date])))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(VAR Subject = [Studio Explicit Property] VAR Month = SELECTEDVALUE(DimMonth[month_date]) RETURN IF([Studio Example Visible] = 1, CALCULATE(SELECTEDVALUE(PeerExamples[distance_km]), TREATAS({Subject}, PeerExamples[listing_id]), TREATAS({Month}, PeerExamples[month_date])))))
+		formatString: 0.00" km"
+		displayFolder: Studio\Analytics
+		lineageTag: e25a4f2d-f87a-5c76-b512-47df7fcad8d3
+
+	measure 'Studio Examples Context' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((SWITCH(TRUE(), [Studio Property Month Valid] <> 1, "Select one observed property-month.", SELECTEDVALUE(DimMonth[month_date]) <> [Latest Data Month], "Examples: latest reporting month only.", [Studio Example Visible] <> 1, "No stored examples for this observation.", "Five nearest examples; not the full peer group.")), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(SWITCH(TRUE(), [Studio Property Month Valid] <> 1, "Select one observed property-month.", SELECTEDVALUE(DimMonth[month_date]) <> [Latest Data Month], "Examples: latest reporting month only.", [Studio Example Visible] <> 1, "No stored examples for this observation.", "Five nearest examples; not the full peer group.")))
+		displayFolder: Studio\Analytics
+		lineageTag: 9144dc43-d31d-52cf-87bc-de64e578a9c4
+
+	measure 'Studio Finding' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((SWITCH(TRUE(), NOT ISFILTERED(DimListing[listing_id]), "Select a property to begin.", ISBLANK([Studio Explicit Property]), "Select one property.", NOT HASONEVALUE(DimMonth[month_date]), "Select one reporting month.", [Studio Property Month Valid] <> 1, "No observation in selected month.", ISBLANK([Studio Peer Median]), "Rate observed; benchmark unavailable.", [Studio Review Signal] IN {"Review", "Large deviation"}, IF([Studio Premium] >= 0, "Above-peer pricing review signal.", "Below-peer pricing review signal."), "Within the stored review threshold.")), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(SWITCH(TRUE(), NOT ISFILTERED(DimListing[listing_id]), "Select a property to begin.", ISBLANK([Studio Explicit Property]), "Select one property.", NOT HASONEVALUE(DimMonth[month_date]), "Select one reporting month.", [Studio Property Month Valid] <> 1, "No observation in selected month.", ISBLANK([Studio Peer Median]), "Rate observed; benchmark unavailable.", [Studio Review Signal] IN {"Review", "Large deviation"}, IF([Studio Premium] >= 0, "Above-peer pricing review signal.", "Below-peer pricing review signal."), "Within the stored review threshold.")))
+		displayFolder: Studio\Analytics
+		lineageTag: c8d0ac3d-2324-5020-93bf-264da0bdafa8
+
+	measure 'Studio Finding Evidence' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] <> 1, "Awaiting one observed property-month.", IF(ISBLANK([Studio Peer Median]), [Studio Comparison Status] & "; comparison unavailable.", FORMAT([Studio Premium], "+0.0%;-0.0%;0.0%") & " vs median | " & FORMAT([Studio Peer Count], "#,0") & " eligible peers"))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] <> 1, "Awaiting one observed property-month.", IF(ISBLANK([Studio Peer Median]), [Studio Comparison Status] & "; comparison unavailable.", FORMAT([Studio Premium], "+0.0%;-0.0%;0.0%") & " vs median | " & FORMAT([Studio Peer Count], "#,0") & " eligible peers"))))
+		displayFolder: Studio\Analytics
+		lineageTag: a6e9e7da-7023-51b8-9209-06ff26d062bf
+
+	measure 'Studio Finding Limitation' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF(ISBLANK([Studio Peer Median]), "Missing evidence is not zero deviation.", IF([Studio Dispersion] > 0.4, "Wide peer IQR; quality is not controlled.", "Quality and amenities are not controlled."))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF(ISBLANK([Studio Peer Median]), "Missing evidence is not zero deviation.", IF([Studio Dispersion] > 0.4, "Wide peer IQR; quality is not controlled.", "Quality and amenities are not controlled."))))
+		displayFolder: Studio\Analytics
+		lineageTag: 08560fae-8072-56aa-80b9-217f0da57f7b
+
+	measure 'Studio Finding Next' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((IF([Studio Property Month Valid] <> 1, "Choose one property and month.", IF(ISBLANK([Studio Peer Median]), "Check eligibility and attributes.", "Review amenities and matched peers."))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]), REMOVEFILTERS(DimMonth), TREATAS({SnapshotMonth}, DimMonth[month_date]))),
+			(IF([Studio Property Month Valid] <> 1, "Choose one property and month.", IF(ISBLANK([Studio Peer Median]), "Check eligibility and attributes.", "Review amenities and matched peers."))))
+		displayFolder: Studio\Analytics
+		lineageTag: 06756b0c-6759-5c19-8cf9-f798ca085e3b
+
+	measure 'Studio History Observation' =
+			VAR IncomingID = [Studio Incoming Property]
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			RETURN IF(ISFILTERED(FactListingMonth[listing_id]),
+			IF(NOT ISBLANK(IncomingID), CALCULATE((VAR FirstMonth = CALCULATE(MIN(FactListingMonth[month_date]), REMOVEFILTERS(DimMonth), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) VAR LastMonth = CALCULATE(MAX(FactListingMonth[month_date]), REMOVEFILTERS(DimMonth), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) VAR AxisMonth = SELECTEDVALUE(DimMonth[month_date]) RETURN IF(NOT ISBLANK([Studio Explicit Property]) && AxisMonth >= FirstMonth && AxisMonth <= LastMonth, COALESCE(CALCULATE(COUNTROWS(FactListingMonth), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)), 0))), REMOVEFILTERS(DimListing), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms), TREATAS({IncomingID}, DimListing[listing_id]))),
+			(VAR FirstMonth = CALCULATE(MIN(FactListingMonth[month_date]), REMOVEFILTERS(DimMonth), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) VAR LastMonth = CALCULATE(MAX(FactListingMonth[month_date]), REMOVEFILTERS(DimMonth), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)) VAR AxisMonth = SELECTEDVALUE(DimMonth[month_date]) RETURN IF(NOT ISBLANK([Studio Explicit Property]) && AxisMonth >= FirstMonth && AxisMonth <= LastMonth, COALESCE(CALCULATE(COUNTROWS(FactListingMonth), REMOVEFILTERS(DimArea), REMOVEFILTERS(DimAccommodation), REMOVEFILTERS(DimBedrooms)), 0))))
+		formatString: 0
+		displayFolder: Studio\Analytics
+		lineageTag: fd1e914b-ab2b-5b32-8b96-f3805f365609
+
+	measure 'Market Lens Context' = VAR Areas = VALUES(DimArea[area_label]) VAR Types = VALUES(DimAccommodation[accommodation_label]) VAR Beds = VALUES(DimBedrooms[bedroom_label]) VAR AreaText = IF(COUNTROWS(Areas) = CALCULATE(DISTINCTCOUNT(DimArea[area_label]), REMOVEFILTERS(DimArea)), "All areas", IF(COUNTROWS(Areas) = 1, SELECTEDVALUE(DimArea[area_label]), "Multiple areas")) VAR TypeText = IF(COUNTROWS(Types) = CALCULATE(DISTINCTCOUNT(DimAccommodation[accommodation_label]), REMOVEFILTERS(DimAccommodation)), "All accommodation", IF(COUNTROWS(Types) = 1, SELECTEDVALUE(DimAccommodation[accommodation_label]), "Multiple accommodation types")) VAR BedText = IF(COUNTROWS(Beds) = CALCULATE(DISTINCTCOUNT(DimBedrooms[bedroom_label]), REMOVEFILTERS(DimBedrooms)), "All bedrooms", IF(COUNTROWS(Beds) = 1, SELECTEDVALUE(DimBedrooms[bedroom_label]) & " bedrooms", "Multiple bedroom categories")) RETURN "MARKET LENS  |  " & AreaText & "  |  " & TypeText & "  |  " & BedText
+		displayFolder: Investigations\Context
+		lineageTag: 29e966da-d9ef-55a0-a60d-f6cb36b3332d
+
+	measure 'Investigation Snapshot Month' = CALCULATE(MAX(FactListingMonth[month_date]), REMOVEFILTERS(), FactListingMonth[priority_tier] IN {1, 2, 3, 4})
+		formatString: MMMM yyyy
+		displayFolder: Investigations\Context
+		lineageTag: 38f05d4a-3258-5962-a618-8887995971db
+
+	measure 'Investigation Snapshot Context' = VAR SnapshotMonth = [Investigation Snapshot Month] RETURN IF(ISBLANK(SnapshotMonth), "No validated investigation snapshot available", "LATEST VALIDATED SNAPSHOT  |  " & FORMAT(SnapshotMonth, "MMMM yyyy", "en-US"))
+		displayFolder: Investigations\Context
+		lineageTag: b21f72de-f041-58d0-a4f4-3398e6b00d97
+
+	measure 'Investigation Review Signals' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF(ISBLANK(SnapshotMonth), BLANK(), COALESCE(CALCULATE(DISTINCTCOUNT(FactListingMonth[listing_id]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))),0))
+		formatString: #,0
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: abf3f9dc-275a-5ee3-9a5f-e04ba8602017
+
+	measure 'Investigation Stronger Evidence' = CALCULATE([Investigation Review Signals], KEEPFILTERS(FactListingMonth[priority_tier] = 1))
+		formatString: #,0
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 56197162-2d40-5962-81ca-1731fa163ae7
+
+	measure 'Investigation Comparability Review' = CALCULATE([Investigation Review Signals], KEEPFILTERS(FactListingMonth[priority_tier] = 2))
+		formatString: #,0
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: e7b89f4b-155c-5760-86dc-53fb43955aa9
+
+	measure 'Investigation Queue Visible' = IF(HASONEVALUE(FactListingMonth[listing_id]) && [Investigation Review Signals] = 1, 1, BLANK())
+		formatString: 0
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 3a5b91d2-c6a5-5c1d-9ab2-57537bf9fd20
+
+	measure 'Investigation Row Order' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[review_order]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		formatString: 0
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 0d8675cb-ab76-50b9-b5c6-709a5d581b1b
+
+	measure 'Investigation Row Area' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[area_label]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 4166c23d-6e52-570d-90fb-3a04a28edfe9
+
+	measure 'Investigation Row Accommodation' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[room_type]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 984e0ffb-4115-544d-92a0-c0d668b9a9aa
+
+	measure 'Investigation Row Bedrooms' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[bedroom_label]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 89a1b36d-4da3-5ddd-9c1b-c018d5c4f60e
+
+	measure 'Investigation Row Rate' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[native_avg_daily_rate]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		formatString: "AED "#,0.00
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 932780d7-6ed9-530e-bc28-5410e6c9f704
+
+	measure 'Investigation Row Median' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[peer_median_aed]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		formatString: "AED "#,0.00
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 6117040f-d34f-54e7-a8a5-94c18bafffd0
+
+	measure 'Investigation Row Deviation' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, DIVIDE(CALCULATE(SELECTEDVALUE(FactListingMonth[premium_pct]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))),100))
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 11a04bb3-8723-50ce-b28b-8108af88e2a5
+
+	measure 'Investigation Row Peers' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[peer_count]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		formatString: #,0
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: ee593c39-93d3-5d7e-bee9-61b649e223cb
+
+	measure 'Investigation Row Radius' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[radius_km]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		formatString: 0" km"
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 3926c51c-3bf4-59c8-8dc7-2876de363668
+
+	measure 'Investigation Row Dispersion' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[peer_iqr_ratio]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		formatString: 0.0%
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: a3a3f8e9-607e-56f9-9e61-ad45db34af24
+
+	measure 'Investigation Row Tier' =
+			VAR SnapshotMonth = [Investigation Snapshot Month]
+			VAR PriorityChoice = SELECTEDVALUE('Investigation Priority'[Code], 0)
+			VAR DirectionChoice = SELECTEDVALUE('Investigation Direction'[Code], 0)
+			RETURN IF([Investigation Queue Visible] = 1, CALCULATE(SELECTEDVALUE(FactListingMonth[priority_tier]), REMOVEFILTERS(DimMonth), FactListingMonth[month_date] = SnapshotMonth,
+			FactListingMonth[active] = TRUE(),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[priority_tier]), FactListingMonth[priority_tier] IN {1,2} && (PriorityChoice = 0 || FactListingMonth[priority_tier] = PriorityChoice))),
+			KEEPFILTERS(FILTER(ALL(FactListingMonth[direction]), DirectionChoice = 0 || (DirectionChoice = 1 && FactListingMonth[direction] = "Above Peer Benchmark") || (DirectionChoice = 2 && FactListingMonth[direction] = "Below Peer Benchmark")))))
+		formatString: 0
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 1518a5c1-883d-5bea-bb0b-70d5aef92547
+
+	measure 'Investigation Row Evidence' = SWITCH([Investigation Row Tier], 1, "1 Stronger", 2, "2 Review", BLANK())
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 24b5e2c3-bd0f-5782-93bd-f800c536445c
+
+	measure 'Investigation Queue Context' = VAR N = CALCULATE([Investigation Review Signals], REMOVEFILTERS(DimListing), REMOVEFILTERS(FactListingMonth[listing_id])) RETURN IF(ISBLANK(N), "Validated snapshot unavailable", IF(N = 0, "No matching review cases. Adjust the Market Lens or local filters.", FORMAT(N,"#,0") & " matching cases | Default order: tier, deviation magnitude, ID"))
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: ad97f3cc-61e4-5fb7-9529-25a89dd78529
+
+	measure 'Investigation Selected ID' = IF(ISFILTERED(FactListingMonth[listing_id]) && COUNTROWS(FILTERS(FactListingMonth[listing_id])) = 1 && [Investigation Queue Visible] = 1, SELECTEDVALUE(FactListingMonth[listing_id]))
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 3bab7f16-83aa-57ab-b399-99a193b9faff
+
+	measure 'Investigation Preview State' =
+			VAR N = CALCULATE([Investigation Review Signals], REMOVEFILTERS(DimListing), REMOVEFILTERS(FactListingMonth[listing_id]))
+			RETURN SWITCH(TRUE(), ISBLANK([Investigation Snapshot Month]), "Validated snapshot unavailable.",
+			N = 0, "No matching review cases.", NOT ISFILTERED(FactListingMonth[listing_id]), "Select a listing to preview its evidence.",
+			COUNTROWS(FILTERS(FactListingMonth[listing_id])) <> 1, "Select one listing to continue.",
+			ISBLANK([Investigation Selected ID]), "Selected listing is outside the current review filters.",
+			"Listing " & [Investigation Selected ID])
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: b9298de9-ce8a-5c74-b84b-87efde1c7482
+
+	measure 'Investigation Preview Profile' = IF(NOT ISBLANK([Investigation Selected ID]), [Investigation Row Area], "")
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 7ae01f1e-0231-555b-8d0d-f30868b40a80
+
+	measure 'Investigation Preview Prices' = IF(NOT ISBLANK([Investigation Selected ID]), "Rate AED " & FORMAT([Investigation Row Rate],"#,0.00","en-US") & " | Peer AED " & FORMAT([Investigation Row Median],"#,0.00","en-US"), "")
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: ff3988df-722a-5a24-8b15-a0ec6052a392
+
+	measure 'Investigation Preview Evidence' = IF(NOT ISBLANK([Investigation Selected ID]), FORMAT([Investigation Row Peers],"#,0") & " peers | " & FORMAT([Investigation Row Radius],"0") & " km | IQR / median " & FORMAT([Investigation Row Dispersion],"0.0%"), "")
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 4e557382-eb15-5b45-991d-a02ce191e72e
+
+	measure 'Investigation Preview Limitation' = IF(NOT ISBLANK([Investigation Selected ID]), IF([Investigation Row Tier] = 1, "Meets 2 km / 20+ peers / IQR <=40% criteria.", "Review radius, peer support and dispersion."), "")
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: 9cba4f48-02ae-5f3c-b84b-aad97f22b581
+
+	measure 'Investigation Preview Attributes' = IF(NOT ISBLANK([Investigation Selected ID]), SWITCH([Investigation Row Accommodation], "entire_home", "Entire home", "private_room", "Private room", "hotel_room", "Hotel room", "shared_room", "Shared room", [Investigation Row Accommodation]) & " | Bedrooms: " & [Investigation Row Bedrooms], "")
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: e3bdd3a9-52a8-54f1-aa15-c4c076dd0c8c
+
+	measure 'Investigation Preview Deviation' = IF(NOT ISBLANK([Investigation Selected ID]), FORMAT([Investigation Row Deviation],"+0.0%;-0.0%;0.0%") & " | " & IF([Investigation Row Tier] = 1, "Stronger evidence", "Comparability review"), "")
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: a440ca4e-c2db-5431-b158-2ef1a616b51f
+
+	measure 'Investigation Preview Caution' = IF(NOT ISBLANK([Investigation Selected ID]), "Quality / amenities unverified. Not mispricing proof.", "")
+		displayFolder: Investigations\Queue and Preview
+		lineageTag: a2bd51df-04e6-5d0d-8693-b903b7d06334
+
+	measure 'Studio Incoming Property' = IF(ISFILTERED(FactListingMonth[listing_id]) && COUNTROWS(FILTERS(FactListingMonth[listing_id])) = 1, MAXX(FILTERS(FactListingMonth[listing_id]), FactListingMonth[listing_id]))
+		displayFolder: Integration\Handoff
+		lineageTag: 051393bb-f441-585d-a414-9b9d456db065
+
+	measure 'Investigation Studio Destination' = IF(NOT ISBLANK([Investigation Selected ID]), "Competitive Pricing Studio", BLANK())
+		displayFolder: Integration\Handoff
+		lineageTag: d529dfc3-b64c-5781-b11c-a1a262940bf3
+
+	measure 'Studio Research Mode' = IF(ISFILTERED(FactListingMonth[listing_id]), "INVESTIGATION ACTIVE", "DIRECT LOOKUP READY")
+		displayFolder: Studio\UX
+		lineageTag: 87570431-6430-5841-a9ab-0d6e24f039c8
+
+	measure 'Studio Research Guidance' = IF(ISFILTERED(FactListingMonth[listing_id]), "Saved controls below ignored.", "Choose ID and month.")
+		displayFolder: Studio\UX
+		lineageTag: d49c37e2-22a2-5205-b5af-f86091747246
+
+	measure 'Studio Research Reset Hint' = IF(ISFILTERED(FactListingMonth[listing_id]), "Restore Studio View to switch.", "Reset clears the selected ID.")
+		displayFolder: Studio\UX
+		lineageTag: dc076919-2dcc-50ba-b5f9-06c79d0e3321
+
+	column placeholder
+		dataType: int64
+		isHidden
+		lineageTag: e447acc5-bc8e-4bce-b90f-e84f5e69d39b
+		summarizeBy: none
+		sourceColumn: placeholder
+
+	partition Analytics = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "/model/Analytics.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					EmptyToNull = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+					Typed = Table.TransformColumnTypes(EmptyToNull, {{"placeholder", Int64.Type}}, "en-US")
+				in Typed
+

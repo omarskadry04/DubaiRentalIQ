@@ -1,0 +1,30 @@
+{
+  "name": "Dubai Executive Luxury",
+  "dataColors": [
+    "#2C8C82",
+    "#6F8FB8",
+    "#C8A96B",
+    "#B85C5C"
+  ],
+  "background": "#F7F4EE",
+  "foreground": "#1F2937",
+  "tableAccent": "#2C8C82",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#0E1A2B"
+    },
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F2937"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "color": "#59616B"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F2937"
+    }
+  }
+}

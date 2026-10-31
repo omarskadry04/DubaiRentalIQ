@@ -1,0 +1,11 @@
+# Python >=3.11; existing audit environment: Python 3.12.14. See docs/SETUP.md.
+pandas>=2.0,<3
+numpy>=1.24
+scipy>=1.10
+matplotlib>=3.7
+pyarrow>=14,<27
+notebook>=7,<8
+nbclient>=0.10,<1
+nbformat>=5,<6
+ipykernel>=6,<8
+tabulate>=0.9,<1

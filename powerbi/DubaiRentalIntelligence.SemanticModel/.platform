@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "DubaiRentalIntelligence"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "53df3f21-f1f0-4ee1-b578-7276ad12b69d"
+  }
+}
