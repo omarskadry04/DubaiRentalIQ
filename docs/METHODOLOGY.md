@@ -100,6 +100,10 @@ Sample composition changes over time. Adjacent-month rate comparisons require ac
 
 Evidence sources distinguish [source/reference checks](../VALIDATION_SUMMARY.md), [saved-model and analytical reconciliation](../VALIDATION_SUMMARY.md), [native acceptance cases](../VALIDATION_SUMMARY.md) and [performance measurements/owner observations](../VALIDATION_SUMMARY.md). Overlapping assertion totals must not be combined.
 
-## Freshness and rights
+## Data Freshness and Scope
 
-The last reporting month is **February 2026**. Dataset redistribution and ArcGIS map screenshot/public-display rights remain unresolved until separately verified. Retain source archives, raw/generated listing-level data, private diagnostics and runtime caches outside publication. Aggregation or screenshot capture is not automatically a rights clearance. A license for original code would not cover third-party data, imagery or map tiles.
+The dataset covers March 2021 through February 2026. Findings represent historical observations and provider estimates, rather than current market conditions or verified financial performance.
+
+The repository includes the source datasets, processed analytical outputs, SQLite database, and Power BI model import files. Development backups, temporary diagnostics, and Power BI runtime caches are excluded.
+
+This analysis is intended for historical market intelligence, competitive benchmarking, and exploratory decision support.
