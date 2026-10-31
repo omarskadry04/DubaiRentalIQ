@@ -1,99 +1,147 @@
-# Local setup and reproducibility
+# Dubai Rental IQ
 
-The completed six-page report is supplied as PBIP/PBIR/TMDL definitions. This guide describes the **proposed data-inclusive release**, staged locally but not yet published. The release is intended to include the four AirROI source files, prepared SQLite and CSV outputs, and twelve Power BI model import CSVs. It does **not** contain a populated Power BI model cache or an immediately interactive PBIX file. Publishing source and row-level derived data requires explicit redistribution authorization; until confirmed, keep those assets out of the public GitHub history. This is an independent portfolio project with no implied affiliation or endorsement.
+**Six connected Power BI workspaces for market monitoring, pricing review and property history.**
 
-## Python and dependencies
+Dubai Rental IQ helps an analyst move from a historical market snapshot to a property requiring review, examine its comparable-peer evidence, and inspect its observed performance history. It combines Python preparation and geographic matching, SQLite analysis, and a native Power BI application with an Obsidian Luxury interface.
 
-Use **Python 3.11 or newer**. Python **3.12.14** was the existing audit/test environment; a fresh installation has **not** been tested. Python 3.11 is the minimum because the pipeline uses `hashlib.file_digest`. Power BI Desktop requires a compatible Windows installation with support for PBIP/PBIR/TMDL and permitted ArcGIS access. No particular fresh Desktop installation is certified here.
+The dashboard is implemented. Its findings describe an **AirROI-derived sample from March 2021 to February 2026**, not current market conditions, a Dubai rental census, verified bookings or realized income.
 
-Example commands from the repository root, using PowerShell after installing a suitable CPython interpreter:
+## Explore the application
 
-```powershell
-python --version
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+| Workspace | Main question |
+|---|---|
+| **Overview — Executive Command Center** | What does the selected market segment and reporting month show? |
+| **Market Trends & Seasonality** | How do reported rates, estimated performance and sample coverage vary over 60 months? |
+| **Geography — Geographic Market Intelligence** | Where are observed listings located, and how do communities compare? |
+| **Investigations — Opportunity & Action Center** | Which latest-snapshot pricing-review cases warrant examination? |
+| **Competitive Pricing Studio** | How does one explicitly selected property compare with its full eligible peer group? |
+| **Property Performance Deep Dive** | How has that property's recorded performance evolved, including missing months? |
+
+The main property workflow is **Investigations → Pricing Studio → confirm listing → Property Deep Dive**. Direct Research provides an alternative entry through Studio. Overview owns the shared Market Lens; page-specific month and property contexts remain separate. See the [User Guide](docs/USER_GUIDE.md).
+
+## Portfolio walkthrough
+
+Read the [portfolio case study](docs/PORTFOLIO_CASE_STUDY.md) for the business problem, engineering decisions, six-page walkthrough and demonstrated skills. The project combines independent source reconciliation, geographic peer benchmarking, explicit property handoffs and honest missing-month evidence.
+
+**Six owner-approved screenshots are available below.** Captions describe the actual captured states; public-use rights and identifier exposure remain subject to owner review.
+
+**Overview → Market Trends → Geography → Investigations → Pricing Studio → Property Deep Dive**
+
+### Executive Command Center
+
+![Executive Command Center with February 2026 market filters, active-listing and estimated-performance KPIs, history and benchmark coverage.](docs/01_executive_command_center.png)
+
+*The executive snapshot establishes the active sample and benchmark coverage before deeper analysis.*
+
+### Market Trends & Seasonality
+
+![Market Trends with nightly-rate history in a scrollable viewport, seasonal bars and contributing-listing counts over the 60-month context.](docs/02_market_trends_seasonality.png)
+
+*Historical rates are read alongside seasonality and changing sample coverage; the main chart has a scrollable viewport.*
+
+### Geographic Market Intelligence
+
+![Dark Dubai ArcGIS map with graduated listing-count markers, coverage KPIs, community comparison, Unknown-area evidence and visible Esri attribution.](docs/03_geographic_market_intelligence.png)
+
+*Source-valid listing locations are mapped without hiding the large Unknown-community share. Esri and map-provider credits remain visible.*
+
+### Opportunity & Action Center
+
+![Investigations showing 902 review cases, priority and direction filters, a selected queue row, Case Preview and Investigate Property action.](docs/04_opportunity_action_center.png)
+
+*The 902-case review queue connects a selected case’s evidence to property investigation.*
+
+### Competitive Pricing Studio
+
+![Pricing Studio showing Investigation Active, a confirmed listing, full-peer benchmark, historical chart, five nearest examples and performance handoff.](docs/05_competitive_pricing_studio.png)
+
+*One property is assessed against full-peer evidence, with history and nearest examples kept distinct.*
+
+### Property Performance Deep Dive
+
+![Property Deep Dive showing 21 of 60 months observed, estimated revenue history, active and inactive observations, missing records and newest-first evidence.](docs/06_property_performance_deep_dive.png)
+
+*The selected property’s revenue history, 21/60 observed months and explicit observation states distinguish missing evidence from recorded zeros.*
+
+The [publication notes](docs/PUBLICATION_NOTES.md) document the release inventory, data provenance, screenshot considerations and third-party licensing boundaries. The data-inclusive revision is stored in a private repository. Confirm that redistribution authorization covers the provider source files and derived listing-level records before making the repository public.
+
+## Verified sample findings
+
+These figures reuse the existing numerical audits; they are not new claims of business impact.
+
+| Evidence | Result |
+|---|---:|
+| Historical records / distinct listings / reporting months | 99,745 / 4,364 / 60 |
+| February 2026 observed / active listings | 2,471 / 1,955 |
+| February active listings with eligible peer benchmarks | 1,615 |
+| Latest pricing-review queue | 902 cases: 173 stronger-evidence and 729 comparability-review |
+| February active listings with source-valid coordinates | 1,955 across 1,782 coordinate groups |
+| February active listings with known historical area | 452 (23.12%); 1,503 classified Unknown area |
+
+Review signals identify investigation candidates, not proven mispricing. Five Nearest Examples are illustrations; benchmark medians and quartiles use the full eligible peer population. ArcGIS bubbles use graduated listing-count classes, with exact counts in tooltips.
+
+## Architecture and workflow
+
+```text
+Four provider source files
+  → Python validation, historical facts/dimensions and peer matching
+  → SQLite analytical views and independent reconciliation
+  → twelve model import CSV files
+  → Power BI TMDL semantic model + PBIR report
+  → six connected analytical workspaces
 ```
 
-`requirements.txt` defines supported package ranges. `requirements-lock.txt` records an earlier Windows-oriented pinned environment, including platform-specific packages; it is not a universal cross-platform lock or a new clean-install guarantee. Use the requirements file for ordinary setup; use the lock only when deliberately reproducing its compatible Windows environment. No installation was performed during package preparation.
+Python preserves the listing-month grain and computes same-month geographic peer sets. SQL supplies analytical views and review classifications. Power BI provides context-aware measures, synchronized market controls, guarded property handoffs, complete historical calendars and interactive evidence.
 
-## Inputs and included data folders
+The eight [notebooks](notebooks/README.md) explain the analytical pipeline; [SQL documentation](sql/README.md) explains its relational layer. Dependencies are listed in `requirements.txt`; `requirements-lock.txt` records the tested environment and includes platform-specific packages. Earlier pipeline execution evidence is summarized in [Validation Summary](VALIDATION_SUMMARY.md). This dataset-inclusive release adds the four source files, processed analytical outputs, SQLite database and twelve Power BI import CSVs.
 
-Source: **AirROI — Airbnb Short-Term Rental Data: Dubai**, available from [the original Kaggle dataset](https://www.kaggle.com/datasets/jasonairroi/airbnb-short-term-rental-data-dubai). The four source files are **present in the locally staged data-inclusive release**, but **have not been cleared for a public commit in this workflow**. Confirm authorization to redistribute both original data and row-level derivatives; attribution alone is not permission.
+## Included data and model inputs
 
-The intended release includes these four files under `data/raw/`:
+This private dataset-inclusive release adds the following reproducibility assets to the code, notebooks, SQL and report definitions:
 
-- `past_rates.csv`
-- `listings_monthly.csv`
-- `past_rates.parquet`
-- `listings.parquet`
+| Folder | Included assets |
+|---|---|
+| `data/raw/` | Four original AirROI source files (two CSV and two Parquet) |
+| `data/processed/` | Validated SQLite database, five analytical CSVs and two preparation/benchmark manifests |
+| `powerbi/data/` | Six intermediate analytical CSVs |
+| `powerbi/data/model/` | Twelve CSV tables consumed by the Power BI semantic model |
 
-The staged project also includes:
+The report design remains PBIP/PBIR/TMDL rather than a populated PBIX file. These files allow a reader to inspect the prepared data without running the entire pipeline, but **Power BI Desktop may still need a local `DataFolder` parameter and refresh**. Do not confuse the provided source/processed CSVs with an embedded Power BI model cache.
 
-- `data/processed/`: validated SQLite database (`dubai_rentals.sqlite`), processed CSV tables, and preparation/benchmark manifests.
-- `powerbi/data/`: six intermediate model-preparation CSVs.
-- `powerbi/data/model/`: the twelve final model-import CSVs listed below.
+## Open the project safely
 
-Preserve source filenames and listing IDs. Keep these datasets in a local copy until redistribution rights and a content/privacy review are complete. The source files are historical provider data, not a live feed.
+The report entry point is [powerbi/DubaiRentalIntelligence.pbip](powerbi/DubaiRentalIntelligence.pbip). Use Power BI Desktop with the existing report/model folders and authorized local imports. Preserve any open unsaved work before switching projects.
 
-## Quick start with included data (once the data-inclusive release is approved)
+**A fresh checkout includes the source datasets, processed data, SQLite database and twelve model import CSVs, but opening the report may still require local Power BI configuration.** The tracked `DataFolder` parameter is intentionally blank, and populated Power BI caches, PBIX files and proprietary native-query libraries are not supplied. Set `DataFolder` to the local `powerbi/data` folder (the parent of `model/`) and load/refresh the report using Power BI Desktop. A new-machine refresh has not been independently certified. See [Power BI opening requirements](powerbi/README.md#opening-requirements).
 
-1. Download or clone the complete release and keep the `powerbi/` project folders together.
-2. Install a compatible Power BI Desktop version. If you only want to view the report, you do **not** need to regenerate the Python/SQLite pipeline.
-3. Open `powerbi/DubaiRentalIntelligence.pbip` in Desktop. Set the `DataFolder` parameter to the **absolute path of the local `powerbi/data` folder** (the parent of `model/`).
-4. Apply the parameter change and load/refresh the semantic model using Desktop's supported workflow. Check all six pages and inspect the ArcGIS map subject to its access requirements.
+Do not run the legacy global report or semantic-model generators over the accepted project. They are development artifacts, not a supported way to recreate its final manual formatting and interactions. Documentation work does not require refreshing or rebuilding anything.
 
-The model import CSVs are supplied, but the Power BI model cache is **not**. The first successful Desktop load/refresh has not been independently verified from a clean checkout. Avoid committing a machine-specific `DataFolder` path back to GitHub.
+## Documentation and evidence
 
-The steps below are for users who want to **rebuild or validate** the supplied data, not a prerequisite to opening the saved report definitions.
+- [Portfolio Case Study](docs/PORTFOLIO_CASE_STUDY.md): problem, architecture, decisions and six-page walkthrough.
+- [Publication Notes](docs/PUBLICATION_NOTES.md): included data inventory, exclusions, attribution and redistribution conditions.
+- [Local Setup](docs/SETUP.md): Python requirements, included local inputs, pipeline steps and the data-only twelve-file exporter.
+- [User Guide](docs/USER_GUIDE.md): navigation, filters, handoffs, restores and missing states.
+- [Methodology](docs/METHODOLOGY.md): metric populations, source limitations, peer rules and geography.
+- [Data Dictionary](docs/DATA_DICTIONARY.md): saved-model tables, relationships, selectors and important measures.
+- [Validation and performance evidence](VALIDATION_SUMMARY.md): dated analytical checks, functional acceptance, owner-confirmed workflows, measured-performance scope and remaining gaps. Internal audit snapshots and backups remain excluded.
 
-## Rebuild data, then export model imports (optional)
+Automated/static checks, native execution and owner-confirmed behavior are different evidence categories. Historical assertion totals overlap and must not be added together or treated as proof of every current runtime interaction.
 
-To regenerate the supplied outputs from the source files, run in this order in a separate local working copy **after backing up the shipped CSVs and database**:
+## Limitations and publication
 
-```powershell
-.\.venv\Scripts\python.exe src/01_validate_and_prepare.py
-.\.venv\Scripts\python.exe src/02_build_peer_benchmarks.py
-.\.venv\Scripts\python.exe src/03_build_powerbi_exports.py
-.\.venv\Scripts\python.exe src/08_export_model_imports.py --expect-reference
-```
+Occupancy and revenue are provider estimates. Sample composition changes over time; undated property metadata is not historical evidence. Source coordinate bounds do not verify addresses or community boundaries. Known-area comparisons cover a minority of February's active sample. Peer matching does not control for every quality, capacity or amenity difference. Missing records do not mean closure or zero revenue.
 
-The first three stages reconcile source observations, create full-peer benchmarks, and create the validated SQLite database plus six intermediate CSVs. The fourth is the **standalone data-only exporter** for the saved model. It reads SQLite in read-only mode, including the validated priority/transition views, and writes only CSV data under `powerbi/data/model/`. It does not run a builder or write report/model definitions.
+Remaining review items include geographic/provider uncertainty, a future-null zero-count caveat, and untested native edge cases. See [Methodology](docs/METHODOLOGY.md#remaining-limitations-and-evidence).
 
-Alternatively, run the eight [notebooks](../notebooks/README.md) in their documented order to produce the same intermediate data, then run `08_export_model_imports.py`. Notebook 07 validates the six intermediate exports; the new exporter separately validates the final twelve imports. Notebook outputs remain intentionally empty in the staged package. SQL analysis and independent validation utilities are optional additional evidence runs, not substitutes for the exporter.
+The data-inclusive release contains original AirROI-derived inputs and listing-level analytical exports. **Keep this dataset-inclusive repository private until redistribution rights for the four original files and their derivatives have been confirmed.** Keep audit recordings, development backups, credentials, local configuration and Power BI caches out of Git. An author-code license does not grant rights to third-party datasets, map tiles or imagery. The repository is a portfolio project, not a hosted public Power BI deployment.
 
-### Final twelve files
+Source attribution: [AirROI — Airbnb Short-Term Rental Data: Dubai](https://www.kaggle.com/datasets/jasonairroi/airbnb-short-term-rental-data-dubai) and [AirROI methodology](https://www.airroi.com/data-portal/methodology). These references identify provenance; their presence is not a redistribution license or endorsement.
 
-`Analytics.csv`, `CohortSelector.csv`, `CoverageMonth.csv`, `DimAccommodation.csv`, `DimArea.csv`, `DimBedrooms.csv`, `DimListing.csv`, `DimMonth.csv`, `FactListingMonth.csv`, `MetricSelector.csv`, `PeerExamples.csv`, `ReviewThreshold.csv`.
+## License and reproduction
 
-The exporter reads the saved M-partition column order/types from TMDL, validates keys/relationships, contiguous calendar, population preservation, coverage counts, benchmark eligibility and example limits, and checks CSV round-trip values before replacing outputs. Missing tables/views or invalid input are errors; no missing dataset is replaced with an empty placeholder. An empty PeerExamples table is legitimate only as an actual input result without eligible examples.
+The [MIT license](LICENSE) covers only the author’s original code, not provider datasets, map imagery, vendor assets or proprietary software. Any redistribution of the included AirROI files and derivative datasets must be separately authorized; attribution and the MIT license alone do not provide that authorization. The six screenshots retain visible provider/map credits as applicable. See [publication notes](docs/PUBLICATION_NOTES.md).
 
-`--expect-reference` additionally requires the audited March 2021–February 2026 population: 99,745 observations, 4,364 listings, 60 months, and the documented February counts. It is recommended for this project. Without that flag, structural/population consistency still runs; different input populations are not automatically certified as the audited dashboard.
+For local reproduction, use **Python 3.11+** (the existing audit environment was Python 3.12.14, not a new clean-install test). This revision includes the four source files, processed tables, a SQLite database and twelve model import CSVs. Rebuilding is optional: follow [Local Setup](docs/SETUP.md) to regenerate the data using the Python stages and `src/08_export_model_imports.py --expect-reference`. To open the supplied report, set the blank `DataFolder` parameter to the local `powerbi/data` directory (the parent of `model/`). A populated model cache is not supplied, and a clean-checkout Desktop refresh remains unverified. Do not regenerate the finalized report definitions.
 
-For a custom local destination:
-
-```powershell
-.\.venv\Scripts\python.exe src/08_export_model_imports.py --database data/processed/dubai_rentals.sqlite --data-folder local-imports --expect-reference
-```
-
-Only `local-imports/model/` receives CSV outputs. Do not put unrelated CSVs there; the exporter refuses an unexpected file set instead of deleting it. Staging/backups are temporary CSVs inside the model directory. Recoverable exceptions roll back replaced files; a process kill, machine crash or concurrent writers are not a multi-file transaction. Run one writer, keep Desktop closed while replacing its local imports, and rerun a complete successful export after interruption before loading the model.
-
-## Configure and open Power BI
-
-Set the existing **DataFolder** parameter in a local working copy to the parent directory containing `model/`: for the default commands this is your local `powerbi/data` directory, **not** `powerbi/data/model`. The tracked parameter is intentionally blank; never commit a machine-specific value.
-
-Then open [DubaiRentalIntelligence.pbip](../powerbi/DubaiRentalIntelligence.pbip) with its sibling Report/SemanticModel directories intact. Load or refresh the model from the included local imports using Desktop's supported workflow. **A populated model is not bundled**, and a fresh Desktop load/refresh was not independently completed during package preparation. ArcGIS needs supported service access/permissions; do not bypass consent or security controls.
-
-**Never regenerate the finished report or semantic model.** Neither global builder is needed or included. All calculations, bookmarks, navigation and approved manual formatting remain defined by the saved files.
-
-## Focused checks
-
-```powershell
-.\.venv\Scripts\python.exe -B -m unittest discover -s tests -p test_model_import_exporter.py -v
-.\.venv\Scripts\python.exe -B -m unittest discover -s tests -p test_business_rules.py -v
-```
-
-Exporter tests create synthetic fixtures and temporary directories, then clean them up; the focused exporter tests do not need provider inputs. The complete test suite includes data-dependent tests and tests that write local fixtures. A passing exporter is not native Power BI acceptance. See [Validation Summary](../VALIDATION_SUMMARY.md) for actual results and remaining Desktop checks, and [Publication Notes](PUBLICATION_NOTES.md) for rights and exclusions.
-
-## Publication status and safety
-
-This document is an updated **draft for the locally staged, data-inclusive release**, not a statement that the source datasets have already been made public. Before committing or pushing, verify redistribution permission for the four AirROI source files and their row-level derivatives, review identifiers and metadata for sensitive content, and reconcile the README, Power BI documentation, publication notes, file inventory, and checksum manifest. Do not add `.venv/`, historical backups, private audit recordings, credentials, Power BI caches or machine-specific settings.
+This is an independent portfolio project with no implied affiliation or endorsement. This private repository contains AirROI-derived data; making it public requires confirmation of applicable redistribution rights. The screenshots retain Esri and applicable map-provider credits; attribution alone does not establish publication permission.
