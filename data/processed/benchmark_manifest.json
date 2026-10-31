@@ -1,0 +1,15 @@
+{
+  "sources": {
+    "fact_listing_month.csv": "36c39c2181e55042c39ce5059defc4d201fa0c49f6e76439ba2ea7058ff357f3"
+  },
+  "outputs": {
+    "fact_peer_benchmark.csv": {
+      "sha256": "557ea7b89fa7511ef999da01e8a01e4e04bf65dab5956840f696ea6a7193cb46",
+      "rows": 99745
+    },
+    "peer_examples_latest.csv": {
+      "sha256": "b5f7030d01e99fe6188045f30bb6cb470b76b5d75a7ea828fd8db3f3001c351c",
+      "rows": 8075
+    }
+  }
+}

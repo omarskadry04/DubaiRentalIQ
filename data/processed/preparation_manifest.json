@@ -1,0 +1,26 @@
+{
+  "sources": {
+    "past_rates.csv": "c1978c82dd71bb2f905c67238fdae0b148bbcfc182489e19c636bc26fe17dbda",
+    "listings_monthly.csv": "b3c0d2ebc805c34509f5c15b65167d802f70dd7773b739e0a5f0d9a9a1c9ddb4",
+    "past_rates.parquet": "90088367534ec3328c7829d6d617e2d0c9ee641861c116984707f2d137938ad5",
+    "listings.parquet": "66a5b4b22be7322f30a8c115800c442f1c33064cc9b534f36affc860bd92ee60"
+  },
+  "outputs": {
+    "fact_listing_month.csv": {
+      "sha256": "36c39c2181e55042c39ce5059defc4d201fa0c49f6e76439ba2ea7058ff357f3",
+      "rows": 99745
+    },
+    "dim_listing.csv": {
+      "sha256": "e7e0b1bebc3390a13b58111396dd32b44ba36bc6618fcf21a0a278fcbe914c75",
+      "rows": 4364
+    },
+    "dim_month.csv": {
+      "sha256": "ca1e3d68845c2498add0e1fdcf76cda933e3909d1d69731818f56a47151ea670",
+      "rows": 60
+    },
+    "fact_coverage_month.csv": {
+      "sha256": "7a7b20c5cc327e6d4d9d6458a1c7c791728ac7f5e6652e0159498e2ff1cded38",
+      "rows": 60
+    }
+  }
+}

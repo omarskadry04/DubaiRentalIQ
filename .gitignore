@@ -55,3 +55,26 @@ private/
 *.local.*
 # Track the blank DataFolder definition; never commit a locally configured value.
 # Required PBIP/PBIR/TMDL/JSON definitions and approved docs PNGs are not ignored.
+# Dataset-inclusive release: explicitly approved production files
+!/data/
+!/data/raw/
+!/data/raw/listings.parquet
+!/data/raw/listings_monthly.csv
+!/data/raw/past_rates.csv
+!/data/raw/past_rates.parquet
+
+!/data/processed/
+!/data/processed/benchmark_manifest.json
+!/data/processed/preparation_manifest.json
+!/data/processed/dim_listing.csv
+!/data/processed/dim_month.csv
+!/data/processed/dubai_rentals.sqlite
+!/data/processed/fact_coverage_month.csv
+!/data/processed/fact_listing_month.csv
+!/data/processed/fact_peer_benchmark.csv
+!/data/processed/peer_examples_latest.csv
+
+!/powerbi/data/
+!/powerbi/data/model/
+!/powerbi/data/*.csv
+!/powerbi/data/model/*.csv
