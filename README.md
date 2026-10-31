@@ -63,7 +63,6 @@ Read the [portfolio case study](docs/PORTFOLIO_CASE_STUDY.md) for the business p
 
 *The selected property’s revenue history, 21/60 observed months and explicit observation states distinguish missing evidence from recorded zeros.*
 
-The [publication notes](docs/PUBLICATION_NOTES.md) document the release inventory, data provenance, screenshot considerations and third-party licensing boundaries. The data-inclusive revision is stored in a private repository. Confirm that redistribution authorization covers the provider source files and derived listing-level records before making the repository public.
 
 ## Verified sample findings
 
@@ -128,20 +127,23 @@ Do not run the legacy global report or semantic-model generators over the accept
 
 Automated/static checks, native execution and owner-confirmed behavior are different evidence categories. Historical assertion totals overlap and must not be added together or treated as proof of every current runtime interaction.
 
-## Limitations and publication
+## Limitations and Data Sources
 
-Occupancy and revenue are provider estimates. Sample composition changes over time; undated property metadata is not historical evidence. Source coordinate bounds do not verify addresses or community boundaries. Known-area comparisons cover a minority of February's active sample. Peer matching does not control for every quality, capacity or amenity difference. Missing records do not mean closure or zero revenue.
+The analysis is based on historical AirROI data covering March 2021 to February 2026 and should not be interpreted as a representation of current Dubai rental market conditions.
 
-Remaining review items include geographic/provider uncertainty, a future-null zero-count caveat, and untested native edge cases. See [Methodology](docs/METHODOLOGY.md#remaining-limitations-and-evidence).
+Occupancy and revenue figures are provider estimates rather than verified bookings or realized income. Sample composition and data coverage vary over time, while missing observations do not necessarily indicate property inactivity or zero revenue.
 
-The data-inclusive release contains original AirROI-derived inputs and listing-level analytical exports. **Keep this dataset-inclusive repository private until redistribution rights for the four original files and their derivatives have been confirmed.** Keep audit recordings, development backups, credentials, local configuration and Power BI caches out of Git. An author-code license does not grant rights to third-party datasets, map tiles or imagery. The repository is a portfolio project, not a hosted public Power BI deployment.
+Geographic analysis uses available listing coordinates and community classifications, which may contain incomplete or uncertain information. Competitive benchmarking identifies comparable properties based on defined criteria but does not account for every difference in property quality, capacity, amenities, or market positioning.
 
-Source attribution: [AirROI — Airbnb Short-Term Rental Data: Dubai](https://www.kaggle.com/datasets/jasonairroi/airbnb-short-term-rental-data-dubai) and [AirROI methodology](https://www.airroi.com/data-portal/methodology). These references identify provenance; their presence is not a redistribution license or endorsement.
+The resulting insights and pricing-review signals are intended to support exploratory market analysis and informed decision-making, rather than guarantee property performance or investment outcomes.
 
-## License and reproduction
+**Data source:** [AirROI — Airbnb Short-Term Rental Data: Dubai](https://www.kaggle.com/datasets/jasonairroi/airbnb-short-term-rental-data-dubai) | [AirROI Methodology](https://www.airroi.com/data-portal/methodology)
 
-The [MIT license](LICENSE) covers only the author’s original code, not provider datasets, map imagery, vendor assets or proprietary software. Any redistribution of the included AirROI files and derivative datasets must be separately authorized; attribution and the MIT license alone do not provide that authorization. The six screenshots retain visible provider/map credits as applicable. See [publication notes](docs/PUBLICATION_NOTES.md).
 
-For local reproduction, use **Python 3.11+** (the existing audit environment was Python 3.12.14, not a new clean-install test). This revision includes the four source files, processed tables, a SQLite database and twelve model import CSVs. Rebuilding is optional: follow [Local Setup](docs/SETUP.md) to regenerate the data using the Python stages and `src/08_export_model_imports.py --expect-reference`. To open the supplied report, set the blank `DataFolder` parameter to the local `powerbi/data` directory (the parent of `model/`). A populated model cache is not supplied, and a clean-checkout Desktop refresh remains unverified. Do not regenerate the finalized report definitions.
+## License and Reproduction
 
-This is an independent portfolio project with no implied affiliation or endorsement. This private repository contains AirROI-derived data; making it public requires confirmation of applicable redistribution rights. The screenshots retain Esri and applicable map-provider credits; attribution alone does not establish publication permission.
+The project's original code is available under the [MIT License](LICENSE). Third-party datasets and assets remain subject to their respective terms.
+
+The repository includes the datasets, processed analytical outputs, and Power BI project files. For installation, Power BI configuration, and reproduction instructions, see the [Local Setup Guide](docs/SETUP.md).
+
+This is an independent portfolio project with no affiliation or endorsement by AirROI or Airbnb.
