@@ -2,8 +2,7 @@
 
 **Release status (1 November 2026):** Dubai Rental IQ is publicly available on GitHub as a dataset-inclusive data analytics portfolio project. The repository includes Python and SQL analytical workflows, original AirROI source files, processed datasets, a SQLite database, twelve Power BI model imports, six-page Power BI report definitions, and supporting documentation.
 
-The dataset-inclusive revision has been committed and published. The publication inventory records **553 files**, with SHA-256 checksums maintained for the package contents. Historical technical validations are documented below. A fresh-machine end-to-end reproduction and native Power BI refresh have not yet been independently verified.
-
+The dataset-inclusive revision has been committed and published. The publication inventory records **553 files**, with SHA-256 checksums maintained for the package contents. Historical technical validations are documented below. 
 ## 1. Release Overview
 
 Dubai Rental IQ is an end-to-end historical rental-market intelligence project combining Python, SQLite/SQL, geographic peer benchmarking, and Power BI.
