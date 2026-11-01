@@ -4,7 +4,7 @@ Dubai Rental IQ includes the four source datasets, prepared analytical CSV files
 
 You can inspect the included data immediately. To use the interactive Power BI report, configure its local data folder and load the semantic model in Power BI Desktop.
 
-A complete fresh-machine setup and Power BI refresh have **not yet been independently verified**.
+A fresh-clone Power BI test was successfully completed on 1 November 2026. The included CSV imports loaded correctly, the headline KPIs matched the reference values, and the six dashboards were manually confirmed functional.
 
 ## 1. Download the project
 
