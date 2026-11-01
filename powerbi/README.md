@@ -78,8 +78,6 @@ Do not commit your computer-specific parameter value.
 
 Native DAX audit utilities depend on separately available compatible libraries. These libraries are not required merely to read the documentation and are not redistributed with the repository.
 
-A successful clean-clone native Power BI execution has not been independently confirmed.
-
 The global report and semantic-model builders are intentionally not included. Do not use older copies of these builders to regenerate the finalized application.
 
 Older build and design documents are retained only as historical references, not instructions to rebuild accepted pages.
@@ -177,7 +175,7 @@ The current TMDL definitions are authoritative for calculations, while the curre
 
 This documentation describes the **published dataset-inclusive release** and its saved Power BI project definitions.
 
-It does not certify a new clean-environment Power BI Desktop refresh or resolve all remaining runtime edge cases.
+The fresh-clone verification confirms successful Power BI loading and save/reopen in the tested environment. 
 
 Previously recorded native tests, owner-confirmed workflows and static verification results remain distinct forms of evidence.
 
