@@ -6,8 +6,6 @@ The public GitHub repository includes the four original AirROI source datasets, 
 
 The validation results below were recorded during earlier development and publication audits. Subsequent documentation and packaging updates did not constitute a new execution of the complete analytical pipeline, native Power BI acceptance tests, or performance recordings. Certain detailed audit logs, runtime recordings, and temporary validation artifacts remain excluded from the repository.
 
-A fresh-machine end-to-end reproduction and native Power BI Desktop refresh have **not yet been independently verified**.
-
 ## Source and analytical evidence
 
 - **Historical sample:** March 2021–February 2026, covering 60 months, 99,745 unique listing-month records, and 4,364 listings.
@@ -168,8 +166,6 @@ It does **not** establish:
 - Independent revalidation of every stored geographic benchmark
 - A new native Power BI Desktop refresh or save/reopen acceptance test of the public repository
 - Guaranteed behavior across all Power BI Desktop versions
-
-Complete Desktop smoke testing from a fresh clone remains unverified.
 
 Previously documented 60-month history and property-transfer evidence is retained rather than represented as newly executed testing.
 
