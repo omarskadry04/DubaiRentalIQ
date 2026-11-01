@@ -22,7 +22,6 @@ The repository provides the analytical workflows, supporting datasets, and compl
 | Dashboard screenshots | Included | Six analytical page screenshots |
 | Tests and documentation | Included | Validation, methodology, setup, data dictionary and portfolio case study |
 | Populated PBIX or model cache | Not included | Local Power BI configuration and refresh may be required |
-| Fresh-environment reproduction | Not independently verified | No completed clean-machine end-to-end acceptance is claimed |
 
 The finalized Power BI design, DAX measures, visual configurations, bookmarks, and navigation were not rebuilt during the dataset-inclusive release.
 
