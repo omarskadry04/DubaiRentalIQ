@@ -96,7 +96,7 @@ The eight [notebooks](notebooks/README.md) explain the analytical pipeline; [SQL
 
 ## Included data and model inputs
 
-This private dataset-inclusive release adds the following reproducibility assets to the code, notebooks, SQL and report definitions:
+This public dataset-inclusive release includes the following reproducibility assets alongside the code, notebooks, SQL and report definitions:
 
 | Folder | Included assets |
 |---|---|
@@ -111,7 +111,7 @@ The report design remains PBIP/PBIR/TMDL rather than a populated PBIX file. Thes
 
 The report entry point is [powerbi/DubaiRentalIntelligence.pbip](powerbi/DubaiRentalIntelligence.pbip). Use Power BI Desktop with the existing report/model folders and authorized local imports. Preserve any open unsaved work before switching projects.
 
-**A fresh checkout includes the source datasets, processed data, SQLite database and twelve model import CSVs, but opening the report may still require local Power BI configuration.** The tracked `DataFolder` parameter is intentionally blank, and populated Power BI caches, PBIX files and proprietary native-query libraries are not supplied. Set `DataFolder` to the local `powerbi/data` folder (the parent of `model/`) and load/refresh the report using Power BI Desktop. A new-machine refresh has not been independently certified. See [Power BI opening requirements](powerbi/README.md#opening-requirements).
+**A fresh checkout includes the source datasets, processed data, SQLite database and twelve model import CSVs, but opening the report may still require local Power BI configuration.** The tracked `DataFolder` parameter is intentionally blank, and populated Power BI caches, PBIX files and proprietary native-query libraries are not supplied. Set `DataFolder` to the local `powerbi/data` folder (the parent of `model/`) and load/refresh the report using Power BI Desktop. **Power BI reproducibility:** Successfully tested from a fresh GitHub clone on 1 November 2026, including model loading, KPI reconciliation, save/reopen, and manual verification of all six dashboard pages. See [Validation Summary](VALIDATION_SUMMARY.md).
 
 Do not run the legacy global report or semantic-model generators over the accepted project. They are development artifacts, not a supported way to recreate its final manual formatting and interactions. Documentation work does not require refreshing or rebuilding anything.
 
