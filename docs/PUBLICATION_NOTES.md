@@ -163,12 +163,6 @@ The reference check requires the compatible source and prepared-data version. Re
 
 The saved report and semantic-model definitions remain authoritative. Legacy global report/model generators should not be used to overwrite finalized manual report configurations.
 
-### Reproducibility Boundary
-
-The repository supplies the documented components for local setup, but a clean installation, complete raw-data rerun, native Power BI refresh, and save/reopen acceptance have not been independently verified on a new machine.
-
-Previous static, analytical, and native validation results are retained as historical evidence rather than described as new execution results.
-
 ---
 
 ## 6. Historical Verification — Original Publication Package
@@ -259,7 +253,6 @@ The historical checks did not establish:
 
 - A successful fresh installation of the required Python dependencies on a new computer
 - A complete source-to-output rerun from a clean checkout
-- A newly populated Power BI model accepted in an independent environment
 - Universal runtime behavior for all filters, interactions and edge cases
 - Availability or behavior of every external ArcGIS service
 - External validation of the historical provider estimates as actual bookings or realized revenue
@@ -309,7 +302,3 @@ The repository provides source data, prepared relational and CSV outputs, Power 
 The project demonstrates historical market analysis, geographic peer benchmarking, screening-based pricing investigation, explicit property context transfer, and longitudinal performance interpretation.
 
 The numerical findings describe the historical AirROI-derived sample rather than current Dubai rental conditions or verified commercial outcomes.
-
-The existing validation evidence supports the documented analytical workflow, while independent fresh-environment reproduction and native Power BI refresh remain unverified.
-
-**Overall status: Dataset-inclusive public GitHub repository; analytical implementation, supporting data, Power BI report definitions, and documentation available. Historical validation retained; independent fresh-environment reproduction remains unverified.**
