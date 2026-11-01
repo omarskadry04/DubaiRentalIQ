@@ -193,6 +193,10 @@ A later maintenance edit removed a historical `FileNotFoundError` output from No
 
 No performance optimization or Power BI dashboard redesign was performed as part of these publication corrections.
 
+## Fresh-clone Power BI verification — 1 November 2026
+
+A fresh clone of the public GitHub repository was successfully opened in Power BI Desktop. After configuring `DataFolder` and loading the included CSV imports, the February 2026 KPIs matched the documented reference values (1,955 active listings, AED 870 median nightly rate, and approximately AED 13.51 million estimated revenue). The project remained populated after saving and reopening, and all six dashboard pages were manually confirmed functional. 
+
 ## Final historical package verification
 
 The original Task F publication audit recorded the following checks.
@@ -213,4 +217,4 @@ The public repository contains the intentionally included production datasets an
 
 The publication inventory and SHA-256 payload manifest provide additional file-integrity records. Following documentation updates, the corresponding checksum entries must be refreshed to match the published files.
 
-**Overall verification status:** Historical analytical and functional evidence retained; final Power BI import equivalence documented; public dataset-inclusive repository available; fresh-machine end-to-end reproduction and native Power BI Desktop refresh not independently verified.
+**Overall verification status:** Historical analytical validation retained; fresh-clone Power BI loading, KPI reconciliation, save/reopen and manual six-page verification passed on 1 November 2026. 
