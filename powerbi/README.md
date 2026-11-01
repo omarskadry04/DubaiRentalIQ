@@ -36,8 +36,7 @@ Original data source: [AirROI — Airbnb Short-Term Rental Data: Dubai](https://
 
 The exact first-open prompts may vary between Power BI Desktop versions.
 
-**A clean-clone Power BI Desktop refresh has not yet been independently verified.** The screenshots in the main README therefore remain documented examples of the previously accepted local report, not a guarantee of zero-configuration opening on another computer.
-
+**Fresh-clone verification (1 November 2026):** The Power BI project was successfully opened from a fresh GitHub clone, populated using the included CSV imports, and saved and reopened with data retained. The February 2026 headline KPIs matched the reference results, and all six dashboard pages were manually confirmed functional. 
 ### Regenerate the data (optional)
 
 The supplied final CSV imports mean users should **not need to rerun the Python pipeline merely to attempt a Power BI refresh**.
