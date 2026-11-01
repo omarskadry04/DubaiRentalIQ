@@ -1,27 +1,64 @@
 # Dubai Rental IQ — Validation Summary
 
-This is the sanitized public evidence summary. It reuses prior audits; packaging did not rerun analytical queries, native acceptance, refreshes or performance recordings. Original detailed evidence remains private.
+This document summarizes the historical analytical, functional, performance, and publication validation evidence for Dubai Rental IQ.
+
+The public GitHub repository includes the four original AirROI source datasets, prepared analytical CSV files, SQLite database, twelve Power BI model imports, and saved six-page Power BI report definitions.
+
+The validation results below were recorded during earlier development and publication audits. Subsequent documentation and packaging updates did not constitute a new execution of the complete analytical pipeline, native Power BI acceptance tests, or performance recordings. Certain detailed audit logs, runtime recordings, and temporary validation artifacts remain excluded from the repository.
+
+A fresh-machine end-to-end reproduction and native Power BI Desktop refresh have **not yet been independently verified**.
 
 ## Source and analytical evidence
 
-- Historical sample: March 2021–February 2026, 60 months, 99,745 unique listing-month records and 4,364 listings.
-- February 2026: 2,471 observed properties; 1,955 active; 1,615 active with eligible benchmarks. The review queue contains 902 cases: 173 stronger-evidence and 729 comparability-review.
-- Geography: 1,955 mapped active listings across 1,782 coordinate groups; 452 known-area listings (23.12%), 1,503 Unknown. Source-valid coordinates do not verify addresses.
-- A focused audit recorded 45 numerical passes. A separate dated acceptance baseline recorded 16,059 automated passes, zero failures and 633 preservation hashes. These overlapping scopes must not be added together or treated as proof of every subsequent runtime state.
-- Earlier Python/SQL work reconciled full eligible peer populations and source-derived aggregates independently. Five Nearest Examples are illustrations, never the benchmark denominator.
+- **Historical sample:** March 2021–February 2026, covering 60 months, 99,745 unique listing-month records, and 4,364 listings.
+- **February 2026:** 2,471 observed properties; 1,955 active; 1,615 active with eligible benchmarks. The review queue contains 902 cases: 173 stronger-evidence pricing reviews and 729 comparability-first reviews.
+- **Geography:** 1,955 mapped active listings across 1,782 coordinate groups; 452 known-area listings (23.12%) and 1,503 Unknown. Source-valid coordinates do not establish verified addresses.
+- **Numerical validation:** A focused audit recorded 45 numerical passes. A separate dated acceptance baseline recorded 16,059 automated passes, zero failures, and 633 preservation hashes. These validation scopes overlap and must not be added together or interpreted as proof of every subsequent runtime state.
+- **Independent analytical reconciliation:** Earlier Python and SQL validation independently reconciled full eligible peer populations and source-derived aggregates. The Five Nearest Examples are illustrative records, never the denominator used for peer benchmarks.
+
+These findings describe the supplied historical AirROI-derived sample, not the complete Dubai short-term rental market.
 
 ## Functional evidence and remaining gaps
 
-Static, native and owner-confirmed results are distinct. Existing native/user evidence covers the six-page journey, Market Lens/month ownership, 902/91 investigation contexts, both Studio selection modes, stale-ID precedence, scoped restores and save/reopen. ArcGIS count sizing is static + user verified; count-driven graduated classes and exact tooltips are not continuous proportional-area symbols.
+Static verification, native Power BI testing, and owner-confirmed behavior represent distinct forms of evidence.
 
-Residual R04 cases include complete rendered-map group reconciliation, some pan/ranking edges, early-ending/short-history property runtime cases and unspecified remaining checklist edges. They are not silently marked passed. The approved screenshots show a 21/60-month investigation property in Deep Dive; the separately validated 42/60-month property with an 18-month gap is a different test case.
+Existing native and user-confirmed evidence covers:
+
+- The six-page analytical workflow
+- Shared Market Lens and reporting-month ownership
+- The 902-case investigation queue and 91 investigated contexts
+- Both Pricing Studio selection modes
+- Precedence of an incoming investigation property over a stale saved lookup ID
+- Page-scoped restore actions
+- Previously tested save/reopen behavior
+
+ArcGIS count sizing has static and user-confirmed evidence. The map uses count-driven graduated classes rather than continuously proportional-area symbols, and exact listing counts are available through the configured tooltips.
+
+### Remaining functional verification gaps
+
+Residual R04 cases include:
+
+- Complete reconciliation of rendered geographic groups
+- Selected map pan and community-ranking edge cases
+- Early-ending and short-history property runtime scenarios
+- Other unspecified remaining checklist edge cases
+
+These cases are not silently treated as passed.
+
+The approved screenshots show a **21/60-month investigation property** in Property Deep Dive.
+
+The separately validated **42/60-month property with an 18-month observation gap** represents a different test case. The two examples should not be conflated.
 
 ## Performance evidence
 
-Existing Performance Analyzer exports cover all six pages. The following approximate maxima are for individual visual events, not full-page load times, typical response, averages or a controlled benchmark. Lifecycle and DAX maxima may belong to different events; concurrent durations cannot be summed.
+Existing Power BI Performance Analyzer exports cover all six report pages.
+
+The following approximate maxima are for **individual visual events**, not complete page-load times, typical response times, averages, or controlled performance benchmarks.
+
+Visual lifecycle and nested DAX maxima may refer to different events. Concurrent or nested durations must not be added together.
 
 | Page | Maximum recorded visual lifecycle | Maximum nested DAX duration |
-|---|---:|---:|
+|---|---|---|
 | Overview | 6.88 s | 0.19 s |
 | Market Trends | 5.65 s | 0.25 s |
 | Geography | 6.43 s resumed / 1.35 s earlier | 0.13 s resumed / 0.09 s earlier |
@@ -29,28 +66,151 @@ Existing Performance Analyzer exports cover all six pages. The following approxi
 | Pricing Studio | 16.24 s | 0.98 s |
 | Property Deep Dive | 2.29 s | 1.03 s |
 
-One Studio event recorded approximately 16.24 s lifecycle, 15.98 s outer Query, 0.05 s nested DAX and 0.18 s Render. Outer Query is not the native DAX category; the remainder after subtracting outer Query and Render is not native Other. A directly observed Analyzer row separately showed 1,550 ms Total = 193 ms DAX + 23 ms Visual display + 1,334 ms Other. Complete per-workflow Display/Other summaries were not preserved; none are invented here.
+One Pricing Studio event recorded approximately:
 
-The owner estimated roughly 6 s for the first map load and 3 s for subsequent updates, considered acceptable; Studio/Investigation interactions were reported quick. Those are manual observations, not instrumented service levels. Cache, hardware, scheduling and network were not controlled; ArcGIS tiles may complete outside recorded visual lifecycle. **No immediate optimization is currently justified.** Diagnose only a repeatable user-facing delay before changing validated logic. This is not a performance certification.
+- **16.24 s** visual lifecycle
+- **15.98 s** outer Query
+- **0.05 s** nested DAX
+- **0.18 s** Render
 
-## Methodological limits
+Outer Query is not the native DAX category. The remainder after subtracting outer Query and Render must not be labeled as native Other.
 
-R01: geographic labels/coordinates and undated attributes have verification and historical-coverage limits. R02: the provider-derived sample is not a census; occupancy/revenue are estimates, not bookings or realized outcomes. R03: a legacy loose-equality zero-count pattern has a future-null caveat; current checks do not justify silently changing its calculation. Retain missing records, inactive observations and valid zeros as distinct states.
+A separately observed Performance Analyzer row recorded:
 
-Peer matching does not control for every amenity, quality or capacity difference. Review flags are not proven mispricing; no profitability, adoption, financial uplift or deployment claim is supported. Raw datasets, databases, native recordings and detailed private audit artifacts are excluded.
+**1,550 ms Total = 193 ms DAX + 23 ms Visual display + 1,334 ms Other.**
 
-See [Methodology](docs/METHODOLOGY.md), [Data Dictionary](docs/DATA_DICTIONARY.md), [User Guide](docs/USER_GUIDE.md) and [publication checklist](docs/PUBLICATION_NOTES.md).
+Complete per-workflow Display and Other summaries were not preserved, and no missing measurements are inferred.
+
+### User-observed responsiveness
+
+The project owner estimated approximately six seconds for the initial map load and three seconds for subsequent map updates, which were considered acceptable.
+
+Pricing Studio and Investigations interactions were reported as responsive.
+
+These are manual observations rather than instrumented service-level measurements.
+
+Hardware, caching, scheduling, and network conditions were not controlled. ArcGIS tile loading may also continue outside a recorded visual lifecycle.
+
+**No immediate performance optimization is justified by the available evidence.** A repeatable, user-facing delay should be diagnosed before altering previously validated calculations or interactions.
+
+This evidence is not a performance certification.
 
 ## Reproduction corrections — Task F
 
-The standalone `src/08_export_model_imports.py` closes the missing final-import stage. It reads the existing SQLite data/views in read-only mode, derives exact column contracts from saved TMDL, and writes only twelve CSV data files under the configured DataFolder/model. No global builder is imported/executed and no report/model definition is rewritten.
+The standalone `src/08_export_model_imports.py` closes the previously identified missing final-import stage.
 
-Ten focused synthetic tests pass with zero failures: complete file/type contracts and text IDs; missing database/view; duplicate/missing keys; zero/blank/inactive/gap semantics; invalid columns/integer types; calendar/dimension/coverage consistency; reference-population gate; rollback; unrelated-file and definition-directory protection. An initial Windows cleanup error exposed an unclosed SQLite handle; explicit connection closure fixed it, and the full ten-test rerun passed. Tests do not require provider data.
+It reads the existing SQLite database and views in read-only mode, derives exact column contracts from the saved TMDL definitions, and writes only the twelve CSV data files under the configured `DataFolder/model` directory.
 
-A separate read-only verification used the existing authorized private SQLite input, exported into a temporary excluded directory, and compared every value in all twelve tables with the existing private model imports after sorting by keys. Columns, row populations, identifiers, nulls/logicals and values matched; floating-point comparison tolerances were 1e-12 relative / 1e-9 absolute. The optional reference gate confirmed 99,745 observations, 4,364 listings, 60 months and the documented February populations. The input database hash stayed unchanged; generated files were temporary and are not packaged.
+No global report or semantic-model builder is imported or executed, and no saved report or model definition is rewritten.
 
-This establishes final-import equivalence for the current prepared database. It is not a fresh raw-data run, clean dependency installation, independent revalidation of every stored benchmark, or native refresh/save-reopen test of the public copy. Complete Desktop smoke testing after lawful local loading remains pending. The existing 60-month and handoff evidence is preserved, not newly retested here.
+### Synthetic exporter tests
 
-H01 (missing exporter), M01 (Python minimum/setup) and L01 (Notebook 07 framing) are addressed in this copy. Python 3.11+ is explicit; Python 3.12.14 is the previously tested environment. Notebook code cells and execution order/counts are unchanged, outputs remain cleared, and only Notebook 07 Markdown was clarified. See [Local Setup](docs/SETUP.md). No optimization or dashboard redesign was performed.
+Ten focused synthetic tests passed with zero failures.
 
-Final package check: 4,245,538 cell values compared across the twelve imports; 14 Python files compiled, eight SQL statements prepared, 91 local references resolved, six screenshots unchanged and all notebook outputs empty. No temporary generated data is published.
+The tests covered:
+
+- Complete file and data-type contracts, including text identifiers
+- Missing database and required-view scenarios
+- Duplicate and missing keys
+- Zero, blank, inactive, and missing-observation semantics
+- Invalid columns and integer data types
+- Calendar, dimension, and coverage consistency
+- Reference-population validation
+- Rollback behavior
+- Unrelated-file protection
+- Protection of report and semantic-model definition directories
+
+An initial Windows cleanup error exposed an unclosed SQLite connection.
+
+Explicit connection closure corrected the issue, and the complete ten-test rerun subsequently passed.
+
+The synthetic tests do not require provider source data.
+
+### Final-import equivalence
+
+A separate read-only verification used the authorized local SQLite reference database, exported the model data into a temporary excluded directory, and compared all values across the twelve generated import tables with the existing reference model imports.
+
+After sorting by keys, the comparison confirmed matching:
+
+- Column structures and data types
+- Row populations
+- Listing and other text identifiers
+- Null and boolean representations
+- Analytical values
+
+Floating-point comparison tolerances were:
+
+- Relative: `1e-12`
+- Absolute: `1e-9`
+
+The optional reference-population gate confirmed:
+
+| Reference measure | Validated value |
+|---|---:|
+| Listing-month observations | 99,745 |
+| Distinct listings | 4,364 |
+| Reporting months | 60 |
+
+The February 2026 reference-population checks also passed.
+
+The input SQLite database hash remained unchanged. Temporary verification files were removed and are not included in the published repository.
+
+The public repository separately includes the intended production SQLite database and twelve model import CSV files.
+
+### What this verification establishes
+
+The historical Task F comparison establishes final-import equivalence for the prepared reference database used in that audit.
+
+It does **not** establish:
+
+- A new end-to-end regeneration directly from all raw source files
+- A clean dependency installation on a separate machine
+- Independent revalidation of every stored geographic benchmark
+- A new native Power BI Desktop refresh or save/reopen acceptance test of the public repository
+- Guaranteed behavior across all Power BI Desktop versions
+
+Complete Desktop smoke testing from a fresh clone remains unverified.
+
+Previously documented 60-month history and property-transfer evidence is retained rather than represented as newly executed testing.
+
+## Resolution of identified publication issues
+
+The original publication audit identified three relevant issues:
+
+| Issue | Original concern | Resolution |
+|---|---|---|
+| H01 | Missing final Power BI model import exporter | Addressed by `src/08_export_model_imports.py` |
+| M01 | Python minimum version and setup documentation | Python 3.11+ requirement documented |
+| L01 | Notebook 07 historical intermediate-export framing | Notebook Markdown clarified without altering the analytical workflow |
+
+Python 3.12.14 was the previously tested environment.
+
+The original eight notebooks retained their analytical code and notebook order during the publication preparation.
+
+Their saved outputs were cleared. A subsequent documentation-maintenance update also cleared saved execution counts, so the published notebooks should not be described as retaining their original execution counts.
+
+A later maintenance edit removed a historical `FileNotFoundError` output from Notebook 08 without changing its analytical code. Clearing that saved output is not evidence of a newly successful execution.
+
+No performance optimization or Power BI dashboard redesign was performed as part of these publication corrections.
+
+## Final historical package verification
+
+The original Task F publication audit recorded the following checks.
+
+| Verification area | Recorded result |
+|---|---|
+| Power BI model import comparison | 4,245,538 cell values compared across twelve tables |
+| Python compilation | 14 Python files compiled |
+| SQL static preparation | Eight SQL statements prepared |
+| Documentation references | 91 local references resolved |
+| Dashboard screenshots | Six screenshots preserved unchanged |
+| Notebook saved outputs | Eight notebook publication outputs cleared |
+| Model/report definitions | Preserved apart from the intentional blank local `DataFolder` value |
+
+These results belong to the recorded historical audit and should not be treated as evidence that every test was rerun after subsequent GitHub documentation updates.
+
+The public repository contains the intentionally included production datasets and analytical outputs. Temporary verification exports, discarded test artifacts, and other excluded runtime files are not part of the release.
+
+The publication inventory and SHA-256 payload manifest provide additional file-integrity records. Following documentation updates, the corresponding checksum entries must be refreshed to match the published files.
+
+**Overall verification status:** Historical analytical and functional evidence retained; final Power BI import equivalence documented; public dataset-inclusive repository available; fresh-machine end-to-end reproduction and native Power BI Desktop refresh not independently verified.
