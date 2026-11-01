@@ -31,7 +31,7 @@ Provider source files
   → Python validation and historical preparation
   → geographic peer matching and stored benchmark results
   → SQLite analytical views and independent reconciliation
-  → private Power BI imports
+  → twelve included Power BI model import CSVs
   → TMDL semantic model + PBIR report
   → six connected workspaces
 ```
@@ -48,7 +48,7 @@ Median and quartile evidence use the **full eligible peer population**. Five Nea
 
 ## Six-page walkthrough and screenshot register
 
-**Screenshot status: six owner-approved images verified from disk.** The images below show the actual supplied states; no image was regenerated or edited. The approved images retain their existing paths directly under `docs/`. Visual approval does not clear third-party rights or the public disclosure of listing IDs. See [Publication Notes](PUBLICATION_NOTES.md#screenshot-capture-and-approval).
+The following six screenshots illustrate the completed Power BI application, from executive market monitoring and geographic analysis to competitive pricing investigations and individual property performance.
 
 **Overview → Market Trends → Geography → Investigations → Pricing Studio → Property Deep Dive**
 
